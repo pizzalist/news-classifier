@@ -35,9 +35,7 @@
         60억달러 기본여신약정 체결 (23.03.07. 연합뉴스) IT 동향
       </div>
     </div>
-    <div class="ButtonArea">
-      <button>확인 ></button>
-    </div>
+    <div><BlueButton ButtonText="확인" /></div>
   </div>
 </template>
 

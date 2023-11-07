@@ -1,7 +1,17 @@
 <template>
-  <div></div>
+  <div>
+    <BlueButton ButtonText="버튼"></BlueButton>
+  </div>
 </template>
 
-<script></script>
+<script>
+import BlueButton from "../components/BlueButton.vue";
+
+export default {
+  components: {
+    BlueButton,
+  },
+};
+</script>
 
 <style scoped></style>
