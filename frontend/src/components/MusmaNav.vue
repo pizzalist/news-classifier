@@ -10,7 +10,7 @@
       <div class="newTextDiv">
         <span class="newsText">NEWS</span>
       </div>
-      <div class="basket">
+      <div class="basket" @click="goToBasketPage">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="52"
@@ -43,18 +43,33 @@
   </div>
 </template>
 
-<script></script>
+<script>
+export default {
+  methods: {
+    goToBasketPage() {
+      this.$router.push("/BasketPage");
+    },
+  },
+};
+</script>
 
 <style scoped>
 body {
   margin: 0;
 }
+
 #navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 30px;
+  position: fixed; /* 네비게이션 바를 고정합니다. */
+  top: 0; /* 화면 상단에 고정합니다. */
+  width: 100%; /* 네비게이션 바의 너비를 100%로 설정합니다. */
+  background-color: white; /* 원하는 배경색으로 설정합니다. */
+  z-index: 999; /* 다른 요소 위에 표시되도록 z-index를 설정합니다. */
 }
+
 .logoImg {
   width: 150px;
   height: 40px;
