@@ -1,10 +1,5 @@
 <template>
   <div>
-    <div>
-      <img
-        class="MainCoverImg"
-        src="../assets/apply-slider-backgrounddesktop.png" />
-    </div>
     <!-- 뉴스 셀렉 방법 -->
     <div class="midDiv">
       <div class="text1Div">
