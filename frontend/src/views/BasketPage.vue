@@ -116,7 +116,7 @@ input[type="checkbox"]:checked {
   height: 20px;
 }
 .dropdownBox {
-  font-size: 1.5vw;
+  font-size: 1.5em;
   margin: 0px 50px;
   margin-bottom: 50px;
 }

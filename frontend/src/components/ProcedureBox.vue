@@ -15,7 +15,7 @@ export default { name: "procedureBox" };
 <style scoped>
 .procedureBox {
   margin: 0px 50px;
-
+  font-size: 1em;
   display: flex;
   justify-content: center;
 }
@@ -25,11 +25,11 @@ export default { name: "procedureBox" };
 }
 .procedure {
   display: flex;
-  margin: 2vw; /* 반응형 마진 사용 (화면 너비의 2% 크기로 조절) */
+  margin: 2vw;
   border: 2px solid #000;
-  min-height: 50px; /* 최소 높이 설정 */
-  width: 40%; /* 너비를 화면 너비의 40%로 설정 */
-  font-weight: bold; /* 올바른 속성 이름 사용 (font-style 대신 font-weight) */
+  min-height: 50px;
+  width: 40%;
+  font-weight: bold;
   justify-content: center;
   align-items: center;
 }
