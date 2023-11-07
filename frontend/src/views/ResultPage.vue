@@ -1,10 +1,6 @@
 <template>
   <div>
-    <div class="procedureBox">
-      <div class="procedure" id="Confirmation">결과물 확인</div>
-      <div class="procedure" id="Subscribers">구독자 확인</div>
-      <div class="procedure" id="SendMail">메일 전송</div>
-    </div>
+    <ProcedureBox />
     <div class="List">
       <table>
         <tr>
@@ -45,37 +41,18 @@
         </tr>
       </table>
     </div>
-    <div class="ButtonArea">
-      <button>전송 ></button>
-    </div>
+    <BlueButton></BlueButton>
   </div>
 </template>
 
 <script>
-export default {};
+import ProcedureBox from "@/components/ProcedureBox.vue";
+import BlueButton from "@/components/BlueButton.vue";
+
+export default { components: { ProcedureBox, BlueButton } };
 </script>
 
 <style scoped>
-.procedureBox {
-  margin: 0px 50px;
-
-  display: flex;
-  justify-content: center;
-}
-#Subscribers {
-  color: #00a7e1;
-  border-color: #00a7e1;
-}
-.procedure {
-  display: flex;
-  margin: 30px;
-  border: 2px solid#000;
-  height: 50px;
-  width: 200px;
-  font-style: bold;
-  justify-content: center;
-  align-items: center;
-}
 .List {
   margin: 0px 50px;
   background-color: #e2e2e2;
