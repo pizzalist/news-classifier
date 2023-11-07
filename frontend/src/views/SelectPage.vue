@@ -204,21 +204,6 @@ export default {
 </script>
 
 <style scoped>
-body {
-  margin: 0;
-}
-#navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 30px;
-}
-.logoImg {
-  width: 150px;
-  height: 40px;
-  position: relative;
-  bottom: 5px;
-}
 .newTextDiv {
   position: relative;
   right: 40px;
@@ -241,7 +226,7 @@ body {
 .text1Div {
   display: flex;
   justify-content: center;
-  padding: 140px 0px 70px 0px;
+  padding: 50px 0px;
 }
 .text1 {
   color: #009fe8;
@@ -249,12 +234,11 @@ body {
   font-size: 35px;
   font-weight: 700;
 }
-.midDiv {
-}
 .SelectDiv {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+  padding-bottom: 50px;
 }
 .newsSelectDiv {
   display: flex;
@@ -262,8 +246,9 @@ body {
   justify-content: center;
   align-items: center;
   border: 3px solid #000;
-  width: 250px;
+  width: 350px;
   height: 500px;
+  margin-right: 30px;
 }
 .autoNewsSelectDiv {
   display: flex;
@@ -272,8 +257,9 @@ body {
   align-items: center;
   border: 3px solid #000;
   background: #000;
-  width: 250px;
+  width: 350px;
   height: 500px;
+  margin-left: 30px;
 }
 .text2 {
   color: #000;
