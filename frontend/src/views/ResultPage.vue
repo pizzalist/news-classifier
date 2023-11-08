@@ -3,7 +3,7 @@
     <ProcedureBox />
 
     <div class="contentsBox">
-      <div>
+      <div id="TextBox">
         산업 정책 동향 #안전/산업재해/중대재해처벌법 관련 기사 🗞️ 산업재해
         자기규율 예방체계 구축…고용부 법령정비추진반 가동 (23.03.10. 서울신문)
         🗞️ 교통안전공단, ICT 기반 자동차검사소 스마트 안전관리 시스템 개발 추진
@@ -35,16 +35,15 @@
         60억달러 기본여신약정 체결 (23.03.07. 연합뉴스) IT 동향
       </div>
     </div>
-    <div class="ButtonArea">
-      <button>확인 ></button>
-    </div>
+    <BlueButton ButtonText="확인" />
   </div>
 </template>
 
 <script>
 import ProcedureBox from "@/components/ProcedureBox.vue";
+import BlueButton from "@/components/BlueButton.vue";
 
-export default { components: { ProcedureBox } };
+export default { components: { ProcedureBox, BlueButton } };
 </script>
 
 <style scoped>
@@ -74,19 +73,7 @@ export default { components: { ProcedureBox } };
   border-top: 1px solid #000;
   border-bottom: 1px solid #000;
 }
-.ButtonArea {
-  margin: 0px 50px;
-  padding: 30px 0px;
-  display: flex;
-  justify-content: right;
-}
-.ButtonArea > button {
-  font-size: 1.2em;
-  border: solid #00a7e1;
-  border-radius: 50px;
-  color: white;
-  background-color: #00a7e1;
-  width: 150px;
-  height: 50px;
+#TextBox {
+  font-size: 1em;
 }
 </style>

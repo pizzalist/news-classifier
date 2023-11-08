@@ -1,13 +1,13 @@
 <template>
   <div>
     <div id="navbar">
-      <div class="logoImgDiv">
+      <div>
         <img
           class="logoImg"
-          src="../assets/musma-logo_color.png"
+          src="../assets/musma-logo_White.png"
           alt="musmalogo" />
       </div>
-      <div class="newTextDiv">
+      <div class="newTextDiv" @click="goToNewsPage">
         <span class="newsText">NEWS</span>
       </div>
       <div class="basket" @click="goToBasketPage">
@@ -45,35 +45,62 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isNavbarHovered: false,
+    };
+  },
   methods: {
     goToBasketPage() {
       this.$router.push("/BasketPage");
     },
+    goToHomePage() {
+      window.location.href = "https://www.musma.net/";
+    },
+    goToNewsPage() {
+      this.$router.push("/");
+    },
   },
 };
 </script>
-
 <style scoped>
-body {
-  margin: 0;
-}
-
 #navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 30px;
-  position: fixed; /* 네비게이션 바를 고정합니다. */
-  top: 0; /* 화면 상단에 고정합니다. */
-  width: 100%; /* 네비게이션 바의 너비를 100%로 설정합니다. */
-  background-color: white; /* 원하는 배경색으로 설정합니다. */
-  z-index: 999; /* 다른 요소 위에 표시되도록 z-index를 설정합니다. */
+  position: fixed;
+  top: 0;
+  width: calc(100% - 75px);
+  margin: 0 auto;
+  z-index: 1;
+  border-bottom: 2px transparent;
+  color: white;
+  transition: 0.3s ease;
+  border-bottom: 2px white;
 }
 
+#navbar:hover {
+  background-color: white;
+  color: black;
+  z-index: 3;
+}
+
+#navbar:hover .logoImg {
+  content: url("../assets/musma-logo_color.png");
+}
 .logoImg {
-  width: 150px;
-  height: 40px;
+  max-width: 150px;
+  height: auto;
   position: relative;
   bottom: 5px;
+}
+
+.MainCoverImg {
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+  display: block;
+  object-fit: cover;
 }
 </style>
