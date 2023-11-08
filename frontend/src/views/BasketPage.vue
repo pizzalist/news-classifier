@@ -1,6 +1,10 @@
 <template>
   <div>
-    <BlueButton ButtonText="확인" />
+    <div class="ButtonArea">
+      <router-link to="/ResultPage">
+        <BlueButton ButtonText="확인"
+      /></router-link>
+    </div>
 
     <div class="dropdownBox">
       <div class="dropdown" id="FirstDropdown">
@@ -107,6 +111,13 @@ export default {
 </script>
 
 <style scoped>
+.ButtonArea {
+  margin: 0px 50px;
+  padding: 30px 0px;
+  display: flex;
+  justify-content: right;
+}
+
 input[type="checkbox"] {
   width: 20px;
   height: 20px;
