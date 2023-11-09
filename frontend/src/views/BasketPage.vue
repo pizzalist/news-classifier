@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="ButtonArea">
+      <div>
+        <button @click="selectAll">전체 선택</button>
+        <button @click="selectDel">선택 삭제</button>
+      </div>
       <router-link to="/ResultPage">
         <BlueButton ButtonText="확인"
       /></router-link>
@@ -179,6 +183,17 @@ export default {
     toggleDropdown(index) {
       this.isOpen[index] = !this.isOpen[index];
     },
+    selectAll() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      const allSelected = [...checkboxes].every((checkbox) => checkbox.checked);
+
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = !allSelected;
+      });
+    },
+    selectDel() {
+      // 삭제
+    },
   },
 };
 </script>
@@ -188,7 +203,20 @@ export default {
   margin: 0px 50px;
   padding: 30px 0px;
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
+  white-space: nowrap;
+}
+
+button {
+  cursor: pointer;
+  font-size: 1.2em;
+  border: 3px solid #0096e7;
+  border-radius: 50px;
+  color: #0096e7;
+  background-color: white;
+  width: 150px;
+  height: 50px;
+  margin-right: 50px;
 }
 
 input[type="checkbox"] {
@@ -215,8 +243,8 @@ input[type="checkbox"]:checked {
 .toggle {
   font-style: bold;
   padding: 10px;
-  color: #00a7e1;
-  border-bottom: 1px solid #00a7e1;
+  color: #0096e7;
+  border-bottom: 1px solid #0096e7;
 }
 
 .dropdown-list {
@@ -225,8 +253,8 @@ input[type="checkbox"]:checked {
   left: 0;
   border: 1px solid #aaa;
   border-top: 0;
-  max-height: 200px; /* Set the max height for the dropdown */
-  overflow-y: auto; /* Enable vertical scrolling if needed */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .list-item {
