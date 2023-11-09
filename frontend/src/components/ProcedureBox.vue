@@ -20,8 +20,8 @@ export default { name: "procedureBox" };
   justify-content: center;
 }
 #Confirmation {
-  color: #00a7e1;
-  border-color: #00a7e1;
+  color: #0096e7;
+  border-color: #0096e7;
 }
 .procedure {
   display: flex;
