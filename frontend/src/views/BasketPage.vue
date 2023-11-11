@@ -56,8 +56,8 @@
             class="list-item"
             v-for="(item, index) in items[2].content"
             :key="index">
-            <input type="checkbox" :id="'item1' + index" />
-            <label :for="'item1' + index">
+            <input type="checkbox" :id="'item2' + index" />
+            <label :for="'item2' + index">
               <div class="item-title">{{ item.title }}</div>
               <div class="item-content">{{ item.content }}</div>
             </label>
@@ -74,8 +74,8 @@
             class="list-item"
             v-for="(item, index) in items[3].content"
             :key="index">
-            <input type="checkbox" :id="'item1' + index" />
-            <label :for="'item1' + index">
+            <input type="checkbox" :id="'item3' + index" />
+            <label :for="'item3' + index">
               <div class="item-title">{{ item.title }}</div>
               <div class="item-content">{{ item.content }}</div>
             </label>
