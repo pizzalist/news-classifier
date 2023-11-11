@@ -19,9 +19,9 @@ export default { name: "procedureBox" };
   display: flex;
   justify-content: center;
 }
-#Subscribers {
-  color: #00a7e1;
-  border-color: #00a7e1;
+#Confirmation {
+  color: #0096e7;
+  border-color: #0096e7;
 }
 .procedure {
   display: flex;

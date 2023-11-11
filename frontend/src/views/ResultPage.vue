@@ -35,7 +35,11 @@
         60억달러 기본여신약정 체결 (23.03.07. 연합뉴스) IT 동향
       </div>
     </div>
-    <BlueButton ButtonText="확인" />
+    <div class="ButtonArea">
+      <router-link to="/SubscriberCheck">
+        <BlueButton ButtonText="확인"
+      /></router-link>
+    </div>
   </div>
 </template>
 
@@ -47,15 +51,11 @@ export default { components: { ProcedureBox, BlueButton } };
 </script>
 
 <style scoped>
-.procedureBox {
+.ButtonArea {
   margin: 0px 50px;
-
+  padding: 30px 0px;
   display: flex;
-  justify-content: center;
-}
-#Confirmation {
-  color: #00a7e1;
-  border-color: #00a7e1;
+  justify-content: right;
 }
 .procedure {
   display: flex;

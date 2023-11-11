@@ -335,6 +335,11 @@ export default {
 </script>
 
 <style scoped>
+div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 .newTextDiv {
   position: relative;
   right: 40px;

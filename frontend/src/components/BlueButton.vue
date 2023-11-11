@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="ButtonArea">
-      <button>{{ ButtonText }}</button>
-    </div>
+    <button>{{ ButtonText }}</button>
   </div>
 </template>
 
@@ -16,17 +14,13 @@ export default {
 </script>
 
 <style scoped>
-.ButtonArea {
-  display: flex;
-  justify-content: right;
-}
-.ButtonArea > button {
+button {
   cursor: pointer;
   font-size: 1.2em;
-  border: solid #00a7e1;
+  border: solid #0096e7;
   border-radius: 50px;
   color: white;
-  background-color: #00a7e1;
+  background-color: #0096e7;
   width: 150px;
   height: 50px;
 }
