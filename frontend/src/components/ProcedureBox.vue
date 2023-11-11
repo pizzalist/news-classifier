@@ -2,7 +2,6 @@
   <div>
     <div class="procedureBox">
       <div class="procedure" id="Confirmation">결과물 확인</div>
-      <div class="procedure" id="Subscribers">구독자 확인</div>
       <div class="procedure" id="SendMail">메일 전송</div>
     </div>
   </div>
