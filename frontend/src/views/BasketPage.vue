@@ -6,7 +6,7 @@
         <button @click="selectDel">선택 삭제</button>
       </div>
       <router-link to="/ResultPage">
-        <BlueButton ButtonText="확인" @onclick="checknews"
+        <BlueButton ButtonText="확인" @click="checknews"
       /></router-link>
     </div>
 
@@ -180,26 +180,6 @@ export default {
     };
   },
   methods: {
-    checknews() {
-      const selectedItems = [];
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-
-      checkboxes.forEach((checkbox, index) => {
-        if (checkbox.checked) {
-          const dropdownIndex = Math.floor(
-            index / this.items[0].content.length
-          );
-          const itemIndex = index % this.items[0].content.length;
-          const selectedItem = this.items[dropdownIndex].content[itemIndex];
-          selectedItems.push(selectedItem);
-        }
-      });
-
-      selectedItems.forEach((item) => {
-        console.log("Title:", item.title);
-        console.log("Content:", item.content);
-      });
-    },
     toggleDropdown(index) {
       this.isOpen[index] = !this.isOpen[index];
     },
@@ -211,7 +191,38 @@ export default {
         checkbox.checked = !allSelected;
       });
     },
-    selectDel() {},
+    selectDel() {
+      const checkboxes = document.querySelectorAll(
+        'input[type="checkbox"]:checked'
+      );
+
+      const indexesToDelete = [];
+      checkboxes.forEach((checkbox) => {
+        const id = checkbox.id;
+        const categoryIndex = parseInt(id.charAt(4));
+        const itemIndex = parseInt(id.substr(5));
+        indexesToDelete.push({ categoryIndex, itemIndex });
+      });
+
+      indexesToDelete.forEach(({ categoryIndex, itemIndex }) => {
+        this.items[categoryIndex].items.splice(itemIndex, 1);
+      });
+    },
+
+    checknews() {
+      const checkedItems = [];
+      const checkboxes = document.querySelectorAll(
+        'input[type="checkbox"]:checked'
+      );
+      checkboxes.forEach((checkbox) => {
+        const id = checkbox.id;
+        const categoryIndex = parseInt(id.charAt(4));
+        const itemIndex = parseInt(id.substr(5));
+        checkedItems.push(this.items[categoryIndex].items[itemIndex]);
+      });
+
+      console.log("Checked Items:", checkedItems);
+    },
   },
 };
 </script>
