@@ -25,4 +25,29 @@ const getAllNewsCategories = () => {
   });
 };
 
-module.exports = { getAllNewsCategories };
+const getAllClippedNews = () => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      // 여기서 SQL 쿼리를 작성합니다.
+      const sql = `
+        SELECT
+          * // 또는 필요한 특정 컬럼
+        FROM
+          clipped_news
+      `;
+
+      connection.query(sql, (err, results) => {
+        connection.release();
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+  });
+};
+
+module.exports = { getAllNewsCategories, getAllClippedNews };
