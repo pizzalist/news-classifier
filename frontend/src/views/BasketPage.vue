@@ -13,12 +13,12 @@
     <div class="dropdownBox">
       <div class="dropdown" id="FirstDropdown">
         <div class="toggle" @click="toggleDropdown(0)">
-          {{ isOpen[0] ? "△ " + items[0].title : "▽ " + items[0].title }}
+          {{ isOpen[0] ? "△ " + items[0].category : "▽ " + items[0].category }}
         </div>
         <div class="list" v-if="isOpen[0]">
           <div
             class="list-item"
-            v-for="(item, index) in items[0].content"
+            v-for="(item, index) in items[0].items"
             :key="index">
             <input type="checkbox" :id="'item0' + index" />
             <label :for="'item0' + index">
@@ -31,12 +31,12 @@
 
       <div class="dropdown" id="SecondDropdown">
         <div class="toggle" @click="toggleDropdown(1)">
-          {{ isOpen[1] ? "△ " + items[1].title : "▽ " + items[1].title }}
+          {{ isOpen[1] ? "△ " + items[1].category : "▽ " + items[1].category }}
         </div>
         <div class="list" v-if="isOpen[1]">
           <div
             class="list-item"
-            v-for="(item, index) in items[1].content"
+            v-for="(item, index) in items[1].items"
             :key="index">
             <input type="checkbox" :id="'item1' + index" />
             <label :for="'item1' + index">
@@ -49,12 +49,12 @@
 
       <div class="dropdown" id="ThirdDropdown">
         <div class="toggle" @click="toggleDropdown(2)">
-          {{ isOpen[2] ? "△ " + items[2].title : "▽ " + items[2].title }}
+          {{ isOpen[2] ? "△ " + items[2].category : "▽ " + items[2].category }}
         </div>
         <div class="list" v-if="isOpen[2]">
           <div
             class="list-item"
-            v-for="(item, index) in items[2].content"
+            v-for="(item, index) in items[2].items"
             :key="index">
             <input type="checkbox" :id="'item2' + index" />
             <label :for="'item2' + index">
@@ -67,12 +67,12 @@
 
       <div class="dropdown" id="FourthDropdown">
         <div class="toggle" @click="toggleDropdown(3)">
-          {{ isOpen[3] ? "△ " + items[3].title : "▽ " + items[3].title }}
+          {{ isOpen[3] ? "△ " + items[3].category : "▽ " + items[3].category }}
         </div>
         <div class="list" v-if="isOpen[3]">
           <div
             class="list-item"
-            v-for="(item, index) in items[3].content"
+            v-for="(item, index) in items[3].items"
             :key="index">
             <input type="checkbox" :id="'item3' + index" />
             <label :for="'item3' + index">
@@ -96,8 +96,8 @@ export default {
       isOpen: [true, false, false, false],
       items: [
         {
-          title: "산업정책 동향",
-          content: [
+          category: "산업정책 동향",
+          items: [
             {
               title:
                 "산업재해 자기규율 예방체계 구축…고용부 법령정비추진반 가동",
@@ -113,8 +113,8 @@ export default {
           ],
         },
         {
-          title: "건설정책 동향",
-          content: [
+          category: "건설정책 동향",
+          items: [
             {
               title: "건설폐기물 관리 깐깐해진다",
               content:
@@ -129,8 +129,8 @@ export default {
           ],
         },
         {
-          title: "조선정책 동향",
-          content: [
+          category: "조선정책 동향",
+          items: [
             {
               title:
                 "한국조선해양, '사업 연속성 관리체계' 인증 획득…ESG경영 강화",
@@ -152,8 +152,8 @@ export default {
           ],
         },
         {
-          title: "IT 동향",
-          content: [
+          category: "IT 동향",
+          items: [
             {
               title: "구글 클라우드, MWC서 통신 부문 신제품 발표",
               content:
