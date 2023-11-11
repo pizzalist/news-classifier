@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "BlueButton",
+  name: "WhiteButton",
   props: {
     ButtonText: String,
   },
@@ -17,16 +17,18 @@ export default {
 
 <style scoped>
 .ButtonArea {
+  margin: 0px 50px;
+  padding: 30px 0px;
   display: flex;
   justify-content: right;
 }
 .ButtonArea > button {
   cursor: pointer;
-  font-size: 1.2em;
-  border: solid #00a7e1;
+  font-size: 0.8em;
+  border: 1px solid #5f5f5f;
   border-radius: 50px;
-  color: white;
-  background-color: #00a7e1;
+  color: #5f5f5f;
+  background-color: #ffffff;
   width: 150px;
   height: 50px;
 }
