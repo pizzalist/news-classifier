@@ -6,7 +6,7 @@
         <button @click="selectDel">선택 삭제</button>
       </div>
       <router-link to="/ResultPage">
-        <BlueButton ButtonText="확인"
+        <BlueButton ButtonText="확인" @onclick="checknews"
       /></router-link>
     </div>
 
@@ -180,6 +180,26 @@ export default {
     };
   },
   methods: {
+    checknews() {
+      const selectedItems = [];
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+      checkboxes.forEach((checkbox, index) => {
+        if (checkbox.checked) {
+          const dropdownIndex = Math.floor(
+            index / this.items[0].content.length
+          );
+          const itemIndex = index % this.items[0].content.length;
+          const selectedItem = this.items[dropdownIndex].content[itemIndex];
+          selectedItems.push(selectedItem);
+        }
+      });
+
+      selectedItems.forEach((item) => {
+        console.log("Title:", item.title);
+        console.log("Content:", item.content);
+      });
+    },
     toggleDropdown(index) {
       this.isOpen[index] = !this.isOpen[index];
     },
@@ -191,9 +211,7 @@ export default {
         checkbox.checked = !allSelected;
       });
     },
-    selectDel() {
-      // 삭제
-    },
+    selectDel() {},
   },
 };
 </script>
