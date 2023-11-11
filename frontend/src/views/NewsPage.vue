@@ -41,7 +41,10 @@
               class="list-item"
               v-for="(item, index) in paginatedItems"
               :key="index">
-              <input type="checkbox" :id="'firstItem' + index" />
+              <input
+                type="checkbox"
+                :id="'firstItem' + index"
+                v-model="item.checked" />
               <label :for="'firstItem' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
@@ -59,7 +62,10 @@
               class="list-item"
               v-for="(item, index) in paginatedItems"
               :key="index">
-              <input type="checkbox" :id="'secondItem' + index" />
+              <input
+                type="checkbox"
+                :id="'secondItem' + index"
+                v-model="item.checked" />
               <label :for="'secondItem' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
@@ -77,7 +83,10 @@
               class="list-item"
               v-for="(item, index) in paginatedItems"
               :key="index">
-              <input type="checkbox" :id="'thirdItem' + index" />
+              <input
+                type="checkbox"
+                :id="'thirdItem' + index"
+                v-model="item.checked" />
               <label :for="'thirdItem' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
@@ -95,7 +104,10 @@
               class="list-item"
               v-for="(item, index) in paginatedItems"
               :key="index">
-              <input type="checkbox" :id="'fourthItem' + index" />
+              <input
+                type="checkbox"
+                :id="'fourthItem' + index"
+                v-model="item.checked" />
               <label :for="'fourthItem' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
