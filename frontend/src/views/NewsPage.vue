@@ -21,96 +21,84 @@
       <div class="ss">
         <span
           class="industryType"
-          v-for="(industry, index) in industryTypes"
+          v-for="(item, index) in items"
           :key="index"
-          @click="selectIndustry(industry)"
+          @click="selectIndustry(item.category)"
           :class="{
-            selected: selectedIndustry === industry,
-            unselected: selectedIndustry !== industry,
+            selected: selectedIndustry === item.category,
+            unselected: selectedIndustry !== item.category,
           }">
-          {{ industry }}
+          {{ item.category }}
         </span>
       </div>
       <div class="dropdownBox">
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === '산업정책'"
-          id="FirstDropdown">
+        <div class="dropdown" id="FirstDropdown" v-if="selectedIndustry === '산업정책'">
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in paginatedItems"
+              v-for="(news, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'firstItem' + index"
-                v-model="item.checked" />
+                v-model="news.checked" />
               <label :for="'firstItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-title">{{ news.title }}</div>
+                <div class="item-content">{{ news.content }}</div>
               </label>
             </div>
           </div>
         </div>
 
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === '건설/ESG'"
-          id="SecondDropdown">
+        <div class="dropdown" id="SecondDropdown"  v-if="selectedIndustry === '건설정책'">
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in paginatedItems"
+              v-for="(news, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'secondItem' + index"
-                v-model="item.checked" />
+                v-model="news.checked" />
               <label :for="'secondItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-title">{{ news.title }}</div>
+                <div class="item-content">{{ news.content }}</div>
               </label>
             </div>
           </div>
         </div>
 
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === '조선/ESG'"
-          id="ThirdDropdown">
+        <div class="dropdown" id="ThirdDropdown"  v-if="selectedIndustry === '조선/ESG'">
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in paginatedItems"
+              v-for="(news, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'thirdItem' + index"
-                v-model="item.checked" />
+                v-model="news.checked" />
               <label :for="'thirdItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-title">{{ news.title }}</div>
+                <div class="item-content">{{ news.content }}</div>
               </label>
             </div>
           </div>
         </div>
 
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === 'IT'"
-          id="FourthDropdown">
+        <div class="dropdown" id="FourthDropdown"  v-if="selectedIndustry === 'IT'">
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in paginatedItems"
+              v-for="(news, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'fourthItem' + index"
-                v-model="item.checked" />
+                v-model="news.checked" />
               <label :for="'fourthItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-title">{{ news.title }}</div>
+                <div class="item-content">{{ news.content }}</div>
               </label>
             </div>
           </div>
@@ -177,117 +165,131 @@ export default {
   data() {
     return {
       items: [
-        [
-          { title: "산업정책", content: "Description for Item 1" },
-          { title: "산업정책", content: "Description for Item 2" },
-          { title: "산업정책", content: "Description for Item 3" },
-          { title: "산업정책", content: "Description for Item 4" },
-          { title: "산업정책", content: "Description for Item 5" },
-          { title: "산업정책", content: "Description for Item 6" },
-          { title: "산업정책", content: "Description for Item 7" },
-          { title: "산업정책", content: "Description for Item 8" },
-          { title: "산업정책", content: "Description for Item 9" },
-          { title: "산업정책", content: "Description for Item 10" },
-          { title: "산업정책", content: "Description for Item 11" },
-          { title: "산업정책", content: "Description for Item 12" },
-          { title: "산업정책", content: "Description for Item 13" },
-          { title: "산업정책", content: "Description for Item 14" },
-          { title: "산업정책", content: "Description for Item 15" },
-          { title: "산업정책", content: "Description for Item 16" },
-          { title: "산업정책", content: "Description for Item 17" },
-          { title: "산업정책", content: "Description for Item 18" },
-          { title: "산업정책", content: "Description for Item 19" },
-          { title: "산업정책", content: "Description for Item 20" },
-        ],
-        [
-          { title: "건설/ESG", content: "Description for Item 1" },
-          { title: "건설/ESG", content: "Description for Item 2" },
-          { title: "건설/ESG", content: "Description for Item 3" },
-          { title: "건설/ESG", content: "Description for Item 4" },
-          { title: "건설/ESG", content: "Description for Item 5" },
-          { title: "건설/ESG", content: "Description for Item 6" },
-          { title: "건설/ESG", content: "Description for Item 7" },
-          { title: "건설/ESG", content: "Description for Item 8" },
-          { title: "건설/ESG", content: "Description for Item 9" },
-          { title: "건설/ESG", content: "Description for Item 10" },
-          { title: "건설/ESG", content: "Description for Item 11" },
-          { title: "건설/ESG", content: "Description for Item 12" },
-          { title: "건설/ESG", content: "Description for Item 13" },
-          { title: "건설/ESG", content: "Description for Item 14" },
-          { title: "건설/ESG", content: "Description for Item 15" },
-          { title: "건설/ESG", content: "Description for Item 16" },
-          { title: "건설/ESG", content: "Description for Item 17" },
-          { title: "건설/ESG", content: "Description for Item 18" },
-          { title: "건설/ESG", content: "Description for Item 19" },
-          { title: "건설/ESG", content: "Description for Item 20" },
-        ],
-        [
-          { title: "조선/ESG", content: "Description for Item 1" },
-          { title: "조선/ESG", content: "Description for Item 2" },
-          { title: "조선/ESG", content: "Description for Item 3" },
-          { title: "조선/ESG", content: "Description for Item 4" },
-          { title: "조선/ESG", content: "Description for Item 5" },
-          { title: "조선/ESG", content: "Description for Item 6" },
-          { title: "조선/ESG", content: "Description for Item 7" },
-          { title: "조선/ESG", content: "Description for Item 8" },
-          { title: "조선/ESG", content: "Description for Item 9" },
-          { title: "조선/ESG", content: "Description for Item 10" },
-          { title: "조선/ESG", content: "Description for Item 11" },
-          { title: "조선/ESG", content: "Description for Item 12" },
-          { title: "조선/ESG", content: "Description for Item 13" },
-          { title: "조선/ESG", content: "Description for Item 14" },
-          { title: "조선/ESG", content: "Description for Item 15" },
-          { title: "조선/ESG", content: "Description for Item 16" },
-          { title: "조선/ESG", content: "Description for Item 17" },
-          { title: "조선/ESG", content: "Description for Item 18" },
-          { title: "조선/ESG", content: "Description for Item 19" },
-          { title: "조선/ESG", content: "Description for Item 20" },
-        ],
-        [
-          { title: "IT", content: "Description for Item 1" },
-          { title: "IT", content: "Description for Item 2" },
-          { title: "IT", content: "Description for Item 3" },
-          { title: "IT", content: "Description for Item 4" },
-          { title: "IT", content: "Description for Item 5" },
-          { title: "IT", content: "Description for Item 6" },
-          { title: "IT", content: "Description for Item 7" },
-          { title: "IT", content: "Description for Item 8" },
-          { title: "IT", content: "Description for Item 9" },
-          { title: "IT", content: "Description for Item 10" },
-          { title: "IT", content: "Description for Item 11" },
-          { title: "IT", content: "Description for Item 12" },
-          { title: "IT", content: "Description for Item 13" },
-          { title: "IT", content: "Description for Item 14" },
-          { title: "IT", content: "Description for Item 15" },
-          { title: "IT", content: "Description for Item 16" },
-          { title: "IT", content: "Description for Item 17" },
-          { title: "IT", content: "Description for Item 18" },
-          { title: "IT", content: "Description for Item 19" },
-          { title: "IT", content: "Description for Item 20" },
-        ],
+        {
+          category: "산업정책",
+          news: [
+            { title: "산업정책", content: "Description for Item 1" },
+            { title: "산업정책", content: "Description for Item 2" },
+            { title: "산업정책", content: "Description for Item 3" },
+            { title: "산업정책", content: "Description for Item 4" },
+            { title: "산업정책", content: "Description for Item 5" },
+            { title: "산업정책", content: "Description for Item 6" },
+            { title: "산업정책", content: "Description for Item 7" },
+            { title: "산업정책", content: "Description for Item 8" },
+            { title: "산업정책", content: "Description for Item 9" },
+            { title: "산업정책", content: "Description for Item 10" },
+            { title: "산업정책", content: "Description for Item 11" },
+            { title: "산업정책", content: "Description for Item 12" },
+            { title: "산업정책", content: "Description for Item 13" },
+            { title: "산업정책", content: "Description for Item 14" },
+            { title: "산업정책", content: "Description for Item 15" },
+            { title: "산업정책", content: "Description for Item 16" },
+            { title: "산업정책", content: "Description for Item 17" },
+            { title: "산업정책", content: "Description for Item 18" },
+            { title: "산업정책", content: "Description for Item 19" },
+            { title: "산업정책", content: "Description for Item 20" },
+          ],
+        },
+        {
+          category: "건설정책",
+          news: [
+            { title: "건설/ESG", content: "Description for Item 1" },
+            { title: "건설/ESG", content: "Description for Item 2" },
+            { title: "건설/ESG", content: "Description for Item 3" },
+            { title: "건설/ESG", content: "Description for Item 4" },
+            { title: "건설/ESG", content: "Description for Item 5" },
+            { title: "건설/ESG", content: "Description for Item 6" },
+            { title: "건설/ESG", content: "Description for Item 7" },
+            { title: "건설/ESG", content: "Description for Item 8" },
+            { title: "건설/ESG", content: "Description for Item 9" },
+            { title: "건설/ESG", content: "Description for Item 10" },
+            { title: "건설/ESG", content: "Description for Item 11" },
+            { title: "건설/ESG", content: "Description for Item 12" },
+            { title: "건설/ESG", content: "Description for Item 13" },
+            { title: "건설/ESG", content: "Description for Item 14" },
+            { title: "건설/ESG", content: "Description for Item 15" },
+            { title: "건설/ESG", content: "Description for Item 16" },
+            { title: "건설/ESG", content: "Description for Item 17" },
+            { title: "건설/ESG", content: "Description for Item 18" },
+            { title: "건설/ESG", content: "Description for Item 19" },
+            { title: "건설/ESG", content: "Description for Item 20" },
+          ],
+        },
+        {
+          category: "조선/ESG",
+          news: [
+            { title: "조선/ESG", content: "Description for Item 1" },
+            { title: "조선/ESG", content: "Description for Item 2" },
+            { title: "조선/ESG", content: "Description for Item 3" },
+            { title: "조선/ESG", content: "Description for Item 4" },
+            { title: "조선/ESG", content: "Description for Item 5" },
+            { title: "조선/ESG", content: "Description for Item 6" },
+            { title: "조선/ESG", content: "Description for Item 7" },
+            { title: "조선/ESG", content: "Description for Item 8" },
+            { title: "조선/ESG", content: "Description for Item 9" },
+            { title: "조선/ESG", content: "Description for Item 10" },
+            { title: "조선/ESG", content: "Description for Item 11" },
+            { title: "조선/ESG", content: "Description for Item 12" },
+            { title: "조선/ESG", content: "Description for Item 13" },
+            { title: "조선/ESG", content: "Description for Item 14" },
+            { title: "조선/ESG", content: "Description for Item 15" },
+            { title: "조선/ESG", content: "Description for Item 16" },
+            { title: "조선/ESG", content: "Description for Item 17" },
+            { title: "조선/ESG", content: "Description for Item 18" },
+            { title: "조선/ESG", content: "Description for Item 19" },
+            { title: "조선/ESG", content: "Description for Item 20" },
+          ],
+        },
+        {
+          category: "IT",
+          news: [
+            { title: "IT", content: "Description for Item 1" },
+            { title: "IT", content: "Description for Item 2" },
+            { title: "IT", content: "Description for Item 3" },
+            { title: "IT", content: "Description for Item 4" },
+            { title: "IT", content: "Description for Item 5" },
+            { title: "IT", content: "Description for Item 6" },
+            { title: "IT", content: "Description for Item 7" },
+            { title: "IT", content: "Description for Item 8" },
+            { title: "IT", content: "Description for Item 9" },
+            { title: "IT", content: "Description for Item 10" },
+            { title: "IT", content: "Description for Item 11" },
+            { title: "IT", content: "Description for Item 12" },
+            { title: "IT", content: "Description for Item 13" },
+            { title: "IT", content: "Description for Item 14" },
+            { title: "IT", content: "Description for Item 15" },
+            { title: "IT", content: "Description for Item 16" },
+            { title: "IT", content: "Description for Item 17" },
+            { title: "IT", content: "Description for Item 18" },
+            { title: "IT", content: "Description for Item 19" },
+            { title: "IT", content: "Description for Item 20" },
+          ],
+        },
       ],
-      industryTypes: ["산업정책", "건설/ESG", "조선/ESG", "IT"],
       selectedIndustry: "산업정책",
       itemsPerPage: 10,
       currentPage: 1,
     };
   },
+  
   computed: {
     paginatedItems() {
+      // Keep track of the selected industry's pagination separately
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      const selectedIndustryIndex = this.industryTypes.indexOf(
-        this.selectedIndustry
+      const selectedItems = this.items.find(
+        (item) => item.category === this.selectedIndustry
       );
-      return this.items[selectedIndustryIndex].slice(start, end);
+      return selectedItems ? selectedItems.news.slice(start, end) : [];
     },
     totalPage() {
-      const selectedIndustryIndex = this.industryTypes.indexOf(
-        this.selectedIndustry
+      // Calculate total pages for the selected industry
+      const selectedItems = this.items.find(
+        (item) => item.category === this.selectedIndustry
       );
-      return Math.ceil(
-        this.items[selectedIndustryIndex].length / this.itemsPerPage
-      );
+      return selectedItems
+        ? Math.ceil(selectedItems.news.length / this.itemsPerPage)
+        : 0;
     },
   },
   methods: {
@@ -308,6 +310,7 @@ export default {
     gotoPage(page) {
       this.currentPage = page;
     },
+
     addToCart() {
       // 장바구니에 아이템 추가 로직을 여기에 추가
       // 여기에서는 단순히 알림 창을 띄우는 메세지만 추가하고,
@@ -315,13 +318,37 @@ export default {
       const confirmAddToCart = window.confirm(
         "장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?"
       );
-
       if (confirmAddToCart) {
         // 예를 눌렀을 때 장바구니 페이지로 이동
         this.$router.push("/BasketPage");
+        const checkedItems = this.paginatedItems.filter((item) => item.checked);
+        checkedItems.forEach((item) => {
+          console.log(
+            "Selected Items category:",
+            item.category,
+            "Selected Items title:",
+            item.title,
+            "Selected Items content:",
+            item.content
+          );
+          // 여기서 데이터베이스에 값을 보내는 로직을 추가하면 됩니다.
+        });
       } else {
         // 아니요를 눌렀을 때 추가만 하고 페이지 이동 없음
         // 실제로는 여기에 장바구니에 아이템을 추가하는 로직을 추가해야 합니다.
+        const checkedItems = this.paginatedItems.filter((item) => item.checked);
+        checkedItems.forEach((item) => {
+          console.log(
+            "Selected Items category:",
+            item.category,
+            "Selected Items title:",
+            item.title,
+            "Selected Items content:",
+            item.content
+          );
+          // 여기서 데이터베이스에 값을 보내는 로직을 추가하면 됩니다.
+        });
+        // 추가적인 로직을 여기에 추가할 수 있음
       }
     },
   },
@@ -420,7 +447,7 @@ input[type="checkbox"]:checked {
 .list-item {
   display: flex;
   align-items: center;
-  width: 1000px;
+  width: 75vw;
   padding: 10px;
   border-bottom: 1px solid #aaa;
 }
