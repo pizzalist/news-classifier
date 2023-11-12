@@ -11,71 +11,23 @@
     </div>
 
     <div class="dropdownBox">
-      <div class="dropdown" id="FirstDropdown">
-        <div class="toggle" @click="toggleDropdown(0)">
-          {{ isOpen[0] ? "△ " + items[0].category : "▽ " + items[0].category }}
+      <div
+        v-for="(dropdown, index) in items"
+        :key="index"
+        :id="'dropdown-' + index"
+        class="dropdown">
+        <div class="toggle" @click="toggleDropdown(index)">
+          {{
+            isOpen[index] ? "△ " + dropdown.category : "▽ " + dropdown.category
+          }}
         </div>
-        <div class="list" v-if="isOpen[0]">
+        <div class="list" v-if="isOpen[index]">
           <div
             class="list-item"
-            v-for="(item, index) in items[0].items"
-            :key="index">
-            <input type="checkbox" :id="'item0' + index" />
-            <label :for="'item0' + index">
-              <div class="item-title">{{ item.title }}</div>
-              <div class="item-content">{{ item.content }}</div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="dropdown" id="SecondDropdown">
-        <div class="toggle" @click="toggleDropdown(1)">
-          {{ isOpen[1] ? "△ " + items[1].category : "▽ " + items[1].category }}
-        </div>
-        <div class="list" v-if="isOpen[1]">
-          <div
-            class="list-item"
-            v-for="(item, index) in items[1].items"
-            :key="index">
-            <input type="checkbox" :id="'item1' + index" />
-            <label :for="'item1' + index">
-              <div class="item-title">{{ item.title }}</div>
-              <div class="item-content">{{ item.content }}</div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="dropdown" id="ThirdDropdown">
-        <div class="toggle" @click="toggleDropdown(2)">
-          {{ isOpen[2] ? "△ " + items[2].category : "▽ " + items[2].category }}
-        </div>
-        <div class="list" v-if="isOpen[2]">
-          <div
-            class="list-item"
-            v-for="(item, index) in items[2].items"
-            :key="index">
-            <input type="checkbox" :id="'item2' + index" />
-            <label :for="'item2' + index">
-              <div class="item-title">{{ item.title }}</div>
-              <div class="item-content">{{ item.content }}</div>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="dropdown" id="FourthDropdown">
-        <div class="toggle" @click="toggleDropdown(3)">
-          {{ isOpen[3] ? "△ " + items[3].category : "▽ " + items[3].category }}
-        </div>
-        <div class="list" v-if="isOpen[3]">
-          <div
-            class="list-item"
-            v-for="(item, index) in items[3].items"
-            :key="index">
-            <input type="checkbox" :id="'item3' + index" />
-            <label :for="'item3' + index">
+            v-for="(item, itemIndex) in dropdown.news"
+            :key="itemIndex">
+            <input type="checkbox" :id="'item' + index + itemIndex" />
+            <label :for="'item' + index + itemIndex">
               <div class="item-title">{{ item.title }}</div>
               <div class="item-content">{{ item.content }}</div>
             </label>
@@ -91,13 +43,15 @@ import BlueButton from "../components/BlueButton.vue";
 
 export default {
   components: { BlueButton },
+
   data() {
     return {
-      isOpen: [true, false, false, false],
+      isOpen: [true, true, true, true],
+
       items: [
         {
           category: "산업정책 동향",
-          items: [
+          news: [
             {
               title:
                 "산업재해 자기규율 예방체계 구축…고용부 법령정비추진반 가동",
@@ -114,7 +68,7 @@ export default {
         },
         {
           category: "건설정책 동향",
-          items: [
+          news: [
             {
               title: "건설폐기물 관리 깐깐해진다",
               content:
@@ -130,7 +84,7 @@ export default {
         },
         {
           category: "조선정책 동향",
-          items: [
+          news: [
             {
               title:
                 "한국조선해양, '사업 연속성 관리체계' 인증 획득…ESG경영 강화",
@@ -153,7 +107,7 @@ export default {
         },
         {
           category: "IT 동향",
-          items: [
+          news: [
             {
               title: "구글 클라우드, MWC서 통신 부문 신제품 발표",
               content:
@@ -179,6 +133,13 @@ export default {
       ],
     };
   },
+  mounted() {
+    // 로컬 스토리지에서 장바구니 아이템 불러오기
+    const storedItems = localStorage.getItem("items");
+    if (storedItems) {
+      thisitems = JSON.parse(storedItems);
+    }
+  },
   methods: {
     toggleDropdown(index) {
       this.isOpen[index] = !this.isOpen[index];
@@ -191,23 +152,6 @@ export default {
         checkbox.checked = !allSelected;
       });
     },
-    selectDel() {
-      const checkboxes = document.querySelectorAll(
-        'input[type="checkbox"]:checked'
-      );
-
-      const indexesToDelete = [];
-      checkboxes.forEach((checkbox) => {
-        const id = checkbox.id;
-        const categoryIndex = parseInt(id.charAt(4));
-        const itemIndex = parseInt(id.substr(5));
-        indexesToDelete.push({ categoryIndex, itemIndex });
-      });
-
-      indexesToDelete.forEach(({ categoryIndex, itemIndex }) => {
-        this.items[categoryIndex].items.splice(itemIndex, 1);
-      });
-    },
 
     checknews() {
       const checkedItems = [];
@@ -218,7 +162,7 @@ export default {
         const id = checkbox.id;
         const categoryIndex = parseInt(id.charAt(4));
         const itemIndex = parseInt(id.substr(5));
-        checkedItems.push(this.items[categoryIndex].items[itemIndex]);
+        checkedItems.push(this.items[categoryIndex].news[itemIndex]);
       });
 
       console.log("Checked Items:", checkedItems);
