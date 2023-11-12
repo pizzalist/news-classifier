@@ -337,19 +337,13 @@ export default {
       this.currentPage = page;
     },
     addToCart() {
-      // 장바구니에 아이템 추가 로직을 여기에 추가
-      // 여기에서는 단순히 알림 창을 띄우는 메세지만 추가하고,
-      // 실제로는 장바구니에 아이템을 추가하는 로직을 구현해야 합니다.
       const confirmAddToCart = window.confirm(
-        "장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?"
+        "선택한 뉴스가 담겼습니다. 담은 뉴스를 보시겠습니까?"
       );
 
       if (confirmAddToCart) {
-        // 예를 눌렀을 때 장바구니 페이지로 이동
         this.$router.push("/BasketPage");
       } else {
-        // 아니요를 눌렀을 때 추가만 하고 페이지 이동 없음
-        // 실제로는 여기에 장바구니에 아이템을 추가하는 로직을 추가해야 합니다.
       }
     },
   },
