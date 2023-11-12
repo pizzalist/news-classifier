@@ -309,6 +309,8 @@ input[type="text"] {
 input[type="date"] {
   width: 50%;
   height: 3vh;
+  text-align: center;
+  font-size: 1.5em;
 }
 div {
   -webkit-box-sizing: border-box;

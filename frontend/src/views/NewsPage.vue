@@ -131,8 +131,8 @@
             </div>
           </div>
         </div>
-        <div class="btnDiv">
-          <WhiteButton @click="addToCart()" ButtonText="장바구니" />
+        <div class="newscontain">
+          <WhiteButton @click="addToCart()" ButtonText="뉴스 담기" />
         </div>
         <div class="pagination">
           <span class="prevBtn" @click="prevPage" :disabled="currentPage === 1">
@@ -382,6 +382,13 @@ export default {
   float: right;
 }
 /* modal end */
+
+input[type="date"] {
+  width: 50%;
+  height: 3vh;
+  text-align: center;
+  font-size: 1.5em;
+}
 .readmore {
   margin-left: auto;
   text-align: right;
@@ -394,12 +401,12 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 100px;
-  padding-bottom: 20px;
+  padding: 3%;
+  border-bottom: 1px solid #d6dbe5;
 }
 .dateSetText {
   color: #3b3b3b;
-  font-size: 30px;
+  font-size: 1.5em;
   font-weight: 700;
   margin-bottom: 20px;
 }
@@ -424,7 +431,6 @@ input[type="checkbox"]:checked {
   margin-bottom: 200px;
   margin-left: auto;
   margin-right: auto;
-  border-top: 1px solid #d6dbe5;
 }
 .ss {
   display: flex;
@@ -470,7 +476,6 @@ input[type="checkbox"]:checked {
   top: 100%;
   left: 0;
   border: 1px solid #aaa;
-  border-top: 0;
   max-height: 200px; /* Set the max height for the dropdown */
   overflow-y: auto; /* Enable vertical scrolling if needed */
 }
@@ -497,10 +502,10 @@ input[type="checkbox"] {
   margin-right: 30px;
 }
 
-.btnDiv {
+.newscontain {
+  padding: 3% 0%;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
+  justify-content: flex-start;
 }
 
 .pagination {

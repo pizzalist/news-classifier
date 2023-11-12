@@ -16,13 +16,7 @@ export default {
 </script>
 
 <style scoped>
-.ButtonArea {
-  margin: 0px 50px;
-  padding: 30px 0px;
-  display: flex;
-  justify-content: right;
-}
-.ButtonArea > button {
+button {
   cursor: pointer;
   font-size: 0.8em;
   border: 1px solid #5f5f5f;
