@@ -126,7 +126,7 @@ export default {
     // 로컬 스토리지에서 장바구니 아이템 불러오기
     const storedItems = localStorage.getItem("items");
     if (storedItems) {
-      thisitems = JSON.parse(storedItems);
+      this.items = JSON.parse(storedItems);
     }
   },
   methods: {
