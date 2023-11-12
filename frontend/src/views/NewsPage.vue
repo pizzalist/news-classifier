@@ -5,7 +5,7 @@
       <div class="modalPage">
         <span class="modalClose" @click="closeModal">&times;</span>
         <h2>{{ selectedNews.title }}</h2>
-        <p>{{ selectedNews.content }}</p>
+        <p>{{ selectedNews.link }}</p>
       </div>
     </div>
     <!--modal end-->
@@ -58,7 +58,7 @@
                 v-model="item.checked" />
               <label :for="'firstItem' + index">
                 <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
 
               <div class="readmore" @click="openModal(item)">요약 보기</div>
@@ -81,7 +81,7 @@
                 v-model="item.checked" />
               <label :for="'secondItem' + index">
                 <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
               <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
@@ -103,7 +103,7 @@
                 v-model="item.checked" />
               <label :for="'thirdItem' + index">
                 <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
               <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
@@ -125,7 +125,7 @@
                 v-model="item.checked" />
               <label :for="'fourthItem' + index">
                 <div class="item-title">{{ item.title }}</div>
-                <div class="item-content">{{ item.content }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
               <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
@@ -195,98 +195,97 @@ export default {
         [
           {
             title: "newstitle",
-            content:
-              "https://n.news.naver.com/mnews/article/016/0002223509?sid=105",
+            link: "https://n.news.naver.com/mnews/article/016/0002223509?sid=105",
           },
-          { title: "title", content: "link 2" },
-          { title: "title", content: "link 3" },
-          { title: "title", content: "link 4" },
-          { title: "title", content: "link 5" },
-          { title: "title", content: "link 6" },
-          { title: "title", content: "link 7" },
-          { title: "title", content: "link 8" },
-          { title: "title", content: "link 9" },
-          { title: "title", content: "link 10" },
-          { title: "title", content: "link 11" },
-          { title: "title", content: "link 12" },
-          { title: "title", content: "link 13" },
-          { title: "title", content: "link 14" },
-          { title: "title", content: "link 15" },
-          { title: "title", content: "link 16" },
-          { title: "title", content: "link 17" },
-          { title: "title", content: "link 18" },
-          { title: "title", content: "link 19" },
-          { title: "title", content: "link 20" },
+          { title: "title", link: "link 2" },
+          { title: "title", link: "link 3" },
+          { title: "title", link: "link 4" },
+          { title: "title", link: "link 5" },
+          { title: "title", link: "link 6" },
+          { title: "title", link: "link 7" },
+          { title: "title", link: "link 8" },
+          { title: "title", link: "link 9" },
+          { title: "title", link: "link 10" },
+          { title: "title", link: "link 11" },
+          { title: "title", link: "link 12" },
+          { title: "title", link: "link 13" },
+          { title: "title", link: "link 14" },
+          { title: "title", link: "link 15" },
+          { title: "title", link: "link 16" },
+          { title: "title", link: "link 17" },
+          { title: "title", link: "link 18" },
+          { title: "title", link: "link 19" },
+          { title: "title", link: "link 20" },
         ],
         [
-          { title: "title2", content: "link 1" },
-          { title: "title2", content: "link 2" },
-          { title: "title2", content: "link 3" },
-          { title: "title2", content: "link 4" },
-          { title: "title2", content: "link 5" },
-          { title: "title2", content: "link 6" },
-          { title: "title2", content: "link 7" },
-          { title: "title2", content: "link 8" },
-          { title: "title2", content: "link 9" },
-          { title: "title2", content: "link 10" },
-          { title: "title2", content: "link 11" },
-          { title: "title2", content: "link 12" },
-          { title: "title2", content: "link 13" },
-          { title: "title2", content: "link 14" },
-          { title: "title2", content: "link 15" },
-          { title: "title2", content: "link 16" },
-          { title: "title2", content: "link 17" },
-          { title: "title2", content: "link 18" },
-          { title: "title2", content: "link 19" },
-          { title: "title2", content: "link 20" },
+          { title: "title2", link: "link 1" },
+          { title: "title2", link: "link 2" },
+          { title: "title2", link: "link 3" },
+          { title: "title2", link: "link 4" },
+          { title: "title2", link: "link 5" },
+          { title: "title2", link: "link 6" },
+          { title: "title2", link: "link 7" },
+          { title: "title2", link: "link 8" },
+          { title: "title2", link: "link 9" },
+          { title: "title2", link: "link 10" },
+          { title: "title2", link: "link 11" },
+          { title: "title2", link: "link 12" },
+          { title: "title2", link: "link 13" },
+          { title: "title2", link: "link 14" },
+          { title: "title2", link: "link 15" },
+          { title: "title2", link: "link 16" },
+          { title: "title2", link: "link 17" },
+          { title: "title2", link: "link 18" },
+          { title: "title2", link: "link 19" },
+          { title: "title2", link: "link 20" },
         ],
         [
-          { title: "title3", content: "link 1" },
-          { title: "title3", content: "link 2" },
-          { title: "title3", content: "link 3" },
-          { title: "title3", content: "link 4" },
-          { title: "title3", content: "link 5" },
-          { title: "title3", content: "link 6" },
-          { title: "title3", content: "link 7" },
-          { title: "title3", content: "link 8" },
-          { title: "title3", content: "link 9" },
-          { title: "title3", content: "link 10" },
-          { title: "title3", content: "link 11" },
-          { title: "title3", content: "link 12" },
-          { title: "title3", content: "link 13" },
-          { title: "title3", content: "link 14" },
-          { title: "title3", content: "link 15" },
-          { title: "title3", content: "link 16" },
-          { title: "title3", content: "link 17" },
-          { title: "title3", content: "link 18" },
-          { title: "title3", content: "link 19" },
-          { title: "title3", content: "link 20" },
+          { title: "title3", link: "link 1" },
+          { title: "title3", link: "link 2" },
+          { title: "title3", link: "link 3" },
+          { title: "title3", link: "link 4" },
+          { title: "title3", link: "link 5" },
+          { title: "title3", link: "link 6" },
+          { title: "title3", link: "link 7" },
+          { title: "title3", link: "link 8" },
+          { title: "title3", link: "link 9" },
+          { title: "title3", link: "link 10" },
+          { title: "title3", link: "link 11" },
+          { title: "title3", link: "link 12" },
+          { title: "title3", link: "link 13" },
+          { title: "title3", link: "link 14" },
+          { title: "title3", link: "link 15" },
+          { title: "title3", link: "link 16" },
+          { title: "title3", link: "link 17" },
+          { title: "title3", link: "link 18" },
+          { title: "title3", link: "link 19" },
+          { title: "title3", link: "link 20" },
         ],
         [
-          { title: "title4", content: "link 1" },
-          { title: "title4", content: "link 2" },
-          { title: "title4", content: "link 3" },
-          { title: "title4", content: "link 4" },
-          { title: "title4", content: "link 5" },
-          { title: "title4", content: "link 6" },
-          { title: "title4", content: "link 7" },
-          { title: "title4", content: "link 8" },
-          { title: "title4", content: "link 9" },
-          { title: "title4", content: "link 10" },
-          { title: "title4", content: "link 11" },
-          { title: "title4", content: "link 12" },
-          { title: "title4", content: "link 13" },
-          { title: "title4", content: "link 14" },
-          { title: "title4", content: "link 15" },
-          { title: "title4", content: "link 16" },
-          { title: "title4", content: "link 17" },
-          { title: "title4", content: "link 18" },
-          { title: "title4", content: "link 19" },
-          { title: "title4", content: "link 20" },
+          { title: "title4", link: "link 1" },
+          { title: "title4", link: "link 2" },
+          { title: "title4", link: "link 3" },
+          { title: "title4", link: "link 4" },
+          { title: "title4", link: "link 5" },
+          { title: "title4", link: "link 6" },
+          { title: "title4", link: "link 7" },
+          { title: "title4", link: "link 8" },
+          { title: "title4", link: "link 9" },
+          { title: "title4", link: "link 10" },
+          { title: "title4", link: "link 11" },
+          { title: "title4", link: "link 12" },
+          { title: "title4", link: "link 13" },
+          { title: "title4", link: "link 14" },
+          { title: "title4", link: "link 15" },
+          { title: "title4", link: "link 16" },
+          { title: "title4", link: "link 17" },
+          { title: "title4", link: "link 18" },
+          { title: "title4", link: "link 19" },
+          { title: "title4", link: "link 20" },
         ],
       ],
       isModalOpen: false,
-      selectedNews: { title: "", content: "" },
+      selectedNews: { title: "", link: "" },
       industryTypes: ["산업정책", "건설/ESG", "조선/ESG", "IT"],
       selectedIndustry: "산업정책",
       itemsPerPage: 10,
@@ -485,7 +484,7 @@ input[type="checkbox"]:checked {
 }
 
 .item-title,
-.item-content {
+.item-link {
   overflow: hidden;
   text-overflow: ellipsis;
 
