@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!--modal-->
+    <div class="modalBackgound" v-if="isModalOpen">
+      <div class="modalPage">
+        <span class="modalClose" @click="closeModal">&times;</span>
+        <h2>{{ selectedNews.title }}</h2>
+        <p>{{ selectedNews.link }}</p>
+      </div>
+    </div>
+    <!--modal end-->
+
     <div class="dateSetDiv">
       <span class="dateSetText">기간 설정</span>
       <div class="calenderDiv">
@@ -17,95 +27,112 @@
         <input type="date" />
       </div>
     </div>
+
     <div class="dd">
       <div class="ss">
         <span
           class="industryType"
-          v-for="(item, index) in items"
+          v-for="(industry, index) in industryTypes"
           :key="index"
-          @click="selectIndustry(item.category)"
+          @click="selectIndustry(industry)"
           :class="{
-            selected: selectedIndustry === item.category,
-            unselected: selectedIndustry !== item.category,
+            selected: selectedIndustry === industry,
+            unselected: selectedIndustry !== industry,
           }">
-          {{ item.category }}
+          {{ industry }}
         </span>
       </div>
       <div class="dropdownBox">
-        <div class="dropdown" id="FirstDropdown" v-if="selectedIndustry === '산업정책'">
+        <div
+          class="dropdown"
+          v-if="selectedIndustry === '산업정책'"
+          id="FirstDropdown">
           <div class="list">
             <div
               class="list-item"
-              v-for="(news, index) in paginatedItems"
+              v-for="(item, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'firstItem' + index"
-                v-model="news.checked" />
+                v-model="item.checked" />
               <label :for="'firstItem' + index">
-                <div class="item-title">{{ news.title }}</div>
-                <div class="item-content">{{ news.content }}</div>
+                <div class="item-title">{{ item.title }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
+
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
 
-        <div class="dropdown" id="SecondDropdown"  v-if="selectedIndustry === '건설정책'">
+        <div
+          class="dropdown"
+          v-if="selectedIndustry === '건설/ESG'"
+          id="SecondDropdown">
           <div class="list">
             <div
               class="list-item"
-              v-for="(news, index) in paginatedItems"
+              v-for="(item, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'secondItem' + index"
-                v-model="news.checked" />
+                v-model="item.checked" />
               <label :for="'secondItem' + index">
-                <div class="item-title">{{ news.title }}</div>
-                <div class="item-content">{{ news.content }}</div>
+                <div class="item-title">{{ item.title }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
 
-        <div class="dropdown" id="ThirdDropdown"  v-if="selectedIndustry === '조선/ESG'">
+        <div
+          class="dropdown"
+          v-if="selectedIndustry === '조선/ESG'"
+          id="ThirdDropdown">
           <div class="list">
             <div
               class="list-item"
-              v-for="(news, index) in paginatedItems"
+              v-for="(item, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'thirdItem' + index"
-                v-model="news.checked" />
+                v-model="item.checked" />
               <label :for="'thirdItem' + index">
-                <div class="item-title">{{ news.title }}</div>
-                <div class="item-content">{{ news.content }}</div>
+                <div class="item-title">{{ item.title }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
 
-        <div class="dropdown" id="FourthDropdown"  v-if="selectedIndustry === 'IT'">
+        <div
+          class="dropdown"
+          v-if="selectedIndustry === 'IT'"
+          id="FourthDropdown">
           <div class="list">
             <div
               class="list-item"
-              v-for="(news, index) in paginatedItems"
+              v-for="(item, index) in paginatedItems"
               :key="index">
               <input
                 type="checkbox"
                 :id="'fourthItem' + index"
-                v-model="news.checked" />
+                v-model="item.checked" />
               <label :for="'fourthItem' + index">
-                <div class="item-title">{{ news.title }}</div>
-                <div class="item-content">{{ news.content }}</div>
+                <div class="item-title">{{ item.title }}</div>
+                <div class="item-link">{{ item.link }}</div>
               </label>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
-        <div class="btnDiv">
-          <WhiteButton @click="addToCart()" ButtonText="장바구니" />
-          <WhiteButton ButtonText="삭제" />
+        <div class="newscontain">
+          <WhiteButton @click="addToCart()" ButtonText="뉴스 담기" />
         </div>
         <div class="pagination">
           <span class="prevBtn" @click="prevPage" :disabled="currentPage === 1">
@@ -165,134 +192,132 @@ export default {
   data() {
     return {
       items: [
-        {
-          category: "산업정책",
-          news: [
-            { title: "산업정책", content: "Description for Item 1" },
-            { title: "산업정책", content: "Description for Item 2" },
-            { title: "산업정책", content: "Description for Item 3" },
-            { title: "산업정책", content: "Description for Item 4" },
-            { title: "산업정책", content: "Description for Item 5" },
-            { title: "산업정책", content: "Description for Item 6" },
-            { title: "산업정책", content: "Description for Item 7" },
-            { title: "산업정책", content: "Description for Item 8" },
-            { title: "산업정책", content: "Description for Item 9" },
-            { title: "산업정책", content: "Description for Item 10" },
-            { title: "산업정책", content: "Description for Item 11" },
-            { title: "산업정책", content: "Description for Item 12" },
-            { title: "산업정책", content: "Description for Item 13" },
-            { title: "산업정책", content: "Description for Item 14" },
-            { title: "산업정책", content: "Description for Item 15" },
-            { title: "산업정책", content: "Description for Item 16" },
-            { title: "산업정책", content: "Description for Item 17" },
-            { title: "산업정책", content: "Description for Item 18" },
-            { title: "산업정책", content: "Description for Item 19" },
-            { title: "산업정책", content: "Description for Item 20" },
-          ],
-        },
-        {
-          category: "건설정책",
-          news: [
-            { title: "건설/ESG", content: "Description for Item 1" },
-            { title: "건설/ESG", content: "Description for Item 2" },
-            { title: "건설/ESG", content: "Description for Item 3" },
-            { title: "건설/ESG", content: "Description for Item 4" },
-            { title: "건설/ESG", content: "Description for Item 5" },
-            { title: "건설/ESG", content: "Description for Item 6" },
-            { title: "건설/ESG", content: "Description for Item 7" },
-            { title: "건설/ESG", content: "Description for Item 8" },
-            { title: "건설/ESG", content: "Description for Item 9" },
-            { title: "건설/ESG", content: "Description for Item 10" },
-            { title: "건설/ESG", content: "Description for Item 11" },
-            { title: "건설/ESG", content: "Description for Item 12" },
-            { title: "건설/ESG", content: "Description for Item 13" },
-            { title: "건설/ESG", content: "Description for Item 14" },
-            { title: "건설/ESG", content: "Description for Item 15" },
-            { title: "건설/ESG", content: "Description for Item 16" },
-            { title: "건설/ESG", content: "Description for Item 17" },
-            { title: "건설/ESG", content: "Description for Item 18" },
-            { title: "건설/ESG", content: "Description for Item 19" },
-            { title: "건설/ESG", content: "Description for Item 20" },
-          ],
-        },
-        {
-          category: "조선/ESG",
-          news: [
-            { title: "조선/ESG", content: "Description for Item 1" },
-            { title: "조선/ESG", content: "Description for Item 2" },
-            { title: "조선/ESG", content: "Description for Item 3" },
-            { title: "조선/ESG", content: "Description for Item 4" },
-            { title: "조선/ESG", content: "Description for Item 5" },
-            { title: "조선/ESG", content: "Description for Item 6" },
-            { title: "조선/ESG", content: "Description for Item 7" },
-            { title: "조선/ESG", content: "Description for Item 8" },
-            { title: "조선/ESG", content: "Description for Item 9" },
-            { title: "조선/ESG", content: "Description for Item 10" },
-            { title: "조선/ESG", content: "Description for Item 11" },
-            { title: "조선/ESG", content: "Description for Item 12" },
-            { title: "조선/ESG", content: "Description for Item 13" },
-            { title: "조선/ESG", content: "Description for Item 14" },
-            { title: "조선/ESG", content: "Description for Item 15" },
-            { title: "조선/ESG", content: "Description for Item 16" },
-            { title: "조선/ESG", content: "Description for Item 17" },
-            { title: "조선/ESG", content: "Description for Item 18" },
-            { title: "조선/ESG", content: "Description for Item 19" },
-            { title: "조선/ESG", content: "Description for Item 20" },
-          ],
-        },
-        {
-          category: "IT",
-          news: [
-            { title: "IT", content: "Description for Item 1" },
-            { title: "IT", content: "Description for Item 2" },
-            { title: "IT", content: "Description for Item 3" },
-            { title: "IT", content: "Description for Item 4" },
-            { title: "IT", content: "Description for Item 5" },
-            { title: "IT", content: "Description for Item 6" },
-            { title: "IT", content: "Description for Item 7" },
-            { title: "IT", content: "Description for Item 8" },
-            { title: "IT", content: "Description for Item 9" },
-            { title: "IT", content: "Description for Item 10" },
-            { title: "IT", content: "Description for Item 11" },
-            { title: "IT", content: "Description for Item 12" },
-            { title: "IT", content: "Description for Item 13" },
-            { title: "IT", content: "Description for Item 14" },
-            { title: "IT", content: "Description for Item 15" },
-            { title: "IT", content: "Description for Item 16" },
-            { title: "IT", content: "Description for Item 17" },
-            { title: "IT", content: "Description for Item 18" },
-            { title: "IT", content: "Description for Item 19" },
-            { title: "IT", content: "Description for Item 20" },
-          ],
-        },
+        [
+          {
+            title: "newstitle",
+            link: "https://n.news.naver.com/mnews/article/016/0002223509?sid=105",
+          },
+          { title: "title", link: "link 2" },
+          { title: "title", link: "link 3" },
+          { title: "title", link: "link 4" },
+          { title: "title", link: "link 5" },
+          { title: "title", link: "link 6" },
+          { title: "title", link: "link 7" },
+          { title: "title", link: "link 8" },
+          { title: "title", link: "link 9" },
+          { title: "title", link: "link 10" },
+          { title: "title", link: "link 11" },
+          { title: "title", link: "link 12" },
+          { title: "title", link: "link 13" },
+          { title: "title", link: "link 14" },
+          { title: "title", link: "link 15" },
+          { title: "title", link: "link 16" },
+          { title: "title", link: "link 17" },
+          { title: "title", link: "link 18" },
+          { title: "title", link: "link 19" },
+          { title: "title", link: "link 20" },
+        ],
+        [
+          { title: "title2", link: "link 1" },
+          { title: "title2", link: "link 2" },
+          { title: "title2", link: "link 3" },
+          { title: "title2", link: "link 4" },
+          { title: "title2", link: "link 5" },
+          { title: "title2", link: "link 6" },
+          { title: "title2", link: "link 7" },
+          { title: "title2", link: "link 8" },
+          { title: "title2", link: "link 9" },
+          { title: "title2", link: "link 10" },
+          { title: "title2", link: "link 11" },
+          { title: "title2", link: "link 12" },
+          { title: "title2", link: "link 13" },
+          { title: "title2", link: "link 14" },
+          { title: "title2", link: "link 15" },
+          { title: "title2", link: "link 16" },
+          { title: "title2", link: "link 17" },
+          { title: "title2", link: "link 18" },
+          { title: "title2", link: "link 19" },
+          { title: "title2", link: "link 20" },
+        ],
+        [
+          { title: "title3", link: "link 1" },
+          { title: "title3", link: "link 2" },
+          { title: "title3", link: "link 3" },
+          { title: "title3", link: "link 4" },
+          { title: "title3", link: "link 5" },
+          { title: "title3", link: "link 6" },
+          { title: "title3", link: "link 7" },
+          { title: "title3", link: "link 8" },
+          { title: "title3", link: "link 9" },
+          { title: "title3", link: "link 10" },
+          { title: "title3", link: "link 11" },
+          { title: "title3", link: "link 12" },
+          { title: "title3", link: "link 13" },
+          { title: "title3", link: "link 14" },
+          { title: "title3", link: "link 15" },
+          { title: "title3", link: "link 16" },
+          { title: "title3", link: "link 17" },
+          { title: "title3", link: "link 18" },
+          { title: "title3", link: "link 19" },
+          { title: "title3", link: "link 20" },
+        ],
+        [
+          { title: "title4", link: "link 1" },
+          { title: "title4", link: "link 2" },
+          { title: "title4", link: "link 3" },
+          { title: "title4", link: "link 4" },
+          { title: "title4", link: "link 5" },
+          { title: "title4", link: "link 6" },
+          { title: "title4", link: "link 7" },
+          { title: "title4", link: "link 8" },
+          { title: "title4", link: "link 9" },
+          { title: "title4", link: "link 10" },
+          { title: "title4", link: "link 11" },
+          { title: "title4", link: "link 12" },
+          { title: "title4", link: "link 13" },
+          { title: "title4", link: "link 14" },
+          { title: "title4", link: "link 15" },
+          { title: "title4", link: "link 16" },
+          { title: "title4", link: "link 17" },
+          { title: "title4", link: "link 18" },
+          { title: "title4", link: "link 19" },
+          { title: "title4", link: "link 20" },
+        ],
       ],
+      isModalOpen: false,
+      selectedNews: { title: "", link: "" },
+      industryTypes: ["산업정책", "건설/ESG", "조선/ESG", "IT"],
       selectedIndustry: "산업정책",
       itemsPerPage: 10,
       currentPage: 1,
     };
   },
-  
   computed: {
     paginatedItems() {
-      // Keep track of the selected industry's pagination separately
       const start = (this.currentPage - 1) * this.itemsPerPage;
       const end = start + this.itemsPerPage;
-      const selectedItems = this.items.find(
-        (item) => item.category === this.selectedIndustry
+      const selectedIndustryIndex = this.industryTypes.indexOf(
+        this.selectedIndustry
       );
-      return selectedItems ? selectedItems.news.slice(start, end) : [];
+      return this.items[selectedIndustryIndex].slice(start, end);
     },
     totalPage() {
-      // Calculate total pages for the selected industry
-      const selectedItems = this.items.find(
-        (item) => item.category === this.selectedIndustry
+      const selectedIndustryIndex = this.industryTypes.indexOf(
+        this.selectedIndustry
       );
-      return selectedItems
-        ? Math.ceil(selectedItems.news.length / this.itemsPerPage)
-        : 0;
+      return Math.ceil(
+        this.items[selectedIndustryIndex].length / this.itemsPerPage
+      );
     },
   },
   methods: {
+    openModal(item) {
+      this.selectedNews = { ...item }; // Store the selected news item
+      this.isModalOpen = true; // Show the modal
+    },
+    closeModal() {
+      this.isModalOpen = false; // Hide the modal
+    },
     selectIndustry(industry) {
       this.selectedIndustry = industry;
       this.currentPage = 1;
@@ -310,45 +335,14 @@ export default {
     gotoPage(page) {
       this.currentPage = page;
     },
-
     addToCart() {
-      // 장바구니에 아이템 추가 로직을 여기에 추가
-      // 여기에서는 단순히 알림 창을 띄우는 메세지만 추가하고,
-      // 실제로는 장바구니에 아이템을 추가하는 로직을 구현해야 합니다.
       const confirmAddToCart = window.confirm(
-        "장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?"
+        "선택한 뉴스가 담겼습니다. 담은 뉴스를 보시겠습니까?"
       );
+
       if (confirmAddToCart) {
-        // 예를 눌렀을 때 장바구니 페이지로 이동
         this.$router.push("/BasketPage");
-        const checkedItems = this.paginatedItems.filter((item) => item.checked);
-        checkedItems.forEach((item) => {
-          console.log(
-            "Selected Items category:",
-            item.category,
-            "Selected Items title:",
-            item.title,
-            "Selected Items content:",
-            item.content
-          );
-          // 여기서 데이터베이스에 값을 보내는 로직을 추가하면 됩니다.
-        });
       } else {
-        // 아니요를 눌렀을 때 추가만 하고 페이지 이동 없음
-        // 실제로는 여기에 장바구니에 아이템을 추가하는 로직을 추가해야 합니다.
-        const checkedItems = this.paginatedItems.filter((item) => item.checked);
-        checkedItems.forEach((item) => {
-          console.log(
-            "Selected Items category:",
-            item.category,
-            "Selected Items title:",
-            item.title,
-            "Selected Items content:",
-            item.content
-          );
-          // 여기서 데이터베이스에 값을 보내는 로직을 추가하면 됩니다.
-        });
-        // 추가적인 로직을 여기에 추가할 수 있음
       }
     },
   },
@@ -356,17 +350,56 @@ export default {
 </script>
 
 <style scoped>
+/* modal */
+.modalBackgound {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1;
+}
+.modalPage {
+  font-size: 1.25em;
+  background: white;
+  border-radius: 8px;
+  padding: 3%;
+  margin: 10%;
+  white-space: normal;
+}
+.modalClose {
+  font-size: 2em;
+  cursor: pointer;
+  position: relative;
+  float: right;
+}
+/* modal end */
+
+input[type="date"] {
+  width: 50%;
+  height: 3vh;
+  text-align: center;
+  font-size: 1.5em;
+}
+.readmore {
+  margin-left: auto;
+  text-align: right;
+  padding: 1%;
+  background-color: #aaa;
+  color: #fff;
+}
 .dateSetDiv {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 100px;
-  padding-bottom: 20px;
+  padding: 3%;
+  border-bottom: 1px solid #d6dbe5;
 }
 .dateSetText {
   color: #3b3b3b;
-  font-size: 30px;
+  font-size: 1.5em;
   font-weight: 700;
   margin-bottom: 20px;
 }
@@ -391,7 +424,6 @@ input[type="checkbox"]:checked {
   margin-bottom: 200px;
   margin-left: auto;
   margin-right: auto;
-  border-top: 1px solid #d6dbe5;
 }
 .ss {
   display: flex;
@@ -409,9 +441,7 @@ input[type="checkbox"]:checked {
   margin-bottom: 100px;
   cursor: pointer;
 }
-.selected {
-  color: #009fe8;
-}
+.selected,
 .selected:hover {
   color: #007eb8;
 }
@@ -439,35 +469,36 @@ input[type="checkbox"]:checked {
   top: 100%;
   left: 0;
   border: 1px solid #aaa;
-  border-top: 0;
   max-height: 200px; /* Set the max height for the dropdown */
   overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 
 .list-item {
   display: flex;
+  justify-content: left;
   align-items: center;
   width: 75vw;
   padding: 10px;
   border-bottom: 1px solid #aaa;
+  white-space: nowrap;
+}
+
+.item-title,
+.item-link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  width: 55vw;
 }
 
 input[type="checkbox"] {
   margin-right: 30px;
 }
 
-.item-title {
-  flex: 1;
-}
-
-.item-content {
-  flex: 2;
-}
-
-.btnDiv {
+.newscontain {
+  padding: 3% 0%;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
+  justify-content: flex-start;
 }
 
 .pagination {

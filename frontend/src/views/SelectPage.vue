@@ -164,7 +164,7 @@
               <span class="newsText">카테고리별 뉴스 개수</span>
             </div>
             <div class="newsInput">
-              <input type="text" v-model="newsCount" />
+              <input type="number" v-model="newsCount" />
             </div>
           </div>
           <div class="category">
@@ -254,6 +254,15 @@ export default {
       selectedCategories: [],
     };
   },
+  watch: {
+    newsCount(newValue) {
+      if (newValue < 1) {
+        this.newsCount = 1;
+      } else if (newValue > 10) {
+        this.newsCount = 10;
+      }
+    },
+  },
   methods: {
     autoSelectOpenModal() {
       this.오토뉴스선택설정창 = true;
@@ -302,13 +311,16 @@ export default {
 </script>
 
 <style scoped>
-input[type="text"] {
+input[type="number"] {
   width: 100%;
   height: 3vh;
+  font-size: 1.5em;
 }
 input[type="date"] {
   width: 50%;
   height: 3vh;
+  text-align: center;
+  font-size: 1.5em;
 }
 div {
   -webkit-box-sizing: border-box;
