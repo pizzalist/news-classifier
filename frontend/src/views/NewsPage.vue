@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!--modal-->
+    <div class="modalBackgound" v-if="isModalOpen">
+      <div class="modalPage">
+        <span class="modalClose" @click="closeModal">&times;</span>
+        <h2>{{ selectedNews.title }}</h2>
+        <p>{{ selectedNews.content }}</p>
+      </div>
+    </div>
+    <!--modal end-->
+
     <div class="dateSetDiv">
       <span class="dateSetText">기간 설정</span>
       <div class="calenderDiv">
@@ -17,6 +27,7 @@
         <input type="date" />
       </div>
     </div>
+
     <div class="dd">
       <div class="ss">
         <span
@@ -49,6 +60,8 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
+
+              <div class="readmore" @click="openModal(item)">자세히 보기</div>
             </div>
           </div>
         </div>
@@ -70,6 +83,7 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
+              <div class="readmore" @click="openModal(item)">자세히 보기</div>
             </div>
           </div>
         </div>
@@ -91,6 +105,7 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
+              <div class="readmore" @click="openModal(item)">자세히 보기</div>
             </div>
           </div>
         </div>
@@ -112,6 +127,7 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
+              <div class="readmore" @click="openModal(item)">자세히 보기</div>
             </div>
           </div>
         </div>
@@ -265,6 +281,8 @@ export default {
           { title: "IT", content: "Description for Item 20" },
         ],
       ],
+      isModalOpen: false,
+      selectedNews: { title: "", content: "" },
       industryTypes: ["산업정책", "건설/ESG", "조선/ESG", "IT"],
       selectedIndustry: "산업정책",
       itemsPerPage: 10,
@@ -290,6 +308,13 @@ export default {
     },
   },
   methods: {
+    openModal(item) {
+      this.selectedNews = { ...item }; // Store the selected news item
+      this.isModalOpen = true; // Show the modal
+    },
+    closeModal() {
+      this.isModalOpen = false; // Hide the modal
+    },
     selectIndustry(industry) {
       this.selectedIndustry = industry;
       this.currentPage = 1;
@@ -328,6 +353,38 @@ export default {
 </script>
 
 <style scoped>
+/* modal */
+.modalBackgound {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1;
+}
+.modalPage {
+  font-weight: bold;
+  white-space: nowrap;
+  background: white;
+  border-radius: 8px;
+  padding: 3%;
+  margin: 10%;
+}
+.modalClose {
+  font-size: 2em;
+  cursor: pointer;
+  position: relative;
+  float: right;
+}
+/* modal end */
+.readmore {
+  margin-left: auto;
+  text-align: right;
+  padding: 1%;
+  background-color: #aaa;
+  color: #fff;
+}
 .dateSetDiv {
   display: flex;
   flex-direction: column;
@@ -381,9 +438,7 @@ input[type="checkbox"]:checked {
   margin-bottom: 100px;
   cursor: pointer;
 }
-.selected {
-  color: #009fe8;
-}
+.selected,
 .selected:hover {
   color: #007eb8;
 }
@@ -418,8 +473,9 @@ input[type="checkbox"]:checked {
 
 .list-item {
   display: flex;
+  justify-content: left;
   align-items: center;
-  width: 1000px;
+  width: 75vw;
   padding: 10px;
   border-bottom: 1px solid #aaa;
 }
