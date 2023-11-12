@@ -112,7 +112,7 @@
             <div class="dateInput">
               <input
                 type="date"
-                v-model="selectedStartDate"
+                v-model="startDate"
                 @input="validateDates" />
               <svg
                 alt="->"
@@ -127,7 +127,7 @@
               </svg>
               <input
                 type="date"
-                v-model="selectedEndDate"
+                v-model="endDate"
                 @input="validateDates" />
             </div>
           </div>
@@ -247,11 +247,11 @@ export default {
   components: { BlueButton },
   data() {
     return {
-      오토뉴스선택설정창: false,
-      selectedStartDate: null,
-      selectedEndDate: null,
-      newsCount: null,
-      selectedCategories: [],
+      startDate: '', // 사용자가 선택한 시작 날짜
+      endDate: '',   // 사용자가 선택한 종료 날짜
+      selectedCategories: [], // 사용자가 선택한 카테고리
+      numberOfArticles: 0, // 사용자가 요청한 기사의 개수
+      articles: [] // 서버로부터 받은 기사 데이터
     };
   },
   watch: {
@@ -278,8 +278,8 @@ export default {
     },
     submitSettings() {
       if (
-        !this.selectedStartDate ||
-        !this.selectedEndDate ||
+        !this.startDate ||
+        !this.endDate ||
         !this.newsCount ||
         this.selectedCategories.length === 0
       ) {
@@ -288,21 +288,21 @@ export default {
         );
       } else {
         // Your completion logic here
-        console.log("Selected Start Date:", this.selectedStartDate);
-        console.log("Selected End Date:", this.selectedEndDate);
+        console.log("Selected Start Date:", this.startDatestartDate);
+        console.log("Selected End Date:", this.endDate);
         console.log("선택한 뉴스개수:", this.newsCount);
         console.log("Selected categories:", this.selectedCategories);
       }
     },
     validateDates() {
-      if (this.selectedStartDate && this.selectedEndDate) {
-        const startDate = new Date(this.selectedStartDate);
-        const endDate = new Date(this.selectedEndDate);
+      if (this.startDate && this.endDate) {
+        const startDate = new Date(this.startDate);
+        const endDate = new Date(this.endDate);
 
         if (startDate > endDate) {
           alert("종료일은 시작일 이후의 날짜여야 합니다.");
           // 선택 초기화 또는 다른 처리를 원하는 대로 추가할 수 있습니다.
-          this.selectedEndDate = null;
+          this.endDate = null;
         }
       }
     },
