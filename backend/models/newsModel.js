@@ -10,14 +10,13 @@ const getAllNewsCategories = () => {
 
       const sql = `
         SELECT
-          category_id,
-          category_name
+          *
         FROM
           news_categories
       `;
       
       connection.query(sql, (err, results) => {
-        connection.release(); // 연결 해제
+        connection.release(); 
         if (err) reject(err);
         resolve(results);
       });
@@ -25,6 +24,7 @@ const getAllNewsCategories = () => {
   });
 };
 
+//DB에서 모든 뉴스 기사를 가져옴
 const getAllClippedNews = () => {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
@@ -33,7 +33,6 @@ const getAllClippedNews = () => {
         return;
       }
 
-      // 여기서 SQL 쿼리를 작성합니다.
       const sql = `
         SELECT
           * // 또는 필요한 특정 컬럼
@@ -50,4 +49,65 @@ const getAllClippedNews = () => {
   });
 };
 
-module.exports = { getAllNewsCategories, getAllClippedNews };
+//  DB에서 특정 카테고리 ID에 해당하는 뉴스의 title, url, category, publication_date를 가져오는 함수
+const getNewsByCategoryId = (categoryId) => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      const sql = `
+        SELECT
+          title,
+          url,
+          category,
+          publication_date
+        FROM
+          clipped_news
+        WHERE
+          category_id = ?
+      `;
+
+      connection.query(sql, [categoryId], (err, results) => {
+        connection.release();
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+  });
+};
+
+const getNewsByDateAndCategory = (startDate, endDate, categoryId) => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      // 주어진 기간과, 주어진 category_id를 가진 뉴스의 title, url, category, publication_date를 가져오는 함수
+      const sql = `
+        SELECT
+          title,
+          url,
+          category,
+          publication_date
+        FROM
+          news
+        WHERE
+          publication_date BETWEEN ? AND ?
+          AND category_id = ?
+      `;
+
+      connection.query(sql, [startDate, endDate, categoryId], (err, results) => {
+        connection.release();
+        if (err) reject(err);
+        resolve(results);
+      });
+    });
+  });
+};
+
+module.exports = { getAllNewsCategories, getAllClippedNews, getNewsByCategoryId, getNewsByDateAndCategory };
