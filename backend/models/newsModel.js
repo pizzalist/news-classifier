@@ -35,7 +35,7 @@ const getAllClippedNews = () => {
 
       const sql = `
         SELECT
-          * // 또는 필요한 특정 컬럼
+          * 
         FROM
           clipped_news
       `;
@@ -62,7 +62,7 @@ const getNewsByCategoryId = (categoryId) => {
         SELECT
           title,
           url,
-          category,
+          category_id,
           publication_date
         FROM
           clipped_news
@@ -111,3 +111,4 @@ const getNewsByDateAndCategory = (startDate, endDate, categoryId) => {
 };
 
 module.exports = { getAllNewsCategories, getAllClippedNews, getNewsByCategoryId, getNewsByDateAndCategory };
+

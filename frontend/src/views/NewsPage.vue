@@ -348,8 +348,7 @@ export default {
 
       if (confirmAddToCart) {
         this.$router.push("/BasketPage");
-      } else {
-      }
+      } 
     },
   },
 };
