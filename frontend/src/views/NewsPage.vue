@@ -117,7 +117,6 @@
         </div>
         <div class="btnDiv">
           <WhiteButton @click="addToCart()" ButtonText="장바구니" />
-          <WhiteButton ButtonText="삭제" />
         </div>
         <div class="pagination">
           <span class="prevBtn" @click="prevPage" :disabled="currentPage === 1">
