@@ -61,7 +61,7 @@
                 <div class="item-content">{{ item.content }}</div>
               </label>
 
-              <div class="readmore" @click="openModal(item)">자세히 보기</div>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
@@ -83,7 +83,7 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
-              <div class="readmore" @click="openModal(item)">자세히 보기</div>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
-              <div class="readmore" @click="openModal(item)">자세히 보기</div>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-content">{{ item.content }}</div>
               </label>
-              <div class="readmore" @click="openModal(item)">자세히 보기</div>
+              <div class="readmore" @click="openModal(item)">요약 보기</div>
             </div>
           </div>
         </div>
@@ -194,95 +194,95 @@ export default {
       items: [
         [
           {
-            title: "산업정책",
+            title: "newstitle",
             content:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+              "https://n.news.naver.com/mnews/article/016/0002223509?sid=105",
           },
-          { title: "산업정책", content: "Description for Item 2" },
-          { title: "산업정책", content: "Description for Item 3" },
-          { title: "산업정책", content: "Description for Item 4" },
-          { title: "산업정책", content: "Description for Item 5" },
-          { title: "산업정책", content: "Description for Item 6" },
-          { title: "산업정책", content: "Description for Item 7" },
-          { title: "산업정책", content: "Description for Item 8" },
-          { title: "산업정책", content: "Description for Item 9" },
-          { title: "산업정책", content: "Description for Item 10" },
-          { title: "산업정책", content: "Description for Item 11" },
-          { title: "산업정책", content: "Description for Item 12" },
-          { title: "산업정책", content: "Description for Item 13" },
-          { title: "산업정책", content: "Description for Item 14" },
-          { title: "산업정책", content: "Description for Item 15" },
-          { title: "산업정책", content: "Description for Item 16" },
-          { title: "산업정책", content: "Description for Item 17" },
-          { title: "산업정책", content: "Description for Item 18" },
-          { title: "산업정책", content: "Description for Item 19" },
-          { title: "산업정책", content: "Description for Item 20" },
+          { title: "title", content: "link 2" },
+          { title: "title", content: "link 3" },
+          { title: "title", content: "link 4" },
+          { title: "title", content: "link 5" },
+          { title: "title", content: "link 6" },
+          { title: "title", content: "link 7" },
+          { title: "title", content: "link 8" },
+          { title: "title", content: "link 9" },
+          { title: "title", content: "link 10" },
+          { title: "title", content: "link 11" },
+          { title: "title", content: "link 12" },
+          { title: "title", content: "link 13" },
+          { title: "title", content: "link 14" },
+          { title: "title", content: "link 15" },
+          { title: "title", content: "link 16" },
+          { title: "title", content: "link 17" },
+          { title: "title", content: "link 18" },
+          { title: "title", content: "link 19" },
+          { title: "title", content: "link 20" },
         ],
         [
-          { title: "건설/ESG", content: "Description for Item 1" },
-          { title: "건설/ESG", content: "Description for Item 2" },
-          { title: "건설/ESG", content: "Description for Item 3" },
-          { title: "건설/ESG", content: "Description for Item 4" },
-          { title: "건설/ESG", content: "Description for Item 5" },
-          { title: "건설/ESG", content: "Description for Item 6" },
-          { title: "건설/ESG", content: "Description for Item 7" },
-          { title: "건설/ESG", content: "Description for Item 8" },
-          { title: "건설/ESG", content: "Description for Item 9" },
-          { title: "건설/ESG", content: "Description for Item 10" },
-          { title: "건설/ESG", content: "Description for Item 11" },
-          { title: "건설/ESG", content: "Description for Item 12" },
-          { title: "건설/ESG", content: "Description for Item 13" },
-          { title: "건설/ESG", content: "Description for Item 14" },
-          { title: "건설/ESG", content: "Description for Item 15" },
-          { title: "건설/ESG", content: "Description for Item 16" },
-          { title: "건설/ESG", content: "Description for Item 17" },
-          { title: "건설/ESG", content: "Description for Item 18" },
-          { title: "건설/ESG", content: "Description for Item 19" },
-          { title: "건설/ESG", content: "Description for Item 20" },
+          { title: "title2", content: "link 1" },
+          { title: "title2", content: "link 2" },
+          { title: "title2", content: "link 3" },
+          { title: "title2", content: "link 4" },
+          { title: "title2", content: "link 5" },
+          { title: "title2", content: "link 6" },
+          { title: "title2", content: "link 7" },
+          { title: "title2", content: "link 8" },
+          { title: "title2", content: "link 9" },
+          { title: "title2", content: "link 10" },
+          { title: "title2", content: "link 11" },
+          { title: "title2", content: "link 12" },
+          { title: "title2", content: "link 13" },
+          { title: "title2", content: "link 14" },
+          { title: "title2", content: "link 15" },
+          { title: "title2", content: "link 16" },
+          { title: "title2", content: "link 17" },
+          { title: "title2", content: "link 18" },
+          { title: "title2", content: "link 19" },
+          { title: "title2", content: "link 20" },
         ],
         [
-          { title: "조선/ESG", content: "Description for Item 1" },
-          { title: "조선/ESG", content: "Description for Item 2" },
-          { title: "조선/ESG", content: "Description for Item 3" },
-          { title: "조선/ESG", content: "Description for Item 4" },
-          { title: "조선/ESG", content: "Description for Item 5" },
-          { title: "조선/ESG", content: "Description for Item 6" },
-          { title: "조선/ESG", content: "Description for Item 7" },
-          { title: "조선/ESG", content: "Description for Item 8" },
-          { title: "조선/ESG", content: "Description for Item 9" },
-          { title: "조선/ESG", content: "Description for Item 10" },
-          { title: "조선/ESG", content: "Description for Item 11" },
-          { title: "조선/ESG", content: "Description for Item 12" },
-          { title: "조선/ESG", content: "Description for Item 13" },
-          { title: "조선/ESG", content: "Description for Item 14" },
-          { title: "조선/ESG", content: "Description for Item 15" },
-          { title: "조선/ESG", content: "Description for Item 16" },
-          { title: "조선/ESG", content: "Description for Item 17" },
-          { title: "조선/ESG", content: "Description for Item 18" },
-          { title: "조선/ESG", content: "Description for Item 19" },
-          { title: "조선/ESG", content: "Description for Item 20" },
+          { title: "title3", content: "link 1" },
+          { title: "title3", content: "link 2" },
+          { title: "title3", content: "link 3" },
+          { title: "title3", content: "link 4" },
+          { title: "title3", content: "link 5" },
+          { title: "title3", content: "link 6" },
+          { title: "title3", content: "link 7" },
+          { title: "title3", content: "link 8" },
+          { title: "title3", content: "link 9" },
+          { title: "title3", content: "link 10" },
+          { title: "title3", content: "link 11" },
+          { title: "title3", content: "link 12" },
+          { title: "title3", content: "link 13" },
+          { title: "title3", content: "link 14" },
+          { title: "title3", content: "link 15" },
+          { title: "title3", content: "link 16" },
+          { title: "title3", content: "link 17" },
+          { title: "title3", content: "link 18" },
+          { title: "title3", content: "link 19" },
+          { title: "title3", content: "link 20" },
         ],
         [
-          { title: "IT", content: "Description for Item 1" },
-          { title: "IT", content: "Description for Item 2" },
-          { title: "IT", content: "Description for Item 3" },
-          { title: "IT", content: "Description for Item 4" },
-          { title: "IT", content: "Description for Item 5" },
-          { title: "IT", content: "Description for Item 6" },
-          { title: "IT", content: "Description for Item 7" },
-          { title: "IT", content: "Description for Item 8" },
-          { title: "IT", content: "Description for Item 9" },
-          { title: "IT", content: "Description for Item 10" },
-          { title: "IT", content: "Description for Item 11" },
-          { title: "IT", content: "Description for Item 12" },
-          { title: "IT", content: "Description for Item 13" },
-          { title: "IT", content: "Description for Item 14" },
-          { title: "IT", content: "Description for Item 15" },
-          { title: "IT", content: "Description for Item 16" },
-          { title: "IT", content: "Description for Item 17" },
-          { title: "IT", content: "Description for Item 18" },
-          { title: "IT", content: "Description for Item 19" },
-          { title: "IT", content: "Description for Item 20" },
+          { title: "title4", content: "link 1" },
+          { title: "title4", content: "link 2" },
+          { title: "title4", content: "link 3" },
+          { title: "title4", content: "link 4" },
+          { title: "title4", content: "link 5" },
+          { title: "title4", content: "link 6" },
+          { title: "title4", content: "link 7" },
+          { title: "title4", content: "link 8" },
+          { title: "title4", content: "link 9" },
+          { title: "title4", content: "link 10" },
+          { title: "title4", content: "link 11" },
+          { title: "title4", content: "link 12" },
+          { title: "title4", content: "link 13" },
+          { title: "title4", content: "link 14" },
+          { title: "title4", content: "link 15" },
+          { title: "title4", content: "link 16" },
+          { title: "title4", content: "link 17" },
+          { title: "title4", content: "link 18" },
+          { title: "title4", content: "link 19" },
+          { title: "title4", content: "link 20" },
         ],
       ],
       isModalOpen: false,
