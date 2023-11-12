@@ -152,6 +152,20 @@ export default {
         checkbox.checked = !allSelected;
       });
     },
+    selectDel() {
+      const updatedItems = JSON.parse(JSON.stringify(this.items)); // Create a deep copy
+
+      updatedItems.forEach((category, categoryIndex) => {
+        category.news = category.news.filter((item, itemIndex) => {
+          const checkbox = document.getElementById(
+            `item${categoryIndex}${itemIndex}`
+          );
+          return !checkbox || !checkbox.checked;
+        });
+      });
+
+      this.items = updatedItems;
+    },
 
     checknews() {
       const checkedItems = [];
