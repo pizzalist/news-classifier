@@ -271,6 +271,7 @@ export default {
       currentPage: 1,
     };
   },
+  
   computed: {
     paginatedItems() {
       // Keep track of the selected industry's pagination separately
