@@ -5,6 +5,12 @@
       <div class="modalPage">
         <span class="modalClose" @click="closeModal">&times;</span>
         <h2>{{ selectedNews.title }}</h2>
+        <p>
+          뉴스 요약문 위치입니다람쥐 Lorem, ipsum dolor sit amet consectetur
+          adipisicing elit. Repellendus ex soluta, odio unde accusantium
+          laudantium at, eligendi tenetur dolores nihil facilis quidem, neque
+          necessitatibus commodi consequuntur! Iure neque ut provident!
+        </p>
         <p>{{ selectedNews.link }}</p>
       </div>
     </div>
