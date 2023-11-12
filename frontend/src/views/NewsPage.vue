@@ -193,7 +193,11 @@ export default {
     return {
       items: [
         [
-          { title: "산업정책", content: "Description for Item 1" },
+          {
+            title: "산업정책",
+            content:
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+          },
           { title: "산업정책", content: "Description for Item 2" },
           { title: "산업정책", content: "Description for Item 3" },
           { title: "산업정책", content: "Description for Item 4" },
@@ -364,12 +368,12 @@ export default {
   z-index: 1;
 }
 .modalPage {
-  font-weight: bold;
-  white-space: nowrap;
+  font-size: 1.25em;
   background: white;
   border-radius: 8px;
   padding: 3%;
   margin: 10%;
+  white-space: normal;
 }
 .modalClose {
   font-size: 2em;
@@ -478,18 +482,19 @@ input[type="checkbox"]:checked {
   width: 75vw;
   padding: 10px;
   border-bottom: 1px solid #aaa;
+  white-space: nowrap;
+}
+
+.item-title,
+.item-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  width: 55vw;
 }
 
 input[type="checkbox"] {
   margin-right: 30px;
-}
-
-.item-title {
-  flex: 1;
-}
-
-.item-content {
-  flex: 2;
 }
 
 .btnDiv {
