@@ -5,6 +5,7 @@
       <div class="modalPage">
         <span class="modalClose" @click="closeModal">&times;</span>
         <h2>{{ selectedNews.title }}</h2>
+        <p>{{ selectedNews.date }}</p>
         <p>
           뉴스 요약문 위치입니다람쥐 Lorem, ipsum dolor sit amet consectetur
           adipisicing elit. Repellendus ex soluta, odio unde accusantium
@@ -69,7 +70,10 @@
               class="list-item"
               v-for="(item, index) in filteredNews"
               :key="index">
-              <input type="checkbox" :id="'item' + index" />
+              <input
+                type="checkbox"
+                :id="'item' + index"
+                v-model="item.isSelected" />
               <label :for="'item' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-link">{{ item.link }}</div>
@@ -100,48 +104,56 @@ export default {
           title: "title1",
           link: "link1",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "1",
           title: "title1",
           link: "link1",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "1",
           title: "title1",
           link: "link1",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "1",
           title: "title1",
           link: "link1",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "1",
           title: "title1",
           link: "link1",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "2",
           title: "title2",
           link: "link2",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "3",
           title: "title3",
           link: "link3",
           date: "2023-11-13",
+          isSelected: false,
         },
         {
           category: "4",
           title: "title4",
           link: "link4",
           date: "2023-11-13",
+          isSelected: false,
         },
       ],
       selectedCategory: "1",
@@ -173,13 +185,21 @@ export default {
     },
 
     addToCart() {
-      this.cartItems.push(this.selectedNews);
-      const confirmAddToCart = window.confirm(
-        "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
-      );
+      this.cartItems = this.filteredNews.filter((item) => item.isSelected);
+      if (this.cartItems.length > 0) {
+        const confirmAddToCart = window.confirm(
+          "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
+        );
+        console.log(this.cartItems);
 
-      if (confirmAddToCart) {
-        this.$router.push("/BasketPage");
+        if (confirmAddToCart) {
+          this.$router.push({
+            name: "BasketPage",
+            query: [this.cartItems],
+          });
+        }
+      } else {
+        window.alert("뉴스를 선택해주세요.");
       }
     },
   },
