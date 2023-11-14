@@ -140,6 +140,8 @@ export default {
   background-color: #fff;
   width: 50px;
   height: 50px;
+  margin-left: auto;
+  text-align: center;
 }
 
 input[type="checkbox"] {
