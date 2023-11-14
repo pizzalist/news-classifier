@@ -6,6 +6,7 @@ const { getAllNewsCategories } = require('../models/newsModel');
 router.get('/', async (req, res) => {
   try {
     const categories = await getAllNewsCategories();
+    console.log('Categories:', categories); // 추가된 부분
     res.json(categories);
   } catch (err) {
     res.status(500).json({ error: err.message });
