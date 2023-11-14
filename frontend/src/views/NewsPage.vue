@@ -4,15 +4,15 @@
     <div class="modalBackgound" v-if="isModalOpen">
       <div class="modalPage">
         <span class="modalClose" @click="closeModal">&times;</span>
-        <h2>{{ selectedNews.title }}</h2>
-        <p>{{ selectedNews.date }}</p>
+        <h2>{{ summarySelect.title }}</h2>
+        <p>{{ summarySelect.date }}</p>
         <p>
           뉴스 요약문 위치입니다람쥐 Lorem, ipsum dolor sit amet consectetur
           adipisicing elit. Repellendus ex soluta, odio unde accusantium
           laudantium at, eligendi tenetur dolores nihil facilis quidem, neque
           necessitatibus commodi consequuntur! Iure neque ut provident!
         </p>
-        <p>{{ selectedNews.link }}</p>
+        <p>{{ summarySelect.link }}</p>
       </div>
     </div>
     <!--modal end-->
@@ -157,12 +157,15 @@ export default {
         },
       ],
       selectedCategory: "1",
-      selectedNews: { category: "", title: "", link: "", date: "" },
+      summarySelect: { category: "", title: "", link: "", date: "" },
       isModalOpen: false,
-      cartItems: [],
     };
   },
   computed: {
+    /* eslint-disable */
+    cartItems() {
+      return this.$store.state.cartItems;
+    },
     filteredNews() {
       return this.newsItems.filter(
         (item) => item.category === this.selectedCategory
@@ -172,7 +175,7 @@ export default {
   methods: {
     // modal
     openModal(item) {
-      this.selectedNews = { ...item };
+      this.summarySelect = { ...item };
       this.isModalOpen = true;
     },
     closeModal() {
@@ -185,18 +188,17 @@ export default {
     },
 
     addToCart() {
-      this.cartItems = this.filteredNews.filter((item) => item.isSelected);
-      if (this.cartItems.length > 0) {
+      const selectedItems = this.newsItems.filter((item) => item.isSelected);
+
+      if (selectedItems.length > 0) {
+        this.$store.commit("addToCart", selectedItems);
+
         const confirmAddToCart = window.confirm(
           "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
         );
-        console.log(this.cartItems);
 
         if (confirmAddToCart) {
-          this.$router.push({
-            name: "BasketPage",
-            query: [this.cartItems],
-          });
+          this.$router.push({ name: "BasketPage" });
         }
       } else {
         window.alert("뉴스를 선택해주세요.");
