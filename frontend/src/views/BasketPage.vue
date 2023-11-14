@@ -1,15 +1,9 @@
 <template>
   <div>
-    <div class="ButtonArea">
-      <router-link to="/ResultPage">
-        <BlueButton ButtonText="확인" @click="checknews"
-      /></router-link>
-    </div>
-
     <div class="dropdownBox">
       <div>
-        <div v-if="cartItems === 0">
-          <p>empty</p>
+        <div v-if="cartItems.length === 0">
+          <div class="dropdownTitle">뉴스를 담아주세요</div>
         </div>
 
         <div v-else>
@@ -32,7 +26,7 @@
                 <button
                   class="deletebtn"
                   :id="'item' + index + itemIndex"
-                  @click="newsDel(categoryName, index)">
+                  @click="newsDel(item, index)">
                   x
                 </button>
               </div>
@@ -40,6 +34,12 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="ButtonArea">
+      <router-link to="/ResultPage">
+        <BlueButton ButtonText="동향 보기" @click="checknews"
+      /></router-link>
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ export default {
   created() {
     this.$store.state.cartItems.forEach((item) => {
       this.cartItems.push({ ...item, checked: false });
-      this.isOpen[item.category] = true; // Initialize isOpen for each category
+      this.isOpen[item.category] = true;
     });
   },
 
@@ -94,30 +94,11 @@ export default {
       this.isOpen[categoryName] = !this.isOpen[categoryName];
     },
 
-    newsDel(categoryName, itemIndex) {
-      const categoryItems = this.categorizedItems[categoryName];
-
-      if (itemIndex >= 0 && itemIndex < categoryItems.length) {
-        const deletedItem = categoryItems[itemIndex];
-
-        const indexInCart = this.cartItems.findIndex(
-          (item) => item === deletedItem
-        );
-
-        if (indexInCart !== -1) {
-          this.cartItems.splice(indexInCart, 1);
-        }
-
-        categoryItems.splice(itemIndex, 1);
-
-        if (categoryItems.length === 0) {
-          this.isOpen[categoryName] = false;
-        }
-      }
-    },
-
-    checknews() {
-      console.log(this.cartItems);
+    newsDel(item, index) {
+      console.log("NewsItem:", this.$store.state.cartItems);
+      const itemIdToDelete = this.cartItems[index].id;
+      this.$store.commit("deleteNewsItem", itemIdToDelete);
+      console.log("deleteNewsItem:", this.$store.state.cartItems);
     },
   },
 };
@@ -125,8 +106,7 @@ export default {
 
 <style scoped>
 .ButtonArea {
-  margin: 0px 50px;
-  padding: 30px 0px;
+  margin: 30px 50px;
   display: flex;
   justify-content: right;
   white-space: nowrap;
@@ -152,10 +132,13 @@ input[type="checkbox"]:checked {
   width: 1.25rem;
   height: 1.25rem;
 }
+.dropdownTitle {
+  padding: 2em;
+  text-align: center;
+}
 .dropdownBox {
   font-size: 1.5em;
-  margin: 0px 30px;
-  margin-bottom: 50px;
+  margin: 50px 30px;
 }
 .dropdown {
   padding: 10px 0px;
