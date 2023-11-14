@@ -5,6 +5,13 @@
       <div class="modalPage">
         <span class="modalClose" @click="closeModal">&times;</span>
         <h2>{{ selectedNews.title }}</h2>
+        <p>{{ selectedNews.date }}</p>
+        <p>
+          뉴스 요약문 위치입니다람쥐 Lorem, ipsum dolor sit amet consectetur
+          adipisicing elit. Repellendus ex soluta, odio unde accusantium
+          laudantium at, eligendi tenetur dolores nihil facilis quidem, neque
+          necessitatibus commodi consequuntur! Iure neque ut provident!
+        </p>
         <p>{{ selectedNews.link }}</p>
       </div>
     </div>
@@ -28,58 +35,46 @@
       </div>
     </div>
 
-    <div class="dd">
-      <div class="ss">
+    <div class="newsListBox">
+      <div class="categoryBox">
         <span
-          class="industryType"
-          v-for="(industry, index) in industryTypes"
-          :key="index"
-          @click="selectIndustry(industry)"
-          :class="{
-            selected: selectedIndustry === industry,
-            unselected: selectedIndustry !== industry,
-          }">
-          {{ industry }}
+          class="categoryTitle"
+          :class="{ activeCategory: selectedCategory === '1' }"
+          @click="selectCategory('1')">
+          산업정책
+        </span>
+        <span
+          class="categoryTitle"
+          :class="{ activeCategory: selectedCategory === '2' }"
+          @click="selectCategory('2')">
+          건설정책
+        </span>
+        <span
+          class="categoryTitle"
+          :class="{ activeCategory: selectedCategory === '3' }"
+          @click="selectCategory('3')">
+          조선정책
+        </span>
+        <span
+          class="categoryTitle"
+          :class="{ activeCategory: selectedCategory === '4' }"
+          @click="selectCategory('4')">
+          IT 정책
         </span>
       </div>
+
       <div class="dropdownBox">
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === '산업정책'"
-          id="FirstDropdown">
+        <div class="dropdown">
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in paginatedItems"
+              v-for="(item, index) in filteredNews"
               :key="index">
               <input
                 type="checkbox"
-                :id="'firstItem' + index"
-                v-model="item.checked" />
-              <label :for="'firstItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-link">{{ item.link }}</div>
-              </label>
-
-              <div class="readmore" @click="openModal(item)">요약 보기</div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === '건설/ESG'"
-          id="SecondDropdown">
-          <div class="list">
-            <div
-              class="list-item"
-              v-for="(item, index) in paginatedItems"
-              :key="index">
-              <input
-                type="checkbox"
-                :id="'secondItem' + index"
-                v-model="item.checked" />
-              <label :for="'secondItem' + index">
+                :id="'item' + index"
+                v-model="item.isSelected" />
+              <label :for="'item' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <div class="item-link">{{ item.link }}</div>
               </label>
@@ -88,96 +83,8 @@
           </div>
         </div>
 
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === '조선/ESG'"
-          id="ThirdDropdown">
-          <div class="list">
-            <div
-              class="list-item"
-              v-for="(item, index) in paginatedItems"
-              :key="index">
-              <input
-                type="checkbox"
-                :id="'thirdItem' + index"
-                v-model="item.checked" />
-              <label :for="'thirdItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-link">{{ item.link }}</div>
-              </label>
-              <div class="readmore" @click="openModal(item)">요약 보기</div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          class="dropdown"
-          v-if="selectedIndustry === 'IT'"
-          id="FourthDropdown">
-          <div class="list">
-            <div
-              class="list-item"
-              v-for="(item, index) in paginatedItems"
-              :key="index">
-              <input
-                type="checkbox"
-                :id="'fourthItem' + index"
-                v-model="item.checked" />
-              <label :for="'fourthItem' + index">
-                <div class="item-title">{{ item.title }}</div>
-                <div class="item-link">{{ item.link }}</div>
-              </label>
-              <div class="readmore" @click="openModal(item)">요약 보기</div>
-            </div>
-          </div>
-        </div>
         <div class="newscontain">
           <WhiteButton @click="addToCart()" ButtonText="뉴스 담기" />
-        </div>
-        <div class="pagination">
-          <span class="prevBtn" @click="prevPage" :disabled="currentPage === 1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none">
-              <path
-                d="M15 19L8 12L15 5"
-                stroke="#21272A"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </span>
-          <span
-            v-for="page in totalPage"
-            :key="page"
-            :class="{
-              'page-number': true,
-              'current-page': currentPage === page,
-            }"
-            @click="gotoPage(page)">
-            {{ page }}
-          </span>
-          <span
-            class="nextBtn"
-            @click="nextPage"
-            :disabled="currentPage === totalPage">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
-              viewBox="0 0 24 24"
-              fill="none">
-              <path
-                d="M9 5L16 12L9 19"
-                stroke="#21272A"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-          </span>
         </div>
       </div>
     </div>
@@ -191,158 +98,109 @@ export default {
   components: { WhiteButton },
   data() {
     return {
-      items: [
-        [
-          {
-            title: "newstitle",
-            link: "https://n.news.naver.com/mnews/article/016/0002223509?sid=105",
-          },
-          { title: "title", link: "link 2" },
-          { title: "title", link: "link 3" },
-          { title: "title", link: "link 4" },
-          { title: "title", link: "link 5" },
-          { title: "title", link: "link 6" },
-          { title: "title", link: "link 7" },
-          { title: "title", link: "link 8" },
-          { title: "title", link: "link 9" },
-          { title: "title", link: "link 10" },
-          { title: "title", link: "link 11" },
-          { title: "title", link: "link 12" },
-          { title: "title", link: "link 13" },
-          { title: "title", link: "link 14" },
-          { title: "title", link: "link 15" },
-          { title: "title", link: "link 16" },
-          { title: "title", link: "link 17" },
-          { title: "title", link: "link 18" },
-          { title: "title", link: "link 19" },
-          { title: "title", link: "link 20" },
-        ],
-        [
-          { title: "title2", link: "link 1" },
-          { title: "title2", link: "link 2" },
-          { title: "title2", link: "link 3" },
-          { title: "title2", link: "link 4" },
-          { title: "title2", link: "link 5" },
-          { title: "title2", link: "link 6" },
-          { title: "title2", link: "link 7" },
-          { title: "title2", link: "link 8" },
-          { title: "title2", link: "link 9" },
-          { title: "title2", link: "link 10" },
-          { title: "title2", link: "link 11" },
-          { title: "title2", link: "link 12" },
-          { title: "title2", link: "link 13" },
-          { title: "title2", link: "link 14" },
-          { title: "title2", link: "link 15" },
-          { title: "title2", link: "link 16" },
-          { title: "title2", link: "link 17" },
-          { title: "title2", link: "link 18" },
-          { title: "title2", link: "link 19" },
-          { title: "title2", link: "link 20" },
-        ],
-        [
-          { title: "title3", link: "link 1" },
-          { title: "title3", link: "link 2" },
-          { title: "title3", link: "link 3" },
-          { title: "title3", link: "link 4" },
-          { title: "title3", link: "link 5" },
-          { title: "title3", link: "link 6" },
-          { title: "title3", link: "link 7" },
-          { title: "title3", link: "link 8" },
-          { title: "title3", link: "link 9" },
-          { title: "title3", link: "link 10" },
-          { title: "title3", link: "link 11" },
-          { title: "title3", link: "link 12" },
-          { title: "title3", link: "link 13" },
-          { title: "title3", link: "link 14" },
-          { title: "title3", link: "link 15" },
-          { title: "title3", link: "link 16" },
-          { title: "title3", link: "link 17" },
-          { title: "title3", link: "link 18" },
-          { title: "title3", link: "link 19" },
-          { title: "title3", link: "link 20" },
-        ],
-        [
-          { title: "title4", link: "link 1" },
-          { title: "title4", link: "link 2" },
-          { title: "title4", link: "link 3" },
-          { title: "title4", link: "link 4" },
-          { title: "title4", link: "link 5" },
-          { title: "title4", link: "link 6" },
-          { title: "title4", link: "link 7" },
-          { title: "title4", link: "link 8" },
-          { title: "title4", link: "link 9" },
-          { title: "title4", link: "link 10" },
-          { title: "title4", link: "link 11" },
-          { title: "title4", link: "link 12" },
-          { title: "title4", link: "link 13" },
-          { title: "title4", link: "link 14" },
-          { title: "title4", link: "link 15" },
-          { title: "title4", link: "link 16" },
-          { title: "title4", link: "link 17" },
-          { title: "title4", link: "link 18" },
-          { title: "title4", link: "link 19" },
-          { title: "title4", link: "link 20" },
-        ],
+      newsItems: [
+        {
+          category: "1",
+          title: "title1",
+          link: "link1",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "1",
+          title: "title1",
+          link: "link1",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "1",
+          title: "title1",
+          link: "link1",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "1",
+          title: "title1",
+          link: "link1",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "1",
+          title: "title1",
+          link: "link1",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "2",
+          title: "title2",
+          link: "link2",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "3",
+          title: "title3",
+          link: "link3",
+          date: "2023-11-13",
+          isSelected: false,
+        },
+        {
+          category: "4",
+          title: "title4",
+          link: "link4",
+          date: "2023-11-13",
+          isSelected: false,
+        },
       ],
+      selectedCategory: "1",
+      selectedNews: { category: "", title: "", link: "", date: "" },
       isModalOpen: false,
-      selectedNews: { title: "", link: "" },
-      industryTypes: ["산업정책", "건설/ESG", "조선/ESG", "IT"],
-      selectedIndustry: "산업정책",
-      itemsPerPage: 10,
-      currentPage: 1,
+      cartItems: [],
     };
   },
   computed: {
-    paginatedItems() {
-      const start = (this.currentPage - 1) * this.itemsPerPage;
-      const end = start + this.itemsPerPage;
-      const selectedIndustryIndex = this.industryTypes.indexOf(
-        this.selectedIndustry
-      );
-      return this.items[selectedIndustryIndex].slice(start, end);
-    },
-    totalPage() {
-      const selectedIndustryIndex = this.industryTypes.indexOf(
-        this.selectedIndustry
-      );
-      return Math.ceil(
-        this.items[selectedIndustryIndex].length / this.itemsPerPage
+    filteredNews() {
+      return this.newsItems.filter(
+        (item) => item.category === this.selectedCategory
       );
     },
   },
   methods: {
+    // modal
     openModal(item) {
-      this.selectedNews = { ...item }; // Store the selected news item
-      this.isModalOpen = true; // Show the modal
+      this.selectedNews = { ...item };
+      this.isModalOpen = true;
     },
     closeModal() {
-      this.isModalOpen = false; // Hide the modal
+      this.isModalOpen = false;
     },
-    selectIndustry(industry) {
-      this.selectedIndustry = industry;
-      this.currentPage = 1;
-    },
-    nextPage() {
-      if (this.currentPage < this.totalPage) {
-        this.currentPage++;
-      }
-    },
-    prevPage() {
-      if (this.currentPage > 1) {
-        this.currentPage--;
-      }
-    },
-    gotoPage(page) {
-      this.currentPage = page;
-    },
-    addToCart() {
-      const confirmAddToCart = window.confirm(
-        "선택한 뉴스가 담겼습니다. 담은 뉴스를 보시겠습니까?"
-      );
+    //modal end
 
-      if (confirmAddToCart) {
-        this.$router.push("/BasketPage");
-      } 
+    selectCategory(category) {
+      this.selectedCategory = category;
+    },
+
+    addToCart() {
+      this.cartItems = this.filteredNews.filter((item) => item.isSelected);
+      if (this.cartItems.length > 0) {
+        const confirmAddToCart = window.confirm(
+          "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
+        );
+        console.log(this.cartItems);
+
+        if (confirmAddToCart) {
+          this.$router.push({
+            name: "BasketPage",
+            query: [this.cartItems],
+          });
+        }
+      } else {
+        window.alert("뉴스를 선택해주세요.");
+      }
     },
   },
 };
@@ -414,7 +272,7 @@ input[type="checkbox"]:checked {
   width: 20px;
   height: 20px;
 }
-.dd {
+.newsListBox {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -424,25 +282,24 @@ input[type="checkbox"]:checked {
   margin-left: auto;
   margin-right: auto;
 }
-.ss {
+.categoryBox {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #d6dbe5;
   margin-right: 35px;
   padding-right: 25px;
 }
-.industryType {
+.categoryTitle {
   white-space: nowrap;
-  color: #009fe8;
+  color: #d6dbe5;
   text-align: center;
   font-size: 30px;
   font-weight: 700;
-  margin-bottom: 100px;
+  margin: 3vh 0;
   cursor: pointer;
 }
-.selected,
-.selected:hover {
-  color: #007eb8;
+.activeCategory {
+  color: #009fe8;
 }
 .unselected {
   color: rgb(181, 181, 181);
