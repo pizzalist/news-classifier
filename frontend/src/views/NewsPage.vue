@@ -174,7 +174,7 @@ export default {
     openModal(item) {
       this.selectedNews = { ...item };
       this.isModalOpen = true;
-    },
+    },  
     closeModal() {
       this.isModalOpen = false;
     },
