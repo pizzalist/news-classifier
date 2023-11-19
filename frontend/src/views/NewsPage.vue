@@ -180,7 +180,7 @@ export default {
     openModal(item) {
       this.summarySelect = { ...item };
       this.isModalOpen = true;
-    },
+    },  
     closeModal() {
       this.isModalOpen = false;
     },
