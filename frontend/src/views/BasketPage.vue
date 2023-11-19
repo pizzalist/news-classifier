@@ -38,8 +38,15 @@
 
     <div class="ButtonArea">
       <router-link to="/ResultPage">
-        <BlueButton ButtonText="동향 보기" @click="checknews"
-      /></router-link>
+        <BlueButton ButtonText="동향 보기" @click="showCategorizedItems" />
+      </router-link>
+      <!-- @click="
+            () => {
+              for (let i in this.categorizedItems) {
+                console.log(i, this.categorizedItems[i]);
+              }
+            }
+          " -->
     </div>
   </div>
 </template>
@@ -93,12 +100,29 @@ export default {
     toggleDropdown(categoryName) {
       this.isOpen[categoryName] = !this.isOpen[categoryName];
     },
+    newsDel() {
+      const selectedItems = this.cartItems.filter((item) => item.isSelected);
 
-    newsDel(item, index) {
       console.log("NewsItem:", this.$store.state.cartItems);
-      const itemIdToDelete = this.cartItems[index].id;
-      this.$store.commit("deleteNewsItem", itemIdToDelete);
-      console.log("deleteNewsItem:", this.$store.state.cartItems);
+
+      // Assuming each item has an 'id' property, change it to the correct property name
+      const itemIdsToDelete = selectedItems.map((item) => item.id);
+
+      // Correct mutation name is 'deleteNewsItem'
+      this.$store.commit("deleteNewsItem", itemIdsToDelete);
+
+      console.log("After deletion:", this.$store.state.cartItems);
+    },
+
+    showCategorizedItems() {
+      // Iterate through categorizedItems and log the data
+      for (let category in this.categorizedItems) {
+        console.log(category, this.categorizedItems[category]);
+      }
+      // Add logic to update the result page data
+      // For example, you can make an API call here and update backendData
+      this.$data.backendData =
+        "Updated backend data after processing categorized items.";
     },
   },
 };
