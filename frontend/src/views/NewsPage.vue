@@ -52,7 +52,7 @@
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in filteredAndMatchedNews"
+              v-for="(item, index) in filteredNews"
               :key="index">
               <input
                 type="checkbox"
@@ -60,9 +60,11 @@
                 v-model="item.isSelected" />
               <label :for="'item' + index">
                 <div class="item-title">{{ item.title }}</div>
-                <div class="item-link">{{ item.link }}</div>
+                <a :href="item.url">{{ item.url }}</a>
               </label>
-              <div class="readmore" @click="openModal(item)">요약 보기</div>
+              <div class="readmore" @click="summarizeSelectedArticle(item)">
+                요약 보기
+              </div>
             </div>
           </div>
         </div>
@@ -77,76 +79,21 @@
 
 <script>
 import WhiteButton from "../components/WhiteButton.vue";
+import axios from "axios";
 
 export default {
   components: { WhiteButton },
   data() {
     return {
-      startDate: null,
-      endDate: null,
-      newsItems: [
-        {
-          category: "1",
-          title: "산업정책 14일",
-          link: "link1",
-          date: "2023-11-14",
-          isSelected: false,
-        },
-        {
-          category: "1",
-          title: "산업정책 13일",
-          link: "link1",
-          date: "2023-11-13",
-          isSelected: false,
-        },
-        {
-          category: "1",
-          title: "산업정책 15일",
-          link: "link1",
-          date: "2023-11-15",
-          isSelected: false,
-        },
-        {
-          category: "1",
-          title: "산업정책 13일",
-          link: "link1",
-          date: "2023-11-13",
-          isSelected: false,
-        },
-        {
-          category: "1",
-          title: "산업정책 16일",
-          link: "link1",
-          date: "2023-11-16",
-          isSelected: false,
-        },
-        {
-          category: "2",
-          title: "건설정책 13일",
-          link: "link2",
-          date: "2023-11-13",
-          isSelected: false,
-        },
-        {
-          category: "3",
-          title: "13일",
-          link: "link3",
-          date: "2023-11-13",
-          isSelected: false,
-        },
-        {
-          category: "4",
-          title: "13일",
-          link: "link4",
-          date: "2023-11-13",
-          isSelected: false,
-        },
-      ],
-      filteredNews: [],
+      newsItems: [],
       selectedCategory: "1",
       summarySelect: { category: "", title: "", link: "", date: "" },
       isModalOpen: false,
     };
+  },
+  mounted() {
+    // 컴포넌트가 마운트되면 데이터를 가져오도록 설정
+    this.fetchData();
   },
   computed: {
     categories() {
@@ -206,7 +153,7 @@ export default {
   methods: {
     // modal
     openModal(item) {
-      this.summarySelect = { ...item };
+      this.selectedNews = { ...item };
       this.isModalOpen = true;
     },
     closeModal() {
@@ -214,8 +161,10 @@ export default {
     },
     //modal end
 
-    selectCategory(category) {
-      this.selectedCategory = category;
+    selectCategory(category_id) {
+      this.selectedCategory = category_id;
+      this.fetchData(category_id);
+      console.log(category_id);
     },
 
     addToCart() {
@@ -280,6 +229,102 @@ export default {
           };
         });
       }
+    },
+
+    //title과 link 들고 오는 axios get
+    fetchData() {
+      axios
+        .get("http://localhost:3000/api/clipped-news/specific")
+        .then((response) => {
+          console.log("API Response Data:", response.data);
+          this.newsItems = response.data.map((item) => ({
+            category_id: item.category_id,
+            title: item.title,
+            url: item.url,
+            publication_date: item.publication_date,
+          }));
+          console.log("Filtered News:", this.newsItems);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+    summarizeSelectedArticle(item) {
+      // Prepare data for the selected article
+      const articleData = {
+        title: item.title,
+        url: item.url,
+      };
+
+      // Send a POST request to the server for summarization
+      axios
+        .post(
+          "http://localhost:3000/api/clipped-news/summarize-selected-articles",
+          {
+            selectedArticles: [articleData],
+          }
+        )
+        .then((response) => {
+          // Handle the response, for example, update the summary state for the selected article
+          const { title, url } = response.data.articles[0];
+          console.log("Title:", title);
+          console.log("URL:", url);
+          console.log("success:", response.data);
+
+          // You can update the state or display the title, url, and summary as needed
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error during API call", error);
+        });
+    },
+
+    //title과 link 들고 오는 axios get
+    fetchData() {
+      axios
+        .get("http://localhost:3000/api/clipped-news/specific")
+        .then((response) => {
+          console.log("API Response Data:", response.data);
+          this.newsItems = response.data.map((item) => ({
+            category_id: item.category_id,
+            title: item.title,
+            url: item.url,
+            publication_date: item.publication_date,
+          }));
+          console.log("Filtered News:", this.newsItems);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+    summarizeSelectedArticle(item) {
+      // Prepare data for the selected article
+      const articleData = {
+        title: item.title,
+        url: item.url,
+      };
+
+      // Send a POST request to the server for summarization
+      axios
+        .post(
+          "http://localhost:3000/api/clipped-news/summarize-selected-articles",
+          {
+            selectedArticles: [articleData],
+          }
+        )
+        .then((response) => {
+          // Handle the response, for example, update the summary state for the selected article
+          const { title, url } = response.data.articles[0];
+          console.log("Title:", title);
+          console.log("URL:", url);
+          console.log("success:", response.data);
+
+          // You can update the state or display the title, url, and summary as needed
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error during API call", error);
+        });
     },
   },
 };
