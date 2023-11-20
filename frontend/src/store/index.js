@@ -25,15 +25,13 @@ export default createStore({
       console.log("Adding to cart:", items);
       state.cartItems = state.cartItems.concat(items);
     },
-    deleteNewsItem(state, itemId) {
-      console.log("Deleting from cart:", itemId);
-      const index = state.cartItems.findIndex((item) => item.id === itemId);
 
-      if (index !== -1) {
-        state.cartItems.splice(index, 1);
-      }
+    deleteNewsItem(state, index) {
+      console.log("Deleting from cart at index:", index);
+      state.cartItems.splice(index, 1);
       console.log("After deletion:", state.cartItems);
     },
+
     loadFromLocalStorage(state) {
       const savedCartItems = localStorage.getItem("cartItems");
       if (savedCartItems) {

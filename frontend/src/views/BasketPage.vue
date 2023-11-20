@@ -1,9 +1,18 @@
 <template>
   <div>
     <div class="dropdownBox">
+      <div class="text1Div">
+        <span class="text1">담은 뉴스 목록</span>
+      </div>
+
       <div>
         <div v-if="cartItems.length === 0">
-          <div class="dropdownTitle">뉴스를 담아주세요</div>
+          <div class="dropdownTitle">empty</div>
+          <div class="emptyButtonArea">
+            <router-link to="/NewsPage">
+              <BlueButton ButtonText="뉴스 담기" />
+            </router-link>
+          </div>
         </div>
 
         <div v-else>
@@ -32,21 +41,22 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ButtonArea">
-      <router-link to="/ResultPage">
-        <BlueButton ButtonText="동향 보기" @click="showCategorizedItems" />
-      </router-link>
-      <!-- @click="
+          <div class="ButtonArea">
+            <router-link to="/ResultPage">
+              <BlueButton
+                ButtonText="동향 보기"
+                @click="showCategorizedItems" />
+            </router-link>
+            <!-- @click="
             () => {
               for (let i in this.categorizedItems) {
                 console.log(i, this.categorizedItems[i]);
               }
             }
           " -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -100,20 +110,12 @@ export default {
     toggleDropdown(categoryName) {
       this.isOpen[categoryName] = !this.isOpen[categoryName];
     },
-    newsDel() {
-      const selectedItems = this.cartItems.filter((item) => item.isSelected);
+    newsDel(index) {
+      console.log(index);
 
-      console.log("NewsItem:", this.$store.state.cartItems);
-
-      // Assuming each item has an 'id' property, change it to the correct property name
-      const itemIdsToDelete = selectedItems.map((item) => item.id);
-
-      // Correct mutation name is 'deleteNewsItem'
-      this.$store.commit("deleteNewsItem", itemIdsToDelete);
-
-      console.log("After deletion:", this.$store.state.cartItems);
+      this.$store.commit("deleteNewsItem", index);
+      location.reload();
     },
-
     showCategorizedItems() {
       // Iterate through categorizedItems and log the data
       for (let category in this.categorizedItems) {
@@ -129,9 +131,28 @@ export default {
 </script>
 
 <style scoped>
+.text1Div {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0px;
+}
+.text1 {
+  color: #000;
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 700;
+}
+.emptyButtonArea {
+  margin: 30px 50px;
+  font-size: 0.75em;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+}
 .ButtonArea {
   margin: 30px 50px;
   display: flex;
+  font-size: 0.75em;
   justify-content: right;
   white-space: nowrap;
 }
