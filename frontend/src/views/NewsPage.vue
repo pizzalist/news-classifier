@@ -32,35 +32,18 @@
             fill="#697077" />
         </svg>
         <input type="date" v-model="endDate" />
-        <button class="dateSetBtn" @click="handleDateSet">확인</button>
       </div>
     </div>
 
     <div class="newsListBox">
       <div class="categoryBox">
         <span
+          v-for="category in categories"
+          :key="category.id"
           class="categoryTitle"
-          :class="{ activeCategory: selectedCategory === '1' }"
-          @click="selectCategory('1')">
-          산업정책
-        </span>
-        <span
-          class="categoryTitle"
-          :class="{ activeCategory: selectedCategory === '2' }"
-          @click="selectCategory('2')">
-          건설정책
-        </span>
-        <span
-          class="categoryTitle"
-          :class="{ activeCategory: selectedCategory === '3' }"
-          @click="selectCategory('3')">
-          조선정책
-        </span>
-        <span
-          class="categoryTitle"
-          :class="{ activeCategory: selectedCategory === '4' }"
-          @click="selectCategory('4')">
-          IT 정책
+          :class="{ activeCategory: selectedCategory === category.id }"
+          @click="selectCategory(category.id)">
+          {{ category.name }}
         </span>
       </div>
 
@@ -69,7 +52,7 @@
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in filteredNews"
+              v-for="(item, index) in filteredAndMatchedNews"
               :key="index">
               <input
                 type="checkbox"
@@ -104,75 +87,120 @@ export default {
       newsItems: [
         {
           category: "1",
-          title: "title2",
+          title: "산업정책 14일",
           link: "link1",
           date: "2023-11-14",
           isSelected: false,
         },
         {
           category: "1",
-          title: "title1",
+          title: "산업정책 13일",
           link: "link1",
           date: "2023-11-13",
           isSelected: false,
         },
         {
           category: "1",
-          title: "title3",
+          title: "산업정책 15일",
           link: "link1",
           date: "2023-11-15",
           isSelected: false,
         },
         {
           category: "1",
-          title: "title1",
+          title: "산업정책 13일",
           link: "link1",
           date: "2023-11-13",
           isSelected: false,
         },
         {
           category: "1",
-          title: "title4",
+          title: "산업정책 16일",
           link: "link1",
           date: "2023-11-16",
           isSelected: false,
         },
         {
           category: "2",
-          title: "title2",
+          title: "건설정책 13일",
           link: "link2",
           date: "2023-11-13",
           isSelected: false,
         },
         {
           category: "3",
-          title: "title3",
+          title: "13일",
           link: "link3",
           date: "2023-11-13",
           isSelected: false,
         },
         {
           category: "4",
-          title: "title4",
+          title: "13일",
           link: "link4",
           date: "2023-11-13",
           isSelected: false,
         },
       ],
+      filteredNews: [],
       selectedCategory: "1",
       summarySelect: { category: "", title: "", link: "", date: "" },
       isModalOpen: false,
     };
   },
   computed: {
+    categories() {
+      return [
+        { id: "1", name: "산업정책" },
+        { id: "2", name: "건설정책" },
+        { id: "3", name: "조선정책" },
+        { id: "4", name: "IT 정책" },
+      ];
+    },
     /* eslint-disable */
     cartItems() {
       return this.$store.state.cartItems;
     },
-    filteredNews() {
-      return this.newsItems.filter(
-        (item) => item.category === this.selectedCategory
-      );
+    filteredAndMatchedNews() {
+      // 기간이 설정되어 있지 않은 상태일 때 모든 뉴스를 반환
+      if (!this.startDate && !this.endDate) {
+        return this.newsItems.filter(
+          (item) => item.category === this.selectedCategory
+        );
+      }
+
+      // 기간이 설정된 경우 기존 로직 유지
+      const filterStartDate = new Date(this.startDate);
+      const filterEndDate = new Date(this.endDate);
+
+      if (filterStartDate > filterEndDate) {
+        alert("종료일은 시작일 이후의 날짜여야 합니다.");
+        this.endDate = null;
+        return [];
+      }
+
+      return this.newsItems
+        .map((item) => {
+          const itemDate = new Date(item.date);
+          const isDateInRange =
+            itemDate >= filterStartDate && itemDate <= filterEndDate;
+          const isCategoryMatch = item.category === this.selectedCategory;
+
+          return {
+            ...item,
+            isDateInRange,
+            isCategoryMatch,
+          };
+        })
+        .filter((item) => item.isDateInRange && item.isCategoryMatch);
+    },
+  },
+  watch: {
+    startDate() {
+      this.handleDateSet();
+    },
+    endDate() {
+      this.handleDateSet();
     },
   },
   methods: {
@@ -180,7 +208,7 @@ export default {
     openModal(item) {
       this.summarySelect = { ...item };
       this.isModalOpen = true;
-    },  
+    },
     closeModal() {
       this.isModalOpen = false;
     },
@@ -199,41 +227,44 @@ export default {
         const confirmAddToCart = window.confirm(
           "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
         );
-
         if (confirmAddToCart) {
           this.$router.push({ name: "BasketPage" });
         }
       } else {
         window.alert("뉴스를 선택해주세요.");
       }
-    },
-    validateDates() {
-      if (this.startDate && this.endDate) {
-        const startDate = new Date(this.startDate);
-        const endDate = new Date(this.endDate);
-
-        if (startDate > endDate) {
-          alert("종료일은 시작일 이후의 날짜여야 합니다.");
-          // 선택 초기화 또는 다른 처리를 원하는 대로 추가할 수 있습니다.
-          this.endDate = null;
-          return false; // 추가된 부분
-        }
-      }
-      return true; // 추가된 부분
+      console.log(this.$store.state.cartItems);
     },
 
     handleDateSet() {
-      if (this.validateDates()) {
-        const startDate = new Date(this.startDate);
-        const endDate = new Date(this.endDate);
+      if (!this.startDate && this.endDate) {
+        const filterStartDate = new Date(this.startDate);
+        const filterEndDate = new Date(this.endDate);
+        this.filteredNews = this.newsItems;
 
-        const filteredNewsItems = this.newsItems.filter((item) => {
+        if (filterStartDate > filterEndDate) {
+          alert("종료일은 시작일 이후의 날짜여야 합니다.");
+          this.endDate = null;
+          return;
+        }
+
+        this.filteredNews = this.newsItems.map((item) => {
           const itemDate = new Date(item.date);
-          return itemDate >= startDate && itemDate <= endDate;
-        });
 
-        // 여기서 filteredNewsItems를 사용하여 보여줄 데이터를 업데이트하면 됩니다.
-        console.log(filteredNewsItems);
+          const isDateInRange =
+            itemDate >= filterStartDate && itemDate <= filterEndDate;
+          const isCategoryMatch = item.category === this.selectedCategory;
+
+          console.log(
+            `Item: ${item.title}, Date: ${itemDate}, isDateInRange: ${isDateInRange}, isCategoryMatch: ${isCategoryMatch}`
+          );
+
+          return {
+            ...item,
+            isDateInRange,
+            isCategoryMatch,
+          };
+        });
       }
     },
   },
