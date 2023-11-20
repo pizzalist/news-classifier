@@ -13,6 +13,10 @@ app.use(express.json());
 
 app.use('/api/category', newsRoutes);
 app.use('/api/clipped-news', clippedNewsRoutes); // 새로운 라우트 사용
+app.use('/api/clipped-news/specific', clippedNewsRoutes); 
+app.use('/api/clipped-news/category/:category_id', clippedNewsRoutes); 
+app.use('/api/clipped-news/submit-settings', clippedNewsRoutes);// 새로운 라우트 사용
+app.use('/api/clipped-news/summarize-selected-articles', clippedNewsRoutes);
 app.use('/api/news', newsRouter); 
 
 
