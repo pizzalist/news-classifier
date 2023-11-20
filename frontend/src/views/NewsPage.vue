@@ -52,7 +52,7 @@
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in filteredNews"
+              v-for="(item, index) in newsItems"
               :key="index">
               <input
                 type="checkbox"
@@ -61,7 +61,11 @@
               <label :for="'item' + index">
                 <div class="item-title">{{ item.title }}</div>
                 <a :href="item.url">{{ item.url }}</a>
+                <a :href="item.url">{{ item.url }}</a>
               </label>
+              <div class="readmore" @click="summarizeSelectedArticle(item)">
+                요약 보기
+              </div>
               <div class="readmore" @click="summarizeSelectedArticle(item)">
                 요약 보기
               </div>
@@ -80,6 +84,7 @@
 <script>
 import WhiteButton from "../components/WhiteButton.vue";
 import axios from "axios";
+import axios from "axios";
 
 export default {
   components: { WhiteButton },
@@ -90,6 +95,10 @@ export default {
       summarySelect: { category: "", title: "", link: "", date: "" },
       isModalOpen: false,
     };
+  },
+  mounted() {
+    // 컴포넌트가 마운트되면 데이터를 가져오도록 설정
+    this.fetchData();
   },
   mounted() {
     // 컴포넌트가 마운트되면 데이터를 가져오도록 설정
@@ -229,6 +238,54 @@ export default {
           };
         });
       }
+    },
+
+    //title과 link 들고 오는 axios get
+    fetchData() {
+      axios
+        .get("http://localhost:3000/api/clipped-news/specific")
+        .then((response) => {
+          console.log("API Response Data:", response.data);
+          this.newsItems = response.data.map((item) => ({
+            category_id: item.category_id,
+            title: item.title,
+            url: item.url,
+            publication_date: item.publication_date,
+          }));
+          console.log("Filtered News:", this.newsItems);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    },
+    summarizeSelectedArticle(item) {
+      // Prepare data for the selected article
+      const articleData = {
+        title: item.title,
+        url: item.url,
+      };
+
+      // Send a POST request to the server for summarization
+      axios
+        .post(
+          "http://localhost:3000/api/clipped-news/summarize-selected-articles",
+          {
+            selectedArticles: [articleData],
+          }
+        )
+        .then((response) => {
+          // Handle the response, for example, update the summary state for the selected article
+          const { title, url } = response.data.articles[0];
+          console.log("Title:", title);
+          console.log("URL:", url);
+          console.log("success:", response.data);
+
+          // You can update the state or display the title, url, and summary as needed
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error during API call", error);
+        });
     },
 
     //title과 link 들고 오는 axios get
