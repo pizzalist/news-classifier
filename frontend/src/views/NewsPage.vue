@@ -224,7 +224,19 @@ export default {
       );
 
       if (selectedItems.length > 0) {
-        this.$store.commit("addToCart", selectedItems);
+        const newItems = selectedItems.filter((item) => {
+          // Check if the item is not already in the cart
+          return !this.$store.state.cartItems.some(
+            (cartItem) => cartItem.title === item.title
+          );
+        });
+
+        if (newItems.length === 0) {
+          window.alert("선택한 뉴스는 이미 담겨 있습니다.");
+          return;
+        }
+
+        this.$store.commit("addToCart", newItems);
 
         const confirmAddToCart = window.confirm(
           "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
