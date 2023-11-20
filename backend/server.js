@@ -26,7 +26,10 @@ app.use('/api/news/category', newsByCategoryRouter);
 app.use('/api/news/date-category', newsByDateCategoryRouter);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/summarizeNews', summarizeNewsRoute);
+app.use('/api/news', newsRouter); 
+
 
 app.listen(3000, () => {
     console.log("http://localhost:3000");
-});
+    console.log("http://localhost:3000");
+  });
