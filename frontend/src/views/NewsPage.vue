@@ -219,7 +219,9 @@ export default {
     },
 
     addToCart() {
-      const selectedItems = this.newsItems.filter((item) => item.isSelected);
+      const selectedItems = this.filteredAndMatchedNews.filter(
+        (item) => item.isSelected
+      );
 
       if (selectedItems.length > 0) {
         this.$store.commit("addToCart", selectedItems);
@@ -227,6 +229,7 @@ export default {
         const confirmAddToCart = window.confirm(
           "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
         );
+
         if (confirmAddToCart) {
           this.$router.push({ name: "BasketPage" });
         }
@@ -237,10 +240,9 @@ export default {
     },
 
     handleDateSet() {
-      if (!this.startDate && this.endDate) {
-        const filterStartDate = new Date(this.startDate);
-        const filterEndDate = new Date(this.endDate);
-        this.filteredNews = this.newsItems;
+      if (this.startDate && this.endDate) {
+        const filterStartDate = new Date(this.startDate).getTime();
+        const filterEndDate = new Date(this.endDate).getTime();
 
         if (filterStartDate > filterEndDate) {
           alert("종료일은 시작일 이후의 날짜여야 합니다.");
@@ -249,7 +251,7 @@ export default {
         }
 
         this.filteredNews = this.newsItems.map((item) => {
-          const itemDate = new Date(item.date);
+          const itemDate = new Date(item.date).getTime();
 
           const isDateInRange =
             itemDate >= filterStartDate && itemDate <= filterEndDate;
