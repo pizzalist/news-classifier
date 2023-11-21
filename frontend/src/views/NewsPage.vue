@@ -390,8 +390,7 @@ export default {
           console.error("Error during API call", error);
         });
     },
-  },
-};
+  };
 </script>
 
 <style scoped>
