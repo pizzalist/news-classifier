@@ -167,5 +167,5 @@ const saveClippedNews = (newsData) => {
 };
 
 
-module.exports = { getAllNewsCategories, getAllClippedNews, getNewsByCategoryId, getNewsByDateAndCategory, saveClippedNews };
+module.exports = { getAllNewsCategories, getAllClippedNews, getNewsByCategoryId, getNewsByDateAndCategory, saveClippedNews,getSpecificClippedNews };
 
