@@ -150,14 +150,13 @@ const saveClippedNews = (newsData) => {
         return;
       }
 
-      const { title, url, publication_date, category_id } = newsData;
-
       const sql = `
         INSERT INTO clipped_news (title, url, publication_date, category_id)
-        VALUES (?, ?, ?, ?)
-      `;
+        VALUES ?`;
 
-      connection.query(sql, [title, url, publication_date, category_id], (err, results) => {
+      const values = newsData.map(item => [item.title, item.url, item.publication_date, item.category_id]);
+
+      connection.query(sql, [values], (err, results) => {
         connection.release();
         if (err) reject(err);
         else resolve(results);
