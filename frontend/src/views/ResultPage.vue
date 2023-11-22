@@ -16,19 +16,15 @@
             class="categoryList"
             v-for="(categoryItems, categoryName) in categorizedItems"
             :key="categoryName">
-            <div class="categoryNameDiv">
-              {{ categoryName }}
-            </div>
-
+            <div class="categoryNameDiv">{{ categoryName }}</div>
             <div
               class="listItem"
               v-for="(item, index) in categoryItems"
               :key="index">
               <a :href="item.url" target="_blank" rel="noopener noreferrer">
-                <div class="item-title">{{ item.title }}</div></a
-              >
+                <div class="item-title">{{ item.title }}</div>
+              </a>
             </div>
-
             <div class="listItem">
               <div class="TrendsText" v-html="backendData"></div>
             </div>
@@ -73,13 +69,20 @@ export default {
 
   computed: {
     categorizedItems() {
-      const categories = {};
+      const categorizedItems = {};
+
+      // Iterate through the cartItems and categorize them
       this.cartItems.forEach((item) => {
-        const categoryName = this.getCategoryName(item.category);
-        categories[categoryName] = categories[categoryName] || [];
-        categories[categoryName].push(item);
+        const categoryName = this.getCategoryName(item.category_id);
+
+        if (!categorizedItems[categoryName]) {
+          categorizedItems[categoryName] = [];
+        }
+
+        categorizedItems[categoryName].push(item);
       });
-      return categories;
+
+      return categorizedItems;
     },
   },
 
@@ -97,9 +100,7 @@ export default {
       this.selectedCategory = categoryId;
     },
     showCategorizedItems() {
-      for (let category in this.categorizedItems) {
-        console.log(category, this.categorizedItems[category]);
-      }
+      console.log(this.categorizedItems);
       this.$data.backendData =
         "Updated backend data after processing categorized items.";
     },

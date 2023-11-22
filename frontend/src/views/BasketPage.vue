@@ -77,9 +77,12 @@ export default {
     };
   },
   created() {
-    this.$store.state.cartItems.forEach((item) => {
-      this.cartItems.push({ ...item, checked: false });
-      this.isOpen[item.category] = true;
+    this.cartItems = this.$store.state.cartItems.map((item) => ({
+      ...item,
+      checked: false,
+    }));
+    this.cartItems.forEach((item) => {
+      this.isOpen[item.category_id] = true; // assuming category_id is the correct property
     });
   },
 
@@ -87,7 +90,7 @@ export default {
     categorizedItems() {
       const categories = {};
       this.cartItems.forEach((item) => {
-        const categoryName = this.getCategoryName(item.category);
+        const categoryName = this.getCategoryName(item.category_id); // change to category_id
         if (!categories[categoryName]) {
           categories[categoryName] = [];
         }
