@@ -43,11 +43,11 @@
             </div>
           </div>
           <div class="ButtonArea">
-            <router-url to="/ResultPage">
+            <router-link to="/ResultPage">
               <BlueButton
                 ButtonText="동향 보기"
                 @click="showCategorizedItems" />
-            </router-url>
+            </router-link>
             <!-- @click="
             () => {
               for (let i in this.categorizedItems) {

@@ -24,8 +24,9 @@
               class="listItem"
               v-for="(item, index) in categoryItems"
               :key="index">
-              <div class="item-title">제목: {{ item.title }}</div>
-              <div class="item-link">링크: {{ item.link }}</div>
+              <a :href="item.url" target="_blank" rel="noopener noreferrer">
+                <div class="item-title">{{ item.title }}</div></a
+              >
             </div>
 
             <div class="listItem">
