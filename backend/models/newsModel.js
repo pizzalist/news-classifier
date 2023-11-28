@@ -118,14 +118,20 @@ const saveClippedNews = (newsData) => {
         return;
       }
 
-      const { title, url, publication_date, category_id } = newsData;
-
       const sql = `
         INSERT INTO clipped_news (title, url, publication_date, category_id)
-        VALUES (?, ?, ?, ?)
-      `;
+        VALUES ?`;
 
-      const values = newsData.map(item => [item.title, item.url, item.publication_date, item.category_id]);
+      // 현재 날짜에서 하루를 뺀 날짜를 계산
+      const publicationDate = new Date();
+      publicationDate.setDate(publicationDate.getDate() - 1);
+
+      const values = newsData.map(item => [
+        item.title, 
+        item.url, 
+        publicationDate.toISOString().split('T')[0], // YYYY-MM-DD 형식으로 변환
+        item.category_id
+      ]);
 
       connection.query(sql, [values], (err, results) => {
         connection.release();
@@ -137,5 +143,5 @@ const saveClippedNews = (newsData) => {
 };
 
 
-module.exports = { getAllNewsCategories, getAllClippedNews, getNewsByCategoryId, getNewsByDateAndCategory, saveClippedNews,getSpecificClippedNews };
 
+module.exports = { getAllNewsCategories, getAllClippedNews, getNewsByCategoryId, getNewsByDateAndCategory, saveClippedNews };
