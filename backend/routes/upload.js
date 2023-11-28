@@ -3,6 +3,7 @@ const { saveClippedNews } = require('../models/newsModel');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+  console.log(req.body); // 데이터 로깅테스트
   try {
     const data = Array.isArray(req.body) ? req.body : [req.body]; // 배열이 아닌 경우 배열로 변환
     await saveClippedNews(data);
