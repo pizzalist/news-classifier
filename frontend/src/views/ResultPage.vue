@@ -34,7 +34,7 @@
     </div>
     <div class="ButtonArea">
       <router-link to="/SubscriberCheck">
-        <BlueButton ButtonText="전송" />
+        <BlueButton @click="resetStore()" ButtonText="전송" />
       </router-link>
     </div>
   </div>
@@ -103,6 +103,9 @@ export default {
       console.log(this.categorizedItems);
       this.$data.backendData =
         "Updated backend data after processing categorized items.";
+    },
+    resetStore() {
+      this.$store.dispatch("resetCartItems");
     },
   },
 };
