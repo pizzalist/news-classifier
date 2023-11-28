@@ -133,10 +133,6 @@ const saveClippedNews = (newsData) => {
         item.category_id
       ]);
 
-       // 로깅 추가
-       console.log('Saving news with publication dates:', values.map(v => v[2]));
-
-
       connection.query(sql, [values], (err, results) => {
         connection.release();
         if (err) reject(err);
