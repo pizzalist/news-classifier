@@ -17,7 +17,7 @@
     </div>
     <!--modal end-->
 
-    <div class="dateSetDiv">
+    <!-- <div class="dateSetDiv">
       <span class="dateSetText">기간 설정</span>
       <div class="calenderDiv">
         <input type="date" v-model="startDate" />
@@ -33,7 +33,7 @@
         </svg>
         <input type="date" v-model="endDate" />
       </div>
-    </div>
+    </div> -->
 
     <div class="newsListBox">
       <div class="categoryBox">
