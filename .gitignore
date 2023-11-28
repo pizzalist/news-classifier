@@ -3,4 +3,4 @@
 
 node_modules
 
-./gpt/.env
+gpt/.env
