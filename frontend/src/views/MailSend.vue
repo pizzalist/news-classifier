@@ -1,17 +1,35 @@
 <template>
   <div>
-    <BlueButton ButtonText="버튼"></BlueButton>
+    <ProcedureBox />
+    <div>
+      <img
+        src="../assets/paper-airplane.png"
+        alt="paper-airplane"
+        id="paper-airplane" />
+      <div class="Text">전송되었습니다.</div>
+    </div>
   </div>
 </template>
 
 <script>
-import BlueButton from "../components/BlueButton.vue";
+import ProcedureBox from "@/components/ProcedureBox.vue";
 
-export default {
-  components: {
-    BlueButton,
-  },
-};
+export default { components: { ProcedureBox } };
 </script>
 
-<style scoped></style>
+<style scoped>
+.Text {
+  font-size: 1.5em;
+  padding: 1em;
+  text-align: center;
+}
+#paper-airplane {
+  width: 20vh;
+  height: 20vh;
+  padding: 2em;
+
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+</style>
