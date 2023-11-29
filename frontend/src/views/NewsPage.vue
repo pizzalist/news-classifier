@@ -4,20 +4,15 @@
     <div class="modalBackgound" v-if="isModalOpen">
       <div class="modalPage">
         <span class="modalClose" @click="closeModal">&times;</span>
-        <h2>{{ summarySelect.title }}</h2>
-        <p>{{ summarySelect.date }}</p>
+        <h2>{{  modalContent.title }}</h2>
         <p>
-          뉴스 요약문 위치입니다람쥐 Lorem, ipsum dolor sit amet consectetur
-          adipisicing elit. Repellendus ex soluta, odio unde accusantium
-          laudantium at, eligendi tenetur dolores nihil facilis quidem, neque
-          necessitatibus commodi consequuntur! Iure neque ut provident!
+          {{  modalContent.summary }}
         </p>
-        <p>{{ summarySelect.link }}</p>
       </div>
     </div>
     <!--modal end-->
 
-    <div class="dateSetDiv">
+    <!-- <div class="dateSetDiv">
       <span class="dateSetText">기간 설정</span>
       <div class="calenderDiv">
         <input type="date" v-model="startDate" />
@@ -35,7 +30,7 @@
         </svg>
         <input type="date" v-model="endDate" />
       </div>
-    </div>
+    </div> -->
 
     <div class="newsListBox">
       <div class="categoryBox">
@@ -55,7 +50,7 @@
           <div class="list">
             <div
               class="list-item"
-              v-for="(item, index) in newsItems"
+              v-for="(item, index) in filteredNewsItems"
               :key="index"
             >
               <input
@@ -65,7 +60,6 @@
               />
               <label :for="'item' + index">
                 <div class="item-title">{{ item.title }}</div>
-                <a :href="item.url">{{ item.url }}</a>
                 <a :href="item.url">{{ item.url }}</a>
               </label>
               <div class="readmore" @click="summarizeSelectedArticle(item)">
@@ -93,8 +87,9 @@ export default {
     return {
       newsItems: [],
       selectedCategory: "1",
-      summarySelect: { category: "", title: "", link: "", date: "" },
       isModalOpen: false,
+      summaryContent: "",
+      modalContent: {title:"", summary: "", }
     };
   },
   mounted() {
@@ -114,38 +109,10 @@ export default {
     cartItems() {
       return this.$store.state.cartItems;
     },
-    filteredAndMatchedNews() {
-      // 기간이 설정되어 있지 않은 상태일 때 모든 뉴스를 반환
-      if (!this.startDate && !this.endDate) {
-        return this.newsItems.filter(
-          (item) => item.category === this.selectedCategory
-        );
-      }
-
-      // 기간이 설정된 경우 기존 로직 유지
-      const filterStartDate = new Date(this.startDate);
-      const filterEndDate = new Date(this.endDate);
-
-      if (filterStartDate > filterEndDate) {
-        alert("종료일은 시작일 이후의 날짜여야 합니다.");
-        this.endDate = null;
-        return [];
-      }
-
-      return this.newsItems
-        .map((item) => {
-          const itemDate = new Date(item.date);
-          const isDateInRange =
-            itemDate >= filterStartDate && itemDate <= filterEndDate;
-          const isCategoryMatch = item.category === this.selectedCategory;
-
-          return {
-            ...item,
-            isDateInRange,
-            isCategoryMatch,
-          };
-        })
-        .filter((item) => item.isDateInRange && item.isCategoryMatch);
+    filteredNewsItems() {
+      return this.newsItems.filter(
+        (item) => item.category_id === parseInt(this.selectedCategory)
+      );
     },
   },
   watch: {
@@ -169,124 +136,90 @@ export default {
 
     selectCategory(category_id) {
       this.selectedCategory = category_id;
-      this.fetchData(category_id);
       console.log(category_id);
     },
 
-  addToCart() {
-    const selectedItems = this.filteredAndMatchedNews.filter(
-      (item) => item.isSelected
-    );
-
-    if (selectedItems.length > 0) {
-      const newItems = selectedItems.filter((item) => {
-        // Check if the item is not already in the cart
-        return !this.$store.state.cartItems.some(
-          (cartItem) => cartItem.title === item.title
-        );
-      });
-
-      if (newItems.length === 0) {
-        window.alert("선택한 뉴스는 이미 담겨 있습니다.");
-        return;
-      }
-
-      this.$store.commit("addToCart", newItems);
-
-      const confirmAddToCart = window.confirm(
-        "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
+    addToCart() {
+      const selectedItems = this.filteredNewsItems.filter(
+        (item) => item.isSelected
       );
 
-      if (confirmAddToCart) {
-        this.$router.push({ name: "BasketPage" });
-      }
-    } else {
-      window.alert("뉴스를 선택해주세요.");
-    }
-    console.log(this.$store.state.cartItems);
-  },
+      if (selectedItems.length > 0) {
+        const newItems = selectedItems.filter((item) => {
+          // Check if the item is not already in the cart
+          return !this.$store.state.cartItems.some(
+            (cartItem) => cartItem.title === item.title
+          );
+        });
 
-  handleDateSet() {
-    if (this.startDate && this.endDate) {
-      const filterStartDate = new Date(this.startDate).getTime();
-      const filterEndDate = new Date(this.endDate).getTime();
+        if (newItems.length === 0) {
+          window.alert("선택한 뉴스는 이미 담겨 있습니다.");
+          return;
+        }
 
-      if (filterStartDate > filterEndDate) {
-        alert("종료일은 시작일 이후의 날짜여야 합니다.");
-        this.endDate = null;
-        return;
-      }
+        this.$store.commit("addToCart", newItems);
 
-      this.filteredNews = this.newsItems.map((item) => {
-        const itemDate = new Date(item.date).getTime();
-
-        const isDateInRange =
-          itemDate >= filterStartDate && itemDate <= filterEndDate;
-        const isCategoryMatch = item.category === this.selectedCategory;
-
-        console.log(
-          `Item: ${item.title}, Date: ${itemDate}, isDateInRange: ${isDateInRange}, isCategoryMatch: ${isCategoryMatch}`
+        const confirmAddToCart = window.confirm(
+          "선택한 뉴스가 담겼습니다. 담은 뉴스를 장바구니에서 확인하시겠습니까?"
         );
 
-        return {
-          ...item,
-          isDateInRange,
-          isCategoryMatch,
-        };
-      });
-    }
-  },
-
-  //title과 link 들고 오는 axios get
-  fetchData(category_id) {
-    axios
-      .get("http://localhost:3000/api/clipped-news/specific", {
-        params: { category_id },
-      })
-      .then((response) => {
-        console.log("API Response Data:", response.data);
-        this.newsItems = response.data.map((item) => ({
-          category_id: item.category_id,
-          title: item.title,
-          url: item.url,
-          publication_date: item.publication_date,
-        }));
-        console.log("Filtered News:", this.newsItems);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  },
-  summarizeSelectedArticle(item) {
-    // Prepare data for the selected article
-    const articleData = {
-      title: item.title,
-      url: item.url,
-    };
-
-    // Send a POST request to the server for summarization
-    axios
-      .post(
-        "http://localhost:3000/api/clipped-news/summarize-selected-articles",
-        {
-          selectedArticles: [articleData],
+        if (confirmAddToCart) {
+          this.$router.push({ name: "BasketPage" });
         }
-      )
-      .then((response) => {
-        // Handle the response, for example, update the summary state for the selected article
-        const { title, url } = response.data.articles[0];
-        console.log("Title:", title);
-        console.log("URL:", url);
-        console.log("success:", response.data);
+      } else {
+        window.alert("뉴스를 선택해주세요.");
+      }
+      console.log(this.$store.state.cartItems);
+    },
 
-        // You can update the state or display the title, url, and summary as needed
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error during API call", error);
-      });
+    //title과 link 들고 오는 axios get
+    fetchData() {
+      axios
+        .get("http://localhost:3000/api/clipped-news/specific", {
+          params: { category_id: this.selectedCategory },
+        })
+        .then((response) => {
+          // Update newsItems with the fetched data
+          this.newsItems = response.data;
+        })
+        .catch((error) => {
+          console.error("API Error:", error);
+        });
+    },
+
+    summarizeSelectedArticle(item) {
+      // Prepare data for the selected article
+      const articleData = {
+        title: item.title,
+        url: item.url,
+      };
+
+      // Send a POST request to the server for summarization
+      axios
+        .post("http://localhost:1004/api/clipped-news/summary", articleData)
+        .then((response) => {
+          // Handle the response, for example, update the summary state for the selected article
+          // console.log("Title:", title);
+          // console.log("URL:", url);
+          console.log("success:", response.data);
+          if (response.data) {
+            this.modalContent = {
+              title: item.title,
+              summary: response.data
+            };
+
+            this.isModalOpen = true;
+          }
+          this.isModalOpen = true;
+
+          // You can update the state or display the title, url, and summary as needed
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error during API call", error);
+        });
+    },
   },
-},
 };
 </script>
 

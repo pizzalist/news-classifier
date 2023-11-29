@@ -1,0 +1,8 @@
+[Purpose]
+In [data], there are news articles given for each of the four sectors. Based on this, analyze the trends in each section for in korean.
+
+[Output Format]
+산업 정책 동향: str,
+스마트건설 동향: str,
+스마트조선 동향: str,
+IT 동향: str,
