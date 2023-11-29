@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="ButtonArea">
-      <router-link to="/SubscriberCheck">
+      <router-link to="/MailSend">
         <BlueButton @click="resetStore()" ButtonText="전송" />
       </router-link>
     </div>
