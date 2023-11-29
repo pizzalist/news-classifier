@@ -81,8 +81,10 @@ export default {
       ...item,
       checked: false,
     }));
+
     this.cartItems.forEach((item) => {
-      this.isOpen[item.category_id] = true; // assuming category_id is the correct property
+      const categoryName = this.getCategoryName(item.category_id);
+      this.isOpen[categoryName] = true;
     });
   },
 
@@ -90,7 +92,7 @@ export default {
     categorizedItems() {
       const categories = {};
       this.cartItems.forEach((item) => {
-        const categoryName = this.getCategoryName(item.category_id); // change to category_id
+        const categoryName = this.getCategoryName(item.category_id);
         if (!categories[categoryName]) {
           categories[categoryName] = [];
         }
