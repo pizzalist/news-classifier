@@ -9,9 +9,9 @@
         <div v-if="cartItems.length === 0">
           <div class="dropdownTitle">empty</div>
           <div class="emptyButtonArea">
-            <router-url to="/NewsPage">
+            <router-link to="/NewsPage">
               <BlueButton ButtonText="뉴스 담기" />
-            </router-url>
+            </router-link>
           </div>
         </div>
 
@@ -115,8 +115,6 @@ export default {
       this.isOpen[categoryName] = !this.isOpen[categoryName];
     },
     newsDel(index) {
-      console.log(index);
-
       this.$store.commit("deleteNewsItem", index);
       location.reload();
     },
