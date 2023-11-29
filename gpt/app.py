@@ -24,6 +24,13 @@ async def generate_summary(request: Request):
     summary = gpt_api.generate_news_summary(title, news_body)
     return summary
 
+@app.post("/api/contents")
+async def generate_summary(request: Request):
+    data = await request.json()
+    cliped_news = data['cliped_news']
+    contents = gpt_api.generate_news_contents(cliped_news)
+    return contents
+
 if __name__ == "__main__":
     import uvicorn
 

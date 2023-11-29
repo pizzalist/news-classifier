@@ -48,8 +48,8 @@ def generate_news_summary(title,data):
     return request_gpt3_api(sys_prompt, user_template)
 
 def generate_news_contents(data):
-    sys_template = read_prompt_template("sys_prompt.txt")
-    user_template = read_prompt_template("user_prompt.txt")
+    sys_template = read_prompt_template("sys_prompt2.txt")
+    user_template = read_prompt_template("user_prompt2.txt")
 
     sys_prompt = sys_template.format(
         data=data,
