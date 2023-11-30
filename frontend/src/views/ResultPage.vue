@@ -114,6 +114,7 @@ export default {
     },
     resetStore() {
       this.$store.dispatch("resetCartItems");
+      this.$store.dispatch("resetSetBackendData");
     },
   },
 };

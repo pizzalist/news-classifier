@@ -32,6 +32,14 @@ export default createStore({
     updateBackendData({ commit }, data) {
       commit("setBackendData", data);
     },
+
+    resetNewsItems({ commit }) {
+      commit("resetNewsItems");
+    },
+
+    resetSetBackendData({ commit }, data) {
+      commit("resetSetBackendData", data);
+    },
   },
 
   mutations: {
@@ -80,8 +88,12 @@ export default createStore({
     },
     resetNewsItems(state) {
       console.log("Resetting news items");
-      state.cartItems = [];
+      state.newsItems = [];
     },
+    resetSetBackendData(state) {
+      console.log("Resetting backendData");
+      state.backendData = null;
+    }
   },
   getters: {
     getNewsItems: (state) => state.newsItems,
