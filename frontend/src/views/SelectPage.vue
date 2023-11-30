@@ -278,10 +278,26 @@ export default {
         .then((response) => {
           const allNewsItems = response.data;
 
-          // Filter articles based on the category_id obtained from categoryMapping
-          this.newsItems = allNewsItems.filter((item) =>
-            categoryIds.includes(item.category_id)
-          );
+          // Create an object to store articles per category
+          const articlesByCategory = {};
+
+          // Iterate through allNewsItems and organize articles by category
+          allNewsItems.forEach((item) => {
+            const category = item.category;
+
+            if (categoryIds.includes(item.category_id)) {
+              if (!articlesByCategory[category]) {
+                articlesByCategory[category] = [];
+              }
+
+              if (articlesByCategory[category].length < this.newsCount) {
+                articlesByCategory[category].push(item);
+              }
+            }
+          });
+
+          // Flatten the object back into an array
+          this.newsItems = Object.values(articlesByCategory).flat();
 
           console.log("Filtered and Selected Data:", this.newsItems);
         })
@@ -289,6 +305,7 @@ export default {
           console.error("API Error:", error);
         });
     },
+
     submitSettingPost() {
       if (
         !this.startDate ||
@@ -306,9 +323,9 @@ export default {
       // Define a mapping of category names to numeric IDs
       const categoryMapping = {
         조선: 2,
-        it: 0,
+        IT: 0,
         건설: 3,
-        산업: 1,
+        산업정책: 1,
         // Add more categories as needed
       };
 
