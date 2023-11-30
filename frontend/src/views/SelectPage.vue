@@ -24,8 +24,8 @@
           <svg
             alt="settingEmoji"
             xmlns="http://www.w3.org/2000/svg"
-            width="5vw"
-            height="5vh"
+            width="40px"
+            height="40px"
             viewBox="0 0 54 54"
             fill="none">
             <path
@@ -37,8 +37,8 @@
             class="modalClose"
             @click="autoSelectCloseModal()"
             xmlns="http://www.w3.org/2000/svg"
-            width="5vw"
-            height="5vh"
+            width="40px"
+            height="40px"
             viewBox="0 0 24 24"
             fill="none">
             <path
@@ -53,8 +53,8 @@
               <svg
                 alt="dateEmoji"
                 xmlns="http://www.w3.org/2000/svg"
-                width="5vw"
-                height="5vh"
+                width="40px"
+                height="40px"
                 viewBox="0 0 60 60"
                 fill="none">
                 <path
@@ -128,8 +128,8 @@
               <svg
                 alt="newsEmoji"
                 xmlns="http://www.w3.org/2000/svg"
-                width="5vw"
-                height="5vh"
+                width="40px"
+                height="40px"
                 viewBox="0 0 24 24"
                 fill="none">
                 <path
@@ -156,7 +156,7 @@
               <span class="newsText">카테고리별 뉴스 개수</span>
 
               <div class="newsInput">
-                <input type="number" v-model="newsCount" />
+                <input type="number" v-model="newsCount" min="1" max="10" />
               </div>
             </div>
           </div>
@@ -165,8 +165,8 @@
               <svg
                 alt="categoryEmoji"
                 xmlns="http://www.w3.org/2000/svg"
-                width="5vw"
-                height="5vh"
+                width="40px"
+                height="40px"
                 viewBox="0 0 24 24"
                 fill="none">
                 <path
@@ -424,7 +424,7 @@ export default {
 
 <style scoped>
 input[type="number"] {
-  width: 50%;
+  width: 10vw;
   height: 3vh;
   font-size: 1.5em;
   margin-left: auto;
@@ -560,24 +560,25 @@ div {
   left: 0;
   position: fixed;
   z-index: 1;
-  padding: 5% 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .modalPage {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
-
   font-weight: bold;
   white-space: nowrap;
   background: white;
   border-radius: 8px;
-  padding: 5%;
-  margin: 10%;
+  padding: 2%; /* Adjust padding as needed */
 }
+
 .modalClose {
   cursor: pointer;
-  position: relative;
 }
 .setting {
   display: flex;
@@ -596,13 +597,16 @@ div {
   padding: 3% 0;
 }
 .newsInput {
+  width: 15vw;
   display: flex;
   flex-direction: column;
 }
+
 .modalSelect {
   display: flex;
-  align-items: center;
+  align-items: left;
   margin-bottom: 3%;
+  align-items: center;
 }
 .dateInput {
   width: 100%;
