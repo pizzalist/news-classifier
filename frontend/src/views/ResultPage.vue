@@ -28,9 +28,9 @@
                 <div class="item-title">{{ item.title }}</div>
               </a>
             </div>
-            <div class="listItem">
-              <div class="TrendsText" v-html="backendData"></div>
-            </div>
+          </div>
+          <div class="contentText">
+            <div class="TrendsText" v-html="backendData"></div>
           </div>
         </div>
       </div>
@@ -138,6 +138,12 @@ export default {
 .listItem {
   margin: 5px;
   padding: 5px;
+}
+.contentText {
+  margin: 5px;
+  padding: 5px;
+  width: 50%;
+  margin: auto;
 }
 .TrendsText {
   border: 3px solid #0096e7;
