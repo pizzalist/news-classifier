@@ -306,6 +306,40 @@ export default {
           console.error("API Error:", error);
         });
     },
+    async showCategorizedItems() {
+      // 이제 'item'을 매개변수로 받고 있습니다. 필요하다면 사용하세요
+
+      const cliped_news = [];
+
+      // 각 아이템의 title과 categoryName을 추출하여 cliped_news 배열에 추가
+      for (const [categoryName, categoryItems] of Object.entries(
+        this.categorizedItems
+      )) {
+        for (const item of categoryItems) {
+          cliped_news.push({
+            categoryName,
+            title: item.title,
+          });
+        }
+      }
+
+      // JSON.stringify()를 사용하여 객체를 JSON 문자열로 변환
+      const jsonData = { cliped_news };
+
+      // Axios를 사용하여 API에 POST 요청 보내기
+      axios
+        .post("http://localhost:1004/api/contents", jsonData)
+
+        .then((response) => {
+          // API 요청 성공 시의 로직 추가
+          console.log("API 요청 성공:", response.data);
+          this.$store.dispatch("updateBackendData", response.data);
+        })
+        .catch((error) => {
+          // API 요청 실패 시의 로직 추가
+          console.error("API 요청 실패:", error);
+        });
+    },
 
     submitSettingPost() {
       if (
