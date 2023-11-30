@@ -267,7 +267,16 @@ export default {
   },
 
   methods: {
+    /* eslint-disable */
     fetchData(categoryIds) {
+      const categoryMapping = {
+        조선: 2,
+        IT: 0,
+        건설: 3,
+        산업정책: 1,
+        // Add more categories as needed
+      };
+
       axios
         .get("http://localhost:3000/api/clipped-news/specific", {
           params: {
@@ -281,18 +290,27 @@ export default {
           // Create an object to store articles per category
           const articlesByCategory = {};
 
+          // Initialize the count for each selected category
+          const categoryCount = {};
+          this.selectedCategories.forEach((categoryName) => {
+            const categoryId = categoryMapping[categoryName];
+            categoryCount[categoryId] = 0;
+          });
+
           // Iterate through allNewsItems and organize articles by category
           allNewsItems.forEach((item) => {
-            const category = item.category;
+            const categoryId = item.category_id;
 
-            if (categoryIds.includes(item.category_id)) {
-              if (!articlesByCategory[category]) {
-                articlesByCategory[category] = [];
+            if (
+              categoryIds.includes(categoryId) &&
+              categoryCount[categoryId] < this.newsCount
+            ) {
+              if (!articlesByCategory[categoryId]) {
+                articlesByCategory[categoryId] = [];
               }
 
-              if (articlesByCategory[category].length < this.newsCount) {
-                articlesByCategory[category].push(item);
-              }
+              articlesByCategory[categoryId].push(item);
+              categoryCount[categoryId]++;
             }
           });
 
@@ -306,6 +324,7 @@ export default {
           console.error("API Error:", error);
         });
     },
+
     async showCategorizedItems() {
       // 이제 'item'을 매개변수로 받고 있습니다. 필요하다면 사용하세요
 
