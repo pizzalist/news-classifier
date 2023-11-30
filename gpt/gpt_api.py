@@ -22,7 +22,7 @@ def request_gpt3_api(
     sys_prompt: str,
     user_prompt: str,
     model: str = "teamlab-gpt-35-turbo",
-    max_token: int = 700,
+    max_token: int = 2200,
     temperature: float = 0,
 ) -> str:
     response = openai.ChatCompletion.create(

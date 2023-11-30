@@ -2,7 +2,7 @@
 In [data], there are news articles given for each of the four sectors. Based on this, analyze the trends in each section for in korean.
 
 [Output Format]
-산업 정책 동향: str,
-스마트건설 동향: str,
-스마트조선 동향: str,
-IT 동향: str,
+산업정책 동향: Analyze the overall trends in industrial policy in one paragraph,
+건설정책 동향: Analyze the overall trends in construction policy in one paragraph,
+조선정책 동향: Analyze the overall trends in shipbuilding policy in one paragraph,
+IT 정책 동향: Analyze the overall trends in IT policy in a single paragraph,

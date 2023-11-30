@@ -19,7 +19,8 @@
           <div
             class="dropdown"
             v-for="(categoryItems, categoryName) in categorizedItems"
-            :key="categoryName">
+            :key="categoryName"
+          >
             <div class="toggle" @click="toggleDropdown(categoryName)">
               {{ isOpen[categoryName] ? "△" : "▽" }}
               {{ categoryName }}
@@ -29,14 +30,16 @@
               <div
                 class="list-item"
                 v-for="(item, index) in categoryItems"
-                :key="index">
+                :key="index"
+              >
                 <div class="item-title">{{ item.title }}</div>
                 <p>-</p>
                 <div class="item-url">{{ item.url }}</div>
                 <button
                   class="deletebtn"
                   :id="'item' + index + itemIndex"
-                  @click="newsDel(item, index)">
+                  @click="newsDel(item, index)"
+                >
                   x
                 </button>
               </div>
@@ -46,7 +49,8 @@
             <router-link to="/ResultPage">
               <BlueButton
                 ButtonText="동향 보기"
-                @click="showCategorizedItems" />
+                @click="showCategorizedItems"
+              />
             </router-link>
             <!-- @click="
             () => {
@@ -64,7 +68,7 @@
 
 <script>
 import BlueButton from "../components/BlueButton.vue";
-
+import axios from "axios";
 export default {
   name: "BasketPage",
 
@@ -120,15 +124,41 @@ export default {
       this.$store.commit("deleteNewsItem", index);
       location.reload();
     },
-    showCategorizedItems() {
-      // Iterate through categorizedItems and log the data
-      for (let category in this.categorizedItems) {
-        console.log(category, this.categorizedItems[category]);
+
+    async showCategorizedItems() {
+      // 이제 'item'을 매개변수로 받고 있습니다. 필요하다면 사용하세요.
+
+      const cliped_news = [];
+
+      // 각 아이템의 title과 categoryName을 추출하여 cliped_news 배열에 추가
+      for (const [categoryName, categoryItems] of Object.entries(
+        this.categorizedItems
+      )) {
+        for (const item of categoryItems) {
+          cliped_news.push({
+            categoryName,
+            title: item.title,
+          });
+        }
       }
-      // Add logic to update the result page data
-      // For example, you can make an API call here and update backendData
-      this.$data.backendData =
-        "Updated backend data after processing categorized items.";
+
+      // JSON.stringify()를 사용하여 객체를 JSON 문자열로 변환
+      const jsonData = { cliped_news };
+
+      // Axios를 사용하여 API에 POST 요청 보내기
+      axios
+        .post("http://localhost:1004/api/contents", jsonData)
+
+        .then((response) => {
+          // API 요청 성공 시의 로직 추가
+          console.log("API 요청 성공:", response.data);
+          this.$data.backendData =
+            "Updated backend data after processing categorized items.";
+        })
+        .catch((error) => {
+          // API 요청 실패 시의 로직 추가
+          console.error("API 요청 실패:", error);
+        });
     },
   },
 };
