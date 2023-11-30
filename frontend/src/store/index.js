@@ -34,8 +34,18 @@ export default createStore({
 
     deleteNewsItem(state, index) {
       console.log("Deleting from cart at index:", index);
-      state.cartItems.splice(index, 1);
-      console.log("After deletion:", state.cartItems);
+      console.log("Before deletion:", state.cartItems);
+
+      const itemIndex = state.cartItems.findIndex(
+        (item) => item.title === index.title
+      );
+
+      if (itemIndex !== -1) {
+        state.cartItems.splice(itemIndex, 1);
+        console.log("After deletion:", state.cartItems);
+      } else {
+        console.error("Item not found in cartItems array");
+      }
     },
 
     loadFromLocalStorage(state) {

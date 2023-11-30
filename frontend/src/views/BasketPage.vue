@@ -9,9 +9,9 @@
         <div v-if="cartItems.length === 0">
           <div class="dropdownTitle">empty</div>
           <div class="emptyButtonArea">
-            <router-url to="/NewsPage">
+            <router-link to="/NewsPage">
               <BlueButton ButtonText="뉴스 담기" />
-            </router-url>
+            </router-link>
           </div>
         </div>
 
@@ -81,8 +81,10 @@ export default {
       ...item,
       checked: false,
     }));
+
     this.cartItems.forEach((item) => {
-      this.isOpen[item.category_id] = true; // assuming category_id is the correct property
+      const categoryName = this.getCategoryName(item.category_id);
+      this.isOpen[categoryName] = true;
     });
   },
 
@@ -90,7 +92,7 @@ export default {
     categorizedItems() {
       const categories = {};
       this.cartItems.forEach((item) => {
-        const categoryName = this.getCategoryName(item.category_id); // change to category_id
+        const categoryName = this.getCategoryName(item.category_id);
         if (!categories[categoryName]) {
           categories[categoryName] = [];
         }
@@ -115,8 +117,6 @@ export default {
       this.isOpen[categoryName] = !this.isOpen[categoryName];
     },
     newsDel(index) {
-      console.log(index);
-
       this.$store.commit("deleteNewsItem", index);
       location.reload();
     },
