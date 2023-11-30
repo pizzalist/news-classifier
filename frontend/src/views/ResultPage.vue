@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="contentText">
-            <div class="TrendsText" v-html="backendData"></div>
+            <div class="TrendsText"> {{ backendData }} </div>
           </div>
         </div>
       </div>
@@ -47,10 +47,10 @@
 import BlueButton from "@/components/BlueButton.vue";
 
 export default {
+  name: 'ResultPage',
   components: { BlueButton },
   data() {
     return {
-      backendData: "동향분석 내용",
       cartItems: [],
       categories: [
         { id: "1", name: "산업정책" },
@@ -68,6 +68,9 @@ export default {
       checked: false,
     }));
   },
+  // mounted() {
+  //   console.log('backendData:', this.backendData); // Console에 backendData를 출력합니다.
+  // },
 
   computed: {
     categorizedItems() {
@@ -85,6 +88,9 @@ export default {
       });
 
       return categorizedItems;
+    },
+    backendData() {
+      return this.$store.state.backendData;
     },
   },
 

@@ -19,10 +19,14 @@ export default createStore({
   namespaced: true,
   state: {
     cartItems: [],
+    backendData: null,
   },
   actions: {
     resetCartItems({ commit }) {
       commit("resetCartItems");
+    },
+    updateBackendData({ commit }, data) {
+      commit('setBackendData', data);
     },
   },
 
@@ -30,6 +34,14 @@ export default createStore({
     addToCart(state, items) {
       console.log("Adding to cart:", items);
       state.cartItems = state.cartItems.concat(items);
+    },
+
+    updateBackendData({ commit }, data) {
+      commit('setBackendData', data);
+    },
+
+    setBackendData(state, data) {
+      state.backendData = data;
     },
 
     deleteNewsItem(state, index) {
