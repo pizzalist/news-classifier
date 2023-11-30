@@ -18,7 +18,7 @@
     </div>
 
     <!-- 모달창 -->
-    <div class="modalBackgound" v-if="오토뉴스선택설정창 == true">
+    <div class="modalBackgound" v-if="newsSelectModal == true">
       <div class="modalPage">
         <div class="setting">
           <svg
@@ -247,26 +247,87 @@ export default {
       selectedCategories: [], // 사용자가 선택한 카테고리
       numberOfArticles: 0, // 사용자가 요청한 기사의 개수
       articles: [], // 서버로부터 받은 기사 데이터
-      오토뉴스선택설정창: false,
+      newsSelectModal: false,
       newsCount: "",
+      newsItems: [],
     };
   },
-  watch: {
-    newsCount(newValue) {
-      if (newValue < 1) {
-        this.newsCount = 1;
-      } else if (newValue > 10) {
-        this.newsCount = 10;
-      }
+  // Inside your Vue component
+  computed: {
+    filteredNewsItems() {
+      return this.newsItems.filter((item) => {
+        const itemDate = new Date(item.publication_date);
+
+        return (
+          (!this.filteredStartDate || itemDate >= this.filteredStartDate) &&
+          (!this.filteredEndDate || itemDate <= this.filteredEndDate)
+        );
+      });
     },
   },
+
   methods: {
+    fetchData(categoryIds) {
+      axios
+        .get("http://localhost:3000/api/clipped-news/specific", {
+          params: {
+            startDate: this.startDate,
+            endDate: this.endDate,
+          },
+        })
+        .then((response) => {
+          const allNewsItems = response.data;
+
+          // Filter articles based on the category_id obtained from categoryMapping
+          this.newsItems = allNewsItems.filter((item) =>
+            categoryIds.includes(item.category_id)
+          );
+
+          console.log("Filtered and Selected Data:", this.newsItems);
+        })
+        .catch((error) => {
+          console.error("API Error:", error);
+        });
+    },
+    submitSettingPost() {
+      if (
+        !this.startDate ||
+        !this.endDate ||
+        !this.newsCount ||
+        Object.keys(this.selectedCategories).length === 0
+      ) {
+        // 필수 입력 필드 확인
+        alert(
+          "날짜, 뉴스 개수, 카테고리(최소 1개 이상)를 모두 선택 또는 입력하세요."
+        );
+        return;
+      }
+
+      // Define a mapping of category names to numeric IDs
+      const categoryMapping = {
+        조선: 2,
+        it: 0,
+        건설: 3,
+        산업: 1,
+        // Add more categories as needed
+      };
+
+      // Map category names to numeric IDs
+      const categoryIds = Object.values(this.selectedCategories).map(
+        (categoryName) => categoryMapping[categoryName]
+      );
+
+      console.log(this.startDate, this.endDate, this.newsCount, categoryIds);
+
+      this.fetchData(categoryIds);
+    },
+
     autoSelectOpenModal() {
-      this.오토뉴스선택설정창 = true;
+      this.newsSelectModal = true;
       document.body.style.overflow = "auto";
     },
     autoSelectCloseModal() {
-      this.오토뉴스선택설정창 = false;
+      this.newsSelectModal = false;
       document.body.style.overflow = "auto";
     },
     goToNewsPage() {
@@ -283,47 +344,6 @@ export default {
           // 선택 초기화 또는 다른 처리를 원하는 대로 추가할 수 있습니다.
           this.endDate = null;
         }
-      }
-    },
-    async submitSettingPost() {
-      try {
-        if (
-          !this.startDate ||
-          !this.endDate ||
-          !this.newsCount ||
-          this.selectedCategories.length === 0
-        ) {
-          // 필수 입력 필드 확인
-          alert(
-            "날짜, 뉴스 개수, 카테고리(최소 1개 이상)를 모두 선택 또는 입력하세요."
-          );
-          return;
-        }
-
-        console.log(
-          this.startDate,
-          this.endDate,
-          this.newsCount,
-          this.selectedCategories
-        );
-
-        // Axios를 사용하여 서버에 데이터 전송
-        const response = await axios.post(
-          "http://localhost:3000/api/clipped-news/submit-settings",
-          {
-            startDate: this.startDate,
-            endDate: this.endDate,
-            newsCount: this.newsCount,
-            selectedCategories: this.selectedCategories,
-          }
-        );
-
-        // 성공 처리
-        console.log(response.data);
-        this.$router.push("/AutoResultPage");
-      } catch (error) {
-        // 오류 처리
-        console.error("모달 데이터 전송 중 오류 발생:", error.message);
       }
     },
   },
