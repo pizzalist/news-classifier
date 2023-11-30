@@ -299,7 +299,8 @@ export default {
           // Flatten the object back into an array
           this.newsItems = Object.values(articlesByCategory).flat();
 
-          console.log("Filtered and Selected Data:", this.newsItems);
+          console.log("Setting News Items in Vuex Store:", this.newsItems);
+          this.$store.dispatch("setNewsItems", this.newsItems);
         })
         .catch((error) => {
           console.error("API Error:", error);
@@ -337,6 +338,8 @@ export default {
       console.log(this.startDate, this.endDate, this.newsCount, categoryIds);
 
       this.fetchData(categoryIds);
+
+      this.$router.push("/AutoResultPage");
     },
 
     autoSelectOpenModal() {
@@ -348,7 +351,6 @@ export default {
       document.body.style.overflow = "auto";
     },
     goToNewsPage() {
-      // '/NewsPage'로 이동
       this.$router.push("/NewsPage");
     },
     validateDates() {

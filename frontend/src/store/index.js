@@ -18,26 +18,34 @@ const localStoragePlugin = (store) => {
 export default createStore({
   namespaced: true,
   state: {
-    cartItems: [],
+    cartItems: [], //장바구니뉴스
+    newsItems: [], //자동뉴스
     backendData: null,
   },
   actions: {
+    setNewsItems({ commit }, newsItems) {
+      commit("setNewsItems", newsItems);
+    },
     resetCartItems({ commit }) {
       commit("resetCartItems");
     },
     updateBackendData({ commit }, data) {
-      commit('setBackendData', data);
+      commit("setBackendData", data);
     },
   },
 
   mutations: {
+    setNewsItems(state, newsItems) {
+      state.newsItems = newsItems;
+      console.log("News Items in Vuex Store:", state.newsItems);
+    },
     addToCart(state, items) {
       console.log("Adding to cart:", items);
       state.cartItems = state.cartItems.concat(items);
     },
 
     updateBackendData({ commit }, data) {
-      commit('setBackendData', data);
+      commit("setBackendData", data);
     },
 
     setBackendData(state, data) {
@@ -70,6 +78,13 @@ export default createStore({
       console.log("Resetting cart items");
       state.cartItems = [];
     },
+    resetNewsItems(state) {
+      console.log("Resetting news items");
+      state.cartItems = [];
+    },
+  },
+  getters: {
+    getNewsItems: (state) => state.newsItems,
   },
   plugins: [localStoragePlugin],
 });

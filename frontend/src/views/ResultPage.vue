@@ -30,7 +30,7 @@
             </div>
           </div>
           <div class="contentText">
-            <div class="TrendsText"> {{ backendData }} </div>
+            <div class="TrendsText">{{ backendData }}</div>
           </div>
         </div>
       </div>
@@ -47,15 +47,15 @@
 import BlueButton from "@/components/BlueButton.vue";
 
 export default {
-  name: 'ResultPage',
+  name: "ResultPage",
   components: { BlueButton },
   data() {
     return {
       cartItems: [],
       categories: [
         { id: "1", name: "산업정책" },
-        { id: "3", name: "건설정책" },
         { id: "2", name: "조선정책" },
+        { id: "3", name: "건설정책" },
         { id: "0", name: "IT 정책" },
       ],
       selectedCategory: "1",
