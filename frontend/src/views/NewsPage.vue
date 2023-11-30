@@ -89,6 +89,10 @@ export default {
       modalContent: { title: "", summary: "" },
     };
   },
+  watch: {
+    startDate: "validateDates",
+    endDate: "validateDates",
+  },
   mounted() {
     // 컴포넌트가 마운트되면 데이터를 가져오도록 설정
     this.fetchData();
@@ -176,6 +180,18 @@ export default {
         window.alert("뉴스를 선택해주세요.");
       }
       console.log(this.$store.state.cartItems);
+    },
+    validateDates() {
+      if (this.startDate && this.endDate) {
+        const startDate = new Date(this.startDate);
+        const endDate = new Date(this.endDate);
+
+        if (startDate > endDate) {
+          alert("종료일은 시작일 이후의 날짜여야 합니다.");
+          // 선택 초기화 또는 다른 처리를 원하는 대로 추가할 수 있습니다.
+          this.endDate = null;
+        }
+      }
     },
 
     //title과 link 들고 오는 axios get
