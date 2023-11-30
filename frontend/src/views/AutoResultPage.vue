@@ -111,7 +111,8 @@ export default {
         "Updated backend data after processing categorized items.";
     },
     resetStore() {
-      this.$store.dispatch("resetnewsItems");
+      this.$store.dispatch("resetNewsItems");
+      this.$store.dispatch("resetSetBackendData");
     },
   },
 };
