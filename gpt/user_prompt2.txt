@@ -1,5 +1,6 @@
 [Purpose]
 In [data], there are news articles given for each of the four sectors. Based on this, analyze the trends in each section for in korean.
+
 [Output Format]
 산업정책 동향: Analyze the overall trends in industrial policy in one paragraph,
 건설정책 동향: Analyze the overall trends in construction policy in one paragraph,
