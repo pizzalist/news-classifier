@@ -43,7 +43,7 @@ export default {
   components: { BlueButton },
   data() {
     return {
-      backendData: "동향분석 내용",
+      backendData: "",
       cartItems: [],
       categories: [
         { id: "1", name: "산업정책" },

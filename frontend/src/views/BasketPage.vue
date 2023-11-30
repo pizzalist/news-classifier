@@ -69,6 +69,7 @@
 <script>
 import BlueButton from "../components/BlueButton.vue";
 import axios from "axios";
+
 export default {
   name: "BasketPage",
 
@@ -80,6 +81,7 @@ export default {
       cartItems: [],
     };
   },
+
   created() {
     this.cartItems = this.$store.state.cartItems.map((item) => ({
       ...item,
@@ -91,7 +93,7 @@ export default {
       this.isOpen[categoryName] = true;
     });
   },
-
+  
   computed: {
     categorizedItems() {
       const categories = {};
@@ -126,7 +128,7 @@ export default {
     },
 
     async showCategorizedItems() {
-      // 이제 'item'을 매개변수로 받고 있습니다. 필요하다면 사용하세요.
+      // 이제 'item'을 매개변수로 받고 있습니다. 필요하다면 사용하세요
 
       const cliped_news = [];
 
@@ -152,8 +154,8 @@ export default {
         .then((response) => {
           // API 요청 성공 시의 로직 추가
           console.log("API 요청 성공:", response.data);
-          this.$data.backendData =
-            "Updated backend data after processing categorized items.";
+          this.$store.dispatch('updateBackendData', response.data);
+
         })
         .catch((error) => {
           // API 요청 실패 시의 로직 추가
