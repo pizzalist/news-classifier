@@ -97,9 +97,9 @@ export default {
     categories() {
       return [
         { id: "1", name: "산업정책" },
-        { id: "2", name: "건설정책" },
-        { id: "3", name: "조선정책" },
-        { id: "4", name: "IT 정책" },
+        { id: "3", name: "건설정책" },
+        { id: "2", name: "조선정책" },
+        { id: "0", name: "IT 정책" },
       ];
     },
     /* eslint-disable */

@@ -7,7 +7,7 @@
 
       <div>
         <div v-if="cartItems.length === 0">
-          <div class="dropdownTitle">empty</div>
+          <div class="dropdownTitle">장바구니가 비어있습니다.</div>
           <div class="emptyButtonArea">
             <router-link to="/NewsPage">
               <BlueButton ButtonText="뉴스 담기" />
@@ -52,13 +52,6 @@
                 @click="showCategorizedItems"
               />
             </router-link>
-            <!-- @click="
-            () => {
-              for (let i in this.categorizedItems) {
-                console.log(i, this.categorizedItems[i]);
-              }
-            }
-          " -->
           </div>
         </div>
       </div>
@@ -112,9 +105,9 @@ export default {
     getCategoryName(category) {
       const categoryMap = {
         1: "산업정책",
-        2: "건설정책",
-        3: "조선정책",
-        4: "IT 정책",
+        3: "건설정책",
+        2: "조선정책",
+        0: "IT 정책",
       };
       return categoryMap[category] || "다른 카테고리";
     },

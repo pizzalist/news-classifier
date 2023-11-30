@@ -54,9 +54,9 @@ export default {
       cartItems: [],
       categories: [
         { id: "1", name: "산업정책" },
-        { id: "2", name: "건설정책" },
-        { id: "3", name: "조선정책" },
-        { id: "4", name: "IT 정책" },
+        { id: "3", name: "건설정책" },
+        { id: "2", name: "조선정책" },
+        { id: "0", name: "IT 정책" },
       ],
       selectedCategory: "1",
     };
@@ -98,9 +98,9 @@ export default {
     getCategoryName(category) {
       const categoryMap = {
         1: "산업정책",
-        2: "건설정책",
-        3: "조선정책",
-        4: "IT 정책",
+        3: "건설정책",
+        2: "조선정책",
+        0: "IT 정책",
       };
       return categoryMap[category] || "다른 카테고리";
     },
