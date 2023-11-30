@@ -300,6 +300,13 @@ export default {
           return;
         }
 
+        console.log(
+          this.startDate,
+          this.endDate,
+          this.newsCount,
+          this.selectedCategories
+        );
+
         // Axios를 사용하여 서버에 데이터 전송
         const response = await axios.post(
           "http://localhost:3000/api/clipped-news/submit-settings",
@@ -311,13 +318,12 @@ export default {
           }
         );
 
-        // 성공적인 응답 처리
+        // 성공 처리
         console.log(response.data);
-        // 성공 메시지 등을 사용자에게 알릴 수 있습니다.
+        this.$router.push("/AutoResultPage");
       } catch (error) {
         // 오류 처리
         console.error("모달 데이터 전송 중 오류 발생:", error.message);
-        // 오류 메시지 등을 사용자에게 알릴 수 있습니다.
       }
     },
   },
