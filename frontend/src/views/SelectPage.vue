@@ -18,14 +18,14 @@
     </div>
 
     <!-- 모달창 -->
-    <div class="modalBackgound" v-if="오토뉴스선택설정창 == true">
+    <div class="modalBackgound" v-if="newsSelectModal == true">
       <div class="modalPage">
         <div class="setting">
           <svg
             alt="settingEmoji"
             xmlns="http://www.w3.org/2000/svg"
-            width="5vw"
-            height="5vh"
+            width="40px"
+            height="40px"
             viewBox="0 0 54 54"
             fill="none">
             <path
@@ -37,8 +37,8 @@
             class="modalClose"
             @click="autoSelectCloseModal()"
             xmlns="http://www.w3.org/2000/svg"
-            width="5vw"
-            height="5vh"
+            width="40px"
+            height="40px"
             viewBox="0 0 24 24"
             fill="none">
             <path
@@ -53,8 +53,8 @@
               <svg
                 alt="dateEmoji"
                 xmlns="http://www.w3.org/2000/svg"
-                width="5vw"
-                height="5vh"
+                width="40px"
+                height="40px"
                 viewBox="0 0 60 60"
                 fill="none">
                 <path
@@ -128,8 +128,8 @@
               <svg
                 alt="newsEmoji"
                 xmlns="http://www.w3.org/2000/svg"
-                width="5vw"
-                height="5vh"
+                width="40px"
+                height="40px"
                 viewBox="0 0 24 24"
                 fill="none">
                 <path
@@ -156,7 +156,7 @@
               <span class="newsText">카테고리별 뉴스 개수</span>
 
               <div class="newsInput">
-                <input type="number" v-model="newsCount" />
+                <input type="number" v-model="newsCount" min="1" max="10" />
               </div>
             </div>
           </div>
@@ -165,8 +165,8 @@
               <svg
                 alt="categoryEmoji"
                 xmlns="http://www.w3.org/2000/svg"
-                width="5vw"
-                height="5vh"
+                width="40px"
+                height="40px"
                 viewBox="0 0 24 24"
                 fill="none">
                 <path
@@ -247,30 +247,163 @@ export default {
       selectedCategories: [], // 사용자가 선택한 카테고리
       numberOfArticles: 0, // 사용자가 요청한 기사의 개수
       articles: [], // 서버로부터 받은 기사 데이터
-      오토뉴스선택설정창: false,
+      newsSelectModal: false,
       newsCount: "",
+      newsItems: [],
     };
   },
-  watch: {
-    newsCount(newValue) {
-      if (newValue < 1) {
-        this.newsCount = 1;
-      } else if (newValue > 10) {
-        this.newsCount = 10;
-      }
+  // Inside your Vue component
+  computed: {
+    filteredNewsItems() {
+      return this.newsItems.filter((item) => {
+        const itemDate = new Date(item.publication_date);
+
+        return (
+          (!this.filteredStartDate || itemDate >= this.filteredStartDate) &&
+          (!this.filteredEndDate || itemDate <= this.filteredEndDate)
+        );
+      });
     },
   },
+
   methods: {
+    /* eslint-disable */
+    fetchData(categoryIds) {
+      const categoryMapping = {
+        조선: 2,
+        IT: 0,
+        건설: 3,
+        산업정책: 1,
+        // Add more categories as needed
+      };
+
+      axios
+        .get("http://localhost:3000/api/clipped-news/specific", {
+          params: {
+            startDate: this.startDate,
+            endDate: this.endDate,
+          },
+        })
+        .then((response) => {
+          const allNewsItems = response.data;
+
+          // Create an object to store articles per category
+          const articlesByCategory = {};
+
+          // Initialize the count for each selected category
+          const categoryCount = {};
+          this.selectedCategories.forEach((categoryName) => {
+            const categoryId = categoryMapping[categoryName];
+            categoryCount[categoryId] = 0;
+          });
+
+          // Iterate through allNewsItems and organize articles by category
+          allNewsItems.forEach((item) => {
+            const categoryId = item.category_id;
+
+            if (
+              categoryIds.includes(categoryId) &&
+              categoryCount[categoryId] < this.newsCount
+            ) {
+              if (!articlesByCategory[categoryId]) {
+                articlesByCategory[categoryId] = [];
+              }
+
+              articlesByCategory[categoryId].push(item);
+              categoryCount[categoryId]++;
+            }
+          });
+
+          // Flatten the object back into an array
+          this.newsItems = Object.values(articlesByCategory).flat();
+
+          console.log("Setting News Items in Vuex Store:", this.newsItems);
+          this.$store.dispatch("setNewsItems", this.newsItems);
+        })
+        .catch((error) => {
+          console.error("API Error:", error);
+        });
+    },
+
+    async showCategorizedItems() {
+      // 이제 'item'을 매개변수로 받고 있습니다. 필요하다면 사용하세요
+
+      const cliped_news = [];
+
+      // 각 아이템의 title과 categoryName을 추출하여 cliped_news 배열에 추가
+      for (const [categoryName, categoryItems] of Object.entries(
+        this.categorizedItems
+      )) {
+        for (const item of categoryItems) {
+          cliped_news.push({
+            categoryName,
+            title: item.title,
+          });
+        }
+      }
+
+      // JSON.stringify()를 사용하여 객체를 JSON 문자열로 변환
+      const jsonData = { cliped_news };
+
+      // Axios를 사용하여 API에 POST 요청 보내기
+      axios
+        .post("http://localhost:1004/api/contents", jsonData)
+
+        .then((response) => {
+          // API 요청 성공 시의 로직 추가
+          console.log("API 요청 성공:", response.data);
+          this.$store.dispatch("updateBackendData", response.data);
+        })
+        .catch((error) => {
+          // API 요청 실패 시의 로직 추가
+          console.error("API 요청 실패:", error);
+        });
+    },
+
+    submitSettingPost() {
+      if (
+        !this.startDate ||
+        !this.endDate ||
+        !this.newsCount ||
+        Object.keys(this.selectedCategories).length === 0
+      ) {
+        // 필수 입력 필드 확인
+        alert(
+          "날짜, 뉴스 개수, 카테고리(최소 1개 이상)를 모두 선택 또는 입력하세요."
+        );
+        return;
+      }
+
+      // Define a mapping of category names to numeric IDs
+      const categoryMapping = {
+        조선: 2,
+        IT: 0,
+        건설: 3,
+        산업정책: 1,
+        // Add more categories as needed
+      };
+
+      // Map category names to numeric IDs
+      const categoryIds = Object.values(this.selectedCategories).map(
+        (categoryName) => categoryMapping[categoryName]
+      );
+
+      console.log(this.startDate, this.endDate, this.newsCount, categoryIds);
+
+      this.fetchData(categoryIds);
+
+      this.$router.push("/AutoResultPage");
+    },
+
     autoSelectOpenModal() {
-      this.오토뉴스선택설정창 = true;
+      this.newsSelectModal = true;
       document.body.style.overflow = "auto";
     },
     autoSelectCloseModal() {
-      this.오토뉴스선택설정창 = false;
+      this.newsSelectModal = false;
       document.body.style.overflow = "auto";
     },
     goToNewsPage() {
-      // '/NewsPage'로 이동
       this.$router.push("/NewsPage");
     },
     validateDates() {
@@ -285,54 +418,13 @@ export default {
         }
       }
     },
-    async submitSettingPost() {
-      try {
-        if (
-          !this.startDate ||
-          !this.endDate ||
-          !this.newsCount ||
-          this.selectedCategories.length === 0
-        ) {
-          // 필수 입력 필드 확인
-          alert(
-            "날짜, 뉴스 개수, 카테고리(최소 1개 이상)를 모두 선택 또는 입력하세요."
-          );
-          return;
-        }
-
-        console.log(
-          this.startDate,
-          this.endDate,
-          this.newsCount,
-          this.selectedCategories
-        );
-
-        // Axios를 사용하여 서버에 데이터 전송
-        const response = await axios.post(
-          "http://localhost:3000/api/clipped-news/submit-settings",
-          {
-            startDate: this.startDate,
-            endDate: this.endDate,
-            newsCount: this.newsCount,
-            selectedCategories: this.selectedCategories,
-          }
-        );
-
-        // 성공 처리
-        console.log(response.data);
-        this.$router.push("/AutoResultPage");
-      } catch (error) {
-        // 오류 처리
-        console.error("모달 데이터 전송 중 오류 발생:", error.message);
-      }
-    },
   },
 };
 </script>
 
 <style scoped>
 input[type="number"] {
-  width: 50%;
+  width: 10vw;
   height: 3vh;
   font-size: 1.5em;
   margin-left: auto;
@@ -468,24 +560,25 @@ div {
   left: 0;
   position: fixed;
   z-index: 1;
-  padding: 5% 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .modalPage {
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
-
   font-weight: bold;
   white-space: nowrap;
   background: white;
   border-radius: 8px;
-  padding: 5%;
-  margin: 10%;
+  padding: 2%; /* Adjust padding as needed */
 }
+
 .modalClose {
   cursor: pointer;
-  position: relative;
 }
 .setting {
   display: flex;
@@ -504,13 +597,16 @@ div {
   padding: 3% 0;
 }
 .newsInput {
+  width: 15vw;
   display: flex;
   flex-direction: column;
 }
+
 .modalSelect {
   display: flex;
-  align-items: center;
+  align-items: left;
   margin-bottom: 3%;
+  align-items: center;
 }
 .dateInput {
   width: 100%;

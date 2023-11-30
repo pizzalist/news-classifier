@@ -4,62 +4,74 @@
       <div class="procedure" id="Confirmation">결과물 확인</div>
       <div class="procedure" id="SendMail">메일 전송</div>
     </div>
-
     <div class="contentsBox">
-      <img
-        src="@/assets/musma_pick.png"
-        alt="Musma Pick Image"
-        id="musmaspickImg" />
-      <div
-        v-for="(items, categoryName) in categorizedItems"
-        :key="categoryName">
-        <div class="categoryList">
-          <div class="categoryNameDiv">{{ categoryName }}</div>
-          <div v-for="item in items" :key="item.id" class="listItem">
-            <a :href="item.url" target="_blank" rel="noopener noreferrer">
-              <div class="item-title">{{ item.title }}</div>
-            </a>
-          </div>
+      <div>
+        <div v-if="newsItems.length === 0" class="dropdownBox">
+          <div class="dropdownTitle">뉴스를 담아주세요</div>
         </div>
-        <div class="contentText">
-          <div class="TrendsText" v-html="backendData"></div>
+
+        <div v-else>
+          <img
+            src="@/assets/musma_pick.png"
+            alt="Musma Pick Image"
+            id="musmaspickImg" />
+          <div
+            class="categoryList"
+            v-for="(categoryItems, categoryName) in categorizedItems"
+            :key="categoryName">
+            <div class="categoryNameDiv">{{ categoryName }}</div>
+            <div
+              class="listItem"
+              v-for="(item, index) in categoryItems"
+              :key="index">
+              <a :href="item.url" target="_blank" rel="noopener noreferrer">
+                <div class="item-title">{{ item.title }}</div>
+              </a>
+            </div>
+          </div>
+          <div class="contentText">
+            <div class="TrendsText">{{ backendData }}</div>
+          </div>
         </div>
       </div>
     </div>
-
     <div class="ButtonArea">
       <router-link to="/MailSend">
-        <BlueButton @click="sendBtn()" ButtonText="전송" />
+        <BlueButton @click="resetStore()" ButtonText="전송" />
       </router-link>
     </div>
   </div>
 </template>
-
 <script>
 import BlueButton from "@/components/BlueButton.vue";
-import axios from "axios";
 
 export default {
+  name: "ResultPage",
   components: { BlueButton },
   data() {
     return {
-      backendData: "",
-      cartItems: [],
       categories: [
         { id: "1", name: "산업정책" },
-        { id: "2", name: "건설정책" },
-        { id: "3", name: "조선정책" },
-        { id: "4", name: "IT 정책" },
+        { id: "2", name: "조선정책" },
+        { id: "3", name: "건설정책" },
+        { id: "0", name: "IT 정책" },
       ],
       selectedCategory: "1",
     };
   },
 
   computed: {
+    newsItems() {
+      return this.$store.state.newsItems.map((item) => ({
+        ...item,
+        checked: false,
+      }));
+    },
     categorizedItems() {
       const categorizedItems = {};
 
-      this.cartItems.forEach((item) => {
+      // Iterate through the newsItems and categorize them
+      this.newsItems.forEach((item) => {
         const categoryName = this.getCategoryName(item.category_id);
 
         if (!categorizedItems[categoryName]) {
@@ -71,26 +83,36 @@ export default {
 
       return categorizedItems;
     },
-  },
-
-  methods: {
-    loadDataFromAPI() {
-      const apiUrl = `https://example.com/api/data/${this.selectedCategory}`;
-
-      axios
-        .get(apiUrl)
-        .then((response) => {
-          this.cartItems = response.data;
-          console("api 불러오기 성공", response.data);
-        })
-        .catch((error) => {
-          console.error("API 요청 실패:", error);
-        });
+    backendData() {
+      return this.$store.state.backendData;
     },
   },
 
-  created() {
-    this.loadDataFromAPI();
+  watch: {
+    "$store.state.newsItems": "showCategorizedItems",
+  },
+
+  methods: {
+    getCategoryName(category) {
+      const categoryMap = {
+        1: "산업정책",
+        3: "건설정책",
+        2: "조선정책",
+        0: "IT 정책",
+      };
+      return categoryMap[category] || "다른 카테고리";
+    },
+    selectCategory(categoryId) {
+      this.selectedCategory = categoryId;
+    },
+    showCategorizedItems() {
+      console.log(this.categorizedItems);
+      this.$data.backendData =
+        "Updated backend data after processing categorized items.";
+    },
+    resetStore() {
+      this.$store.dispatch("resetnewsItems");
+    },
   },
 };
 </script>
