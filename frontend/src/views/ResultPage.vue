@@ -30,7 +30,8 @@
             </div>
           </div>
           <div class="contentText">
-            <div class="TrendsText">{{ backendData }}</div>
+            <div v-if="backendData" class="TrendsText">{{ backendData }}</div>
+            <div v-else class="noDataMessage"></div>
           </div>
         </div>
       </div>
